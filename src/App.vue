@@ -101,9 +101,12 @@
             <td>{{ row.index }}</td>
             <td v-for="(cell, index) in row.valueCells">
               <input
+                inputmode="numeric"
+                type="text"
+                pattern="[0-9]*"
                 :placeholder="cell.column"
                 v-model.number="cell.value"
-                @input="(event) =>  onChangeInput(event, row.index - 1, index)"
+                @input="(event) => onChangeInput(event, row.index - 1, index)"
               />
             </td>
             <td v-if="row.index == 1" colspan="6"></td>
