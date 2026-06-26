@@ -148,6 +148,7 @@
 
   th {
     font-weight: bold;
+    background-color: #fff;
   }
 
   td, th {
@@ -156,7 +157,10 @@
     white-space: nowrap;
     overflow: hidden;
     padding: 0;
-    background-color: white;
+  }
+
+  td {
+    background-color: #fff;
   }
 
   input {
@@ -174,6 +178,15 @@
 
   td:first-child {
     font-weight: bold;
+    background-color: rgb(225, 225, 225);
+  }
+  
+  td:nth-last-child(2) {
+    background-color: rgb(225, 225, 225);
+  }
+
+  td:last-child {
+    background-color: transparent;
   }
 
   .footer {
@@ -195,7 +208,7 @@
     border-top-width: 0px;
     height: 34px;
     width: 70px;
-    background-color: white;
+    background-color: rgb(225, 225, 225);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -213,15 +226,15 @@
   }
 
   .A {
-    background-color: rgb(255, 255, 150);
+    background-color: rgb(255, 255, 168);
   }
 
   .B {
-    background-color: rgb(219, 141, 255);
+    background-color: rgb(206, 141, 255);
   }
 
   .C {
-    background-color: rgb(148, 148, 255);
+    background-color: rgb(148, 175, 255);
   }
 
   .D {
@@ -233,7 +246,7 @@
   }
 
   .F {
-    background-color: rgb(218, 218, 218);
+    background-color: rgb(232, 232, 232);
   }
 
   .G {
