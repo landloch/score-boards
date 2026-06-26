@@ -52,8 +52,10 @@
       <table>
         <thead>
           <tr>
-            <th>{{ $t('panda-royale.round') }}</th>
-            <th v-for="cn in columnNames" :class="cn">{{ cn }}</th>
+            <th>{{ $t('panda-royale.table-header.round') }}</th>
+            <th v-for="cn in columnNames" :class="cn">
+              {{ $t(`panda-royale.table-header.${cn}`)  }}
+            </th>
             <th>=</th>
             <th class="void"></th>
           </tr>
@@ -64,7 +66,7 @@
             <td v-for="(cell, index) in row.valueCells">
               <NaturalInput
                 v-model="cell.value"
-                :placeholder="cell.column"
+                :placeholder="$t(`panda-royale.table-cell.${cell.column}`)"
               />
             </td>
             <td v-if="row.index == 1" colspan="6"></td>
@@ -149,12 +151,13 @@
   th {
     font-weight: bold;
     background-color: #fff;
+    font-size: 7px;
+    white-space: pre-line;
   }
 
   td, th {
     height: 34px;
     width: 34px;
-    white-space: nowrap;
     overflow: hidden;
     padding: 0;
   }
@@ -170,10 +173,6 @@
     overflow: hidden;
     border: none;
     padding: 0;
-  }
-
-  th:first-child {
-    font-size: 8px;
   }
 
   td:first-child {

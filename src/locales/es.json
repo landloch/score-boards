@@ -1,13 +1,32 @@
 {
   "app": {
-    "title": "BG Hoja de Puntos"
+    "title": "BG Hoja de Puntuación"
   },
   "qrcode-modal": {
     "title": "Compartilhar",
     "close": "Cerrar"
   },
   "panda-royale": {
-    "round": "Ronda",
+    "table-header": {
+      "round": "Rodada",
+      "yellow": "Soma de Amarelo",
+      "purple": "Soma de Roxo",
+      "blue": "Soma de Azul (2x se Brilhante)",
+      "red": "Soma de Vermelho x # de Vermelho",
+      "green": "Soma de Verde",
+      "white": "Soma de Branco (Transparente)",
+      "pink": "Rosa",
+      "total": "Total Linha"
+    },
+    "table-cell": {
+      "yellow": "Am",
+      "purple": "Rx",
+      "blue": "Az",
+      "red": "Vm",
+      "green": "Vd",
+      "white": "Br",
+      "pink": "Rs"
+    },
     "cheat-sheet": {
       "step1": "Lanzar dados y calcular puntuación",
       "step2": "Determinar qué jugadores reciben dados piadosos",

@@ -18,6 +18,15 @@
       "pink": "Pink",
       "total": "Row Total"
     },
+    "table-cell": {
+      "yellow": "Y",
+      "purple": "P",
+      "blue": "B",
+      "red": "R",
+      "green": "G",
+      "white": "C",
+      "pink": "P"
+    },
     "cheat-sheet": {
       "step1": "Roll dice and calculate score",
       "step2": "Determine which players earn pity die",

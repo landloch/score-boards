@@ -7,7 +7,26 @@
     "close": "Fechar"
   },
   "panda-royale": {
-    "round": "Rodada",
+    "table-header": {
+      "round": "Rodada",
+      "A": "Σ de\nAmarelo",
+      "B": "Σ de\nRoxo",
+      "C": "Σ de Azul\n(2x se Brlhnt.)",
+      "D": "Σ de Vrm.\nX\n# de Vrm.",
+      "E": "Σ de\nVerde",
+      "F": "Σ de\nBranco",
+      "G": "Rosa",
+      "total": "Total Linha"
+    },
+    "table-cell": {
+      "A": "Am",
+      "B": "Rx",
+      "C": "Az",
+      "D": "Vm",
+      "E": "Vd",
+      "F": "Br",
+      "G": "Rs"
+    },
     "cheat-sheet": {
       "step1": "Lançar os dados e calcular as pontuações",
       "step2": "Determinar quais os jogadores que ganham um dado de consolação",

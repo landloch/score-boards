@@ -31,6 +31,7 @@ export async function loadLocale(locale: string) {
 
   i18n.global.locale.value = locale;
   document.documentElement.lang = locale;
+  // document.title = ;
   localStorage.setItem('locale', locale);
 }
 
