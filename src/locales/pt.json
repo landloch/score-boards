@@ -1,0 +1,18 @@
+{
+  "app": {
+    "title": "BG Folha de Pontos"
+  },
+  "qrcode-modal": {
+    "title": "Compartilhar",
+    "close": "Fechar"
+  },
+  "panda-royale": {
+    "round": "Rodada",
+    "cheat-sheet": {
+      "step1": "Lançar os dados e calcular as pontuações",
+      "step2": "Determinar quais os jogadores que ganham um dado de consolação",
+      "step3": "Trocar dados",
+      "step4": "Escolher um novo dado"
+    }
+  }
+}

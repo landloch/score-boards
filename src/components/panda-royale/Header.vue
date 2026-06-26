@@ -23,8 +23,10 @@
     <SquareButton
       v-if="!isActiveLink('/')"
       :action="() => router.push(`/`)"
+      :height="34"
+      :width="34"
     >
-      <ReturnIcon color="#333" />
+      <ReturnIcon color="#333" :height="40" :width="40" />
     </SquareButton>
     <div class="title-card">
       <h1>Panda</h1>
@@ -35,15 +37,19 @@
       <h1>Royale</h1>
     </div>
     <span class="right-element">
-      <SquareButton :action="() => showModal = true">
-        <QrCodeIcon color="#333" />
+      <SquareButton
+        :action="() => showModal = true"
+        :height="40"
+        :width="40"
+      >
+        <QrCodeIcon color="#333" :height="38" :width="38" />
       </SquareButton>
       <LanguageSelector />
     </span>
   </div>
   <Modal :show="showModal" @close="showModal = false">
     <template #header>
-      <h2>Compartilhar</h2>
+      <h2>{{ $t('qrcode-modal.title') }}</h2>
     </template>
     <template #body>
       <img class="qrcode" src="../../assets/qr-code.svg">

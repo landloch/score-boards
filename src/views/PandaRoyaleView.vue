@@ -52,7 +52,7 @@
       <table>
         <thead>
           <tr>
-            <th>Rodada</th>
+            <th>{{ $t('panda-royale.round') }}</th>
             <th v-for="cn in columnNames" :class="cn">{{ cn }}</th>
             <th>=</th>
             <th class="void"></th>

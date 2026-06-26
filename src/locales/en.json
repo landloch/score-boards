@@ -1,0 +1,28 @@
+{
+  "app": {
+    "title": "BG Score Sheets"
+  },
+  "qrcode-modal": {
+    "title": "Share",
+    "close": "Close"
+  },
+  "panda-royale": {
+    "table-header": {
+      "round": "Round",
+      "yellow": "Sum of Yellow",
+      "purple": "Sum of Purple",
+      "blue": "Sum of Blue (2x if Glitter)",
+      "red": "Sum of Red x # of Red",
+      "green": "Sum of Green",
+      "white": "Sum of Clear (White)",
+      "pink": "Pink",
+      "total": "Row Total"
+    },
+    "cheat-sheet": {
+      "step1": "Roll dice and calculate score",
+      "step2": "Determine which players earn pity die",
+      "step3": "Trade dice",
+      "step4": "Choose a new die"
+    }
+  }
+}

@@ -44,7 +44,7 @@
               <button
                 class="modal-default-button"
                 @click="$emit('close')"
-              >Fechar</button>
+              >{{ $t('qrcode-modal.close') }}</button>
             </slot>
           </div>
         </div>

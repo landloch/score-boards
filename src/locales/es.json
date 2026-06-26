@@ -1,0 +1,18 @@
+{
+  "app": {
+    "title": "BG Hoja de Puntos"
+  },
+  "qrcode-modal": {
+    "title": "Compartilhar",
+    "close": "Cerrar"
+  },
+  "panda-royale": {
+    "round": "Ronda",
+    "cheat-sheet": {
+      "step1": "Lanzar dados y calcular puntuación",
+      "step2": "Determinar qué jugadores reciben dados piadosos",
+      "step3": "Canjear dados",
+      "step4": "Elegir un nuevo dado"
+    }
+  }
+}

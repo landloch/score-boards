@@ -5,35 +5,56 @@
   import SpEs from './icons/flags/SpEs.vue';
   import SquareButton from './SquareButton.vue';
   import { type Language } from '@/types/CommonTypes';
-  import { useLanguageStore } from '@/stores/languageStore.ts';
+  import { i18n, loadLocale } from '@/i18n.ts';
 
-  const languageStore = useLanguageStore();
+  // https://nucleoapp.com/svg-flag-icons
+
   const flags = new Map<Language, Component>([
-    ['En-Us', EnUs], ['Sp-Es', SpEs], ['Pt-Br', PtBr],
+    ['en', EnUs], ['es', SpEs], ['pt', PtBr],
   ]);
 
-  const selectedFlag = ref(flags.get(languageStore.language) ?? EnUs);
+  const selectedFlag = ref(
+    flags.get(i18n.global.locale.value as Language) ?? EnUs);
   const open = ref(false);
 
   function selectIcon(lang: Language, flag: Component) {
     selectedFlag.value = flag;
-    languageStore.setLanguage(lang);
+    loadLocale(lang);
     open.value = false;
+  }
+
+  function handleClickAway() {
+    open.value = false;
+  }
+
+  function handleClickOpen(event: MouseEvent) {
+    event.stopPropagation();
+    open.value = !open.value;
   }
 </script>
 
 <template>
-  <div>
-    <SquareButton :action="() => open = !open">
-      <selectedFlag />
+  <div class="container">
+    <SquareButton
+      :action="handleClickOpen"
+      :height="40"
+      :width="40"
+    >
+      <selectedFlag :height="34" :width="34" />
     </SquareButton>
     <Transition name="dropdown">
-      <div v-if="open" class="dropdown-menu">
+      <div
+        v-if="open"
+        v-click-away="handleClickAway"
+        class="dropdown-menu"
+      >
         <SquareButton
           v-for="[lang, flag] in flags"
           :action="() => selectIcon(lang, flag)"
+          :height="40"
+          :width="40"
         >
-          <component :is="flag" />
+          <component :is="flag" :height="34" :width="34" />
         </SquareButton>
       </div>
     </Transition>
@@ -41,13 +62,21 @@
 </template>   
 
 <style scoped>
+  .container {
+    position: relative;
+  }
   .dropdown-menu {
     position: absolute;
     background: white;
+    top: 40px;
+    left: -4px;
     z-index: 1;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    gap: 2px;
     transition: all 0.3s ease;
+    padding: 2px;
+    border: 2px solid #666;
+    border-radius: 4px;
   }
   .dropdown-enter-from {
     opacity: 0;

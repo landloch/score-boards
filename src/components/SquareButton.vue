@@ -1,17 +1,25 @@
 <script setup lang="ts">
-  defineProps({ action: Function });
+  defineProps({
+    action: Function,
+    height: { type: Number, default: 32 },
+    width: { type: Number, default: 32 },
+  });
 </script>
 
 <template>
-  <button @click="() => action!()" className="button">
+  <button
+    @click="(event) => action!(event)"
+    className="button"
+    :style="{ '--width': width + 'px', '--height': height + 'px' }"
+  >
     <slot></slot>
   </button>
 </template>
 
 <style scoped>
   .button {
-    width: 32px;
-    height: 32px;
+    width: var(--width, 32px);
+    height: var(--height, 32px);
     border-radius: 5px;
     background: white;
     align-items: center;

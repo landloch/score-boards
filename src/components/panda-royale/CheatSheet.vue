@@ -11,16 +11,16 @@
   <div class="cheat-sheet" :style="{ width }">
     <ul>
       <li>
-        Lançar os dados e calcular as pontuações
+        {{ $t('panda-royale.cheat-sheet.step1') }}
       </li>
       <li>
-        Determinar quais os jogadores que ganham um dado de consolação
+        {{ $t('panda-royale.cheat-sheet.step2') }}
       </li>
       <li>
-        Trocar dados
+        {{ $t('panda-royale.cheat-sheet.step3') }}
       </li>
       <li>
-        Escolher um novo dado
+        {{ $t('panda-royale.cheat-sheet.step4') }}
       </li>
     </ul>
   </div>
@@ -55,17 +55,3 @@
   }
 
 </style>
-
-
-<!-- <li>
-            Lanzar dados y calcular puntuación / Lançar os dados e calcular as pontuações / Tirare i dadi e calcolare il punteggio
-          </li>
-          <li>
-            Determinar qué jugadores reciben dados piadosos / Determinar quais os jogadores que ganham um dado de consolação / Determinare chi ottiene i dadi pietà
-          </li>
-          <li>
-            Canjear dados / Trocar dados / Scambiare i dadi
-          </li>
-          <li>
-            Elegir un nuevo dado / Escolher um novo dado / Scegliere un nuovo dado
-          </li> -->
