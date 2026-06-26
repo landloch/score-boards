@@ -1,21 +1,23 @@
 <script setup lang="ts">
-  import { ref } from 'vue';
+  import { ref, type Component } from 'vue';
   import PtBr from './icons/flags/PtBr.vue';
   import EnUs from './icons/flags/EnUs.vue';
   import SpEs from './icons/flags/SpEs.vue';
   import SquareButton from './SquareButton.vue';
+  import { type Language } from '@/types/CommonTypes';
+  import { useLanguageStore } from '@/stores/languageStore.ts';
 
-  const icons = [
-    { name: 'PtBr', component: PtBr },
-    { name: 'EnUs', component: EnUs },
-    { name: 'SpEs', component: SpEs }
-  ];
+  const languageStore = useLanguageStore();
+  const flags = new Map<Language, Component>([
+    ['En-Us', EnUs], ['Sp-Es', SpEs], ['Pt-Br', PtBr],
+  ]);
 
-  const selected = ref(icons[0]);
+  const selectedFlag = ref(flags.get(languageStore.language) ?? EnUs);
   const open = ref(false);
 
-  function selectIcon(icon: any) {
-    selected.value = icon;
+  function selectIcon(lang: Language, flag: Component) {
+    selectedFlag.value = flag;
+    languageStore.setLanguage(lang);
     open.value = false;
   }
 </script>
@@ -23,15 +25,15 @@
 <template>
   <div>
     <SquareButton :action="() => open = !open">
-      <component :is="selected!.component" />
+      <selectedFlag />
     </SquareButton>
     <Transition name="dropdown">
       <div v-if="open" class="dropdown-menu">
         <SquareButton
-          v-for="icon in icons"
-          :action="() => selectIcon(icon)"
+          v-for="[lang, flag] in flags"
+          :action="() => selectIcon(lang, flag)"
         >
-          <component :is="icon.component" />
+          <component :is="flag" />
         </SquareButton>
       </div>
     </Transition>

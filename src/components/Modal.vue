@@ -1,16 +1,10 @@
 <script setup>
   import { onMounted, onUnmounted, ref } from 'vue';
-  
+
   const props = defineProps({
     show: Boolean,
-    width: {
-      type: Number,
-      default: 400
-    },
-    height: {
-      type: Number,
-      default: 600
-    }
+    width: { type: Number, default: 400 },
+    height: { type: Number, default: 600 }
   });
 
   const scale = ref(1);
@@ -35,25 +29,25 @@
   <Teleport to="body">
     <Transition name="modal">
       <div v-if="show" class="modal-mask">
-          <div
-            class="modal-container"
-            :style="{ '--modal-scale': scale }"
-          >
-            <div class="modal-header">
-              <slot name="header">Sample modal</slot>
-            </div>
-            <div class="modal-body">
-              <slot name="body">Body of modal dialog</slot>
-            </div>
-            <div class="modal-footer">
-              <slot name="footer">
-                <button
-                  class="modal-default-button"
-                  @click="$emit('close')"
-                >Fechar</button>
-              </slot>
-            </div>
+        <div
+          class="modal-container"
+          :style="{ '--modal-scale': scale }"
+        >
+          <div class="modal-header">
+            <slot name="header">Sample modal</slot>
           </div>
+          <div class="modal-body">
+            <slot name="body">Body of modal dialog</slot>
+          </div>
+          <div class="modal-footer">
+            <slot name="footer">
+              <button
+                class="modal-default-button"
+                @click="$emit('close')"
+              >Fechar</button>
+            </slot>
+          </div>
+        </div>
       </div>
     </Transition>
   </Teleport>
@@ -72,6 +66,7 @@
     transition: opacity 0.3s ease;
   }
   .modal-container {
+    font-family: Calibri, sans-serif;
     width: fit-content;
     margin: auto;
     padding: 10px;
@@ -85,7 +80,7 @@
     transform-origin: center center;
     transform: translate(-50%, -50%) scale(var(--modal-scale, 1));
   }
-  .modal-header h3 {
+  .modal-header h2 {
     margin-top: 0;
     color: #333;
   }

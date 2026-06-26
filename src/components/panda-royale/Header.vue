@@ -43,7 +43,7 @@
   </div>
   <Modal :show="showModal" @close="showModal = false">
     <template #header>
-      <h3>Compartilhar</h3>
+      <h2>Compartilhar</h2>
     </template>
     <template #body>
       <img class="qrcode" src="../../assets/qr-code.svg">
