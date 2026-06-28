@@ -4,6 +4,7 @@ import App from './App.vue';
 import router from './router';
 import { clickAway } from './directives/vClickAway';
 import { i18n } from './i18n.ts';
+import './main.css';
 
 const app = createApp(App);
 

@@ -1,8 +1,8 @@
 <script setup lang="ts">
   import { ref, type Component } from 'vue';
-  import PtBr from './icons/flags/PtBr.vue';
-  import EnUs from './icons/flags/EnUs.vue';
-  import SpEs from './icons/flags/SpEs.vue';
+  import Pt from './icons/flags/Pt.vue';
+  import En from './icons/flags/En.vue';
+  import Es from './icons/flags/Es.vue';
   import SquareButton from './SquareButton.vue';
   import { type Language } from '@/types/CommonTypes';
   import { i18n, loadLocale } from '@/i18n.ts';
@@ -10,11 +10,11 @@
   // https://nucleoapp.com/svg-flag-icons
 
   const flags = new Map<Language, Component>([
-    ['en', EnUs], ['es', SpEs], ['pt', PtBr],
+    ['en', En], ['es', Es], ['pt', Pt],
   ]);
 
   const selectedFlag = ref(
-    flags.get(i18n.global.locale.value as Language) ?? EnUs);
+    flags.get(i18n.global.locale.value as Language) ?? En);
   const open = ref(false);
 
   function selectIcon(lang: Language, flag: Component) {

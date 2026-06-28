@@ -7,8 +7,11 @@
   import CheatSheet from '@/components/panda-royale/CheatSheet.vue';
   import Header from '@/components/panda-royale/Header.vue';
   import EraserIcon from '@/components/icons/EraserIcon.vue';
+  import { useFontStore } from '@/stores/fontStore';
 
   const columnNames = ['A','B','C','D','E','F','G'];
+
+  const fontStore = useFontStore();
 
   const rows = ref<InputRow[]>([]);
   onBeforeMount(() => {
@@ -56,21 +59,21 @@
             <th v-for="cn in columnNames" :class="cn">
               {{ $t(`panda-royale.table-header.${cn}`)  }}
             </th>
-            <th>=</th>
+            <th>{{ $t('panda-royale.table-header.total') }}</th>
             <th class="void"></th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="row in rows">
             <td>{{ row.index }}</td>
-            <td v-for="(cell, index) in row.valueCells">
+            <td v-for="(cell, index) in row.valueCells" :class="cell.column">
               <NaturalInput
                 v-model="cell.value"
-                :placeholder="$t(`panda-royale.table-cell.${cell.column}`)"
+                :class="`font-${fontStore.font}`"
               />
             </td>
             <td v-if="row.index == 1" colspan="6"></td>
-            <td>{{ row.total }}</td>
+            <td :class="`font-${fontStore.font}`">{{ row.total }}</td>
             <td class="void">
               <SquareButton :action="() => clearRow(row.index - 1)">
                 <EraserIcon color="#333" />
@@ -82,7 +85,7 @@
       <div class="footer">
         <CheatSheet :width="274" />
         <div class="table-footer">
-          <div class="total">{{ getScoreTotal() }}</div>
+          <div :class="`total font-${fontStore.font}`">{{ getScoreTotal() }}</div>
           <div class="clear-all">
             <SquareButton :action="() => clearSheet()">
               <EraserIcon color="#333" />
@@ -113,11 +116,11 @@
 
     mask-image: url('@/assets/bamboo-pattern.svg');
     mask-repeat: repeat;
-    mask-size: 250px 250px;
+    mask-size: 35vh 35vh;
 
     -webkit-mask-image: url('@/assets/bamboo-pattern.svg');
     -webkit-mask-repeat: repeat;
-    -webkit-mask-size: 250px 250px;
+    -webkit-mask-size: 35vh 35vh;
   }
 
   .backdrop::before {
@@ -173,15 +176,11 @@
     overflow: hidden;
     border: none;
     padding: 0;
-  }
+    background: #ffffffaa;
+  } 
 
   td:first-child {
     font-weight: bold;
-    background-color: rgb(225, 225, 225);
-  }
-  
-  td:nth-last-child(2) {
-    background-color: rgb(225, 225, 225);
   }
 
   td:last-child {
@@ -207,10 +206,11 @@
     border-top-width: 0px;
     height: 34px;
     width: 70px;
-    background-color: rgb(225, 225, 225);
+    background-color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 28px;
   }
 
   .clear-all {
@@ -249,7 +249,7 @@
   }
 
   .G {
-    background-color: rgb(255, 207, 229);
+    background-color: rgb(255, 183, 223);
   }
 
 </style>

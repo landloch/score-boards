@@ -1,6 +1,6 @@
 <script setup lang="ts">
   defineProps({
-    color: { type: String, default: '#000' },
+    color: { type: String, default: 'currentColor' },
     height: { type: Number, default: 26 },
     width: { type: Number, default: 26 },
   });

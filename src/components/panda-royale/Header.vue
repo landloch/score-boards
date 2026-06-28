@@ -1,27 +1,25 @@
 <script setup lang="ts">
   import HorizontalArrow from '@/components/panda-royale/HorizontalArrow.vue';
   import SquareButton from '@/components/SquareButton.vue';
-  import QrCodeIcon from '@/components/icons/QrCodeIcon.vue';
   import ReturnIcon from '@/components/icons/ReturnIcon.vue';
-  import Modal from '@/components/Modal.vue';
-  import { ref } from 'vue';
-  import LanguageSelector from '../LanguageSelector.vue';
   import { useRoute } from 'vue-router';
   import router from '@/router/index.ts';
+  import { useFontStore } from '@/stores/fontStore.ts';
+  import Settings from '../Settings.vue';
 
-  const showModal = ref(false);
-
-  const isActiveLink = (routePath: string) => {
+  const RouteMatch = (path: string) => {
     const route = useRoute();
-    return route.path === routePath;
+    return route.path === path;
   };
+
+  const fontStore = useFontStore();
   
 </script>
 
 <template>
   <div class="header">
     <SquareButton
-      v-if="!isActiveLink('/')"
+      v-if="!RouteMatch('/')"
       :action="() => router.push(`/`)"
       :height="34"
       :width="34"
@@ -37,24 +35,9 @@
       <h1>Royale</h1>
     </div>
     <span class="right-element">
-      <SquareButton
-        :action="() => showModal = true"
-        :height="40"
-        :width="40"
-      >
-        <QrCodeIcon color="#333" :height="38" :width="38" />
-      </SquareButton>
-      <LanguageSelector />
+      <Settings />
     </span>
   </div>
-  <Modal :show="showModal" @close="showModal = false">
-    <template #header>
-      <h2>{{ $t('qrcode-modal.title') }}</h2>
-    </template>
-    <template #body>
-      <img class="qrcode" src="../../assets/qr-code.svg">
-    </template>
-  </Modal>
 </template>
 
 <style scoped>
@@ -73,10 +56,7 @@
   }
 
   .right-element {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
     justify-self: end;
-    gap: 4px;
   }
 
   h1 {
@@ -84,10 +64,6 @@
     font-size: 25px;
     color: white;
     margin: 0;
-  }
-
-  .qrcode {
-    width: 300px;
   }
 
 </style>

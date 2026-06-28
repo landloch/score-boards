@@ -5,7 +5,7 @@ export const i18n = createI18n({
   locale: 'en',
   fallbackLocale: 'en',
   messages: {}
-})
+});
 
 const loadedLanguages = new Set<string>();
 
@@ -31,7 +31,7 @@ export async function loadLocale(locale: string) {
 
   i18n.global.locale.value = locale;
   document.documentElement.lang = locale;
-  // document.title = ;
+  document.title = i18n.global.t('app.title');
   localStorage.setItem('locale', locale);
 }
 

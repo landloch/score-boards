@@ -2,30 +2,29 @@
   "app": {
     "title": "BG Score Sheets"
   },
-  "qrcode-modal": {
-    "title": "Share",
-    "close": "Close"
+   "modal": {
+    "close": "Close",
+    "qrcode": {
+      "title": "Share"
+    },
+    "caligraphy": {
+      "title": "Caligraphy"
+    },
+    "language": {
+      "title": "Language"
+    }
   },
   "panda-royale": {
     "table-header": {
       "round": "Round",
-      "yellow": "Sum of Yellow",
-      "purple": "Sum of Purple",
-      "blue": "Sum of Blue (2x if Glitter)",
-      "red": "Sum of Red x # of Red",
-      "green": "Sum of Green",
-      "white": "Sum of Clear (White)",
-      "pink": "Pink",
-      "total": "Row Total"
-    },
-    "table-cell": {
-      "yellow": "Y",
-      "purple": "P",
-      "blue": "B",
-      "red": "R",
-      "green": "G",
-      "white": "C",
-      "pink": "P"
+      "A": "Σ of\nYellow",
+      "B": "Σ of\nPurple\nx2",
+      "C": "Σ of Blue\n(x2 if Glitter)",
+      "D": "Σ of Red\nx\n# of Red",
+      "E": "Σ of\nGreen",
+      "F": "Σ of\nClear",
+      "G": "Pink",
+      "total": "Row\nTotal"
     },
     "cheat-sheet": {
       "step1": "Roll dice and calculate score",

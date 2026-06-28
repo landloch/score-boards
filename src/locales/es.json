@@ -2,30 +2,29 @@
   "app": {
     "title": "BG Hoja de Puntuación"
   },
-  "qrcode-modal": {
-    "title": "Compartilhar",
-    "close": "Cerrar"
+   "modal": {
+    "close": "Close",
+    "qrcode": {
+      "title": "Compartilhar"
+    },
+    "caligraphy": {
+      "title": "Caligrafia"
+    },
+    "language": {
+      "title": "Linguagem"
+    }
   },
   "panda-royale": {
     "table-header": {
-      "round": "Rodada",
-      "yellow": "Soma de Amarelo",
-      "purple": "Soma de Roxo",
-      "blue": "Soma de Azul (2x se Brilhante)",
-      "red": "Soma de Vermelho x # de Vermelho",
-      "green": "Soma de Verde",
-      "white": "Soma de Branco (Transparente)",
-      "pink": "Rosa",
-      "total": "Total Linha"
-    },
-    "table-cell": {
-      "yellow": "Am",
-      "purple": "Rx",
-      "blue": "Az",
-      "red": "Vm",
-      "green": "Vd",
-      "white": "Br",
-      "pink": "Rs"
+      "round": "Ronda",
+      "A": "Σ de\nAmarillos",
+      "B": "Σ de\nMorados\nx2",
+      "C": "Σ de Azules\n(x2 si Jaspeado)",
+      "D": "Σ de Rojos\nx\n# de Rojos",
+      "E": "Σ de\nVerdes",
+      "F": "Σ de\nTransp.",
+      "G": "Rosa",
+      "total": "Total\nde Línea"
     },
     "cheat-sheet": {
       "step1": "Lanzar dados y calcular puntuación",

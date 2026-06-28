@@ -1,17 +1,18 @@
-<script setup>
+<script setup lang="ts">
   import { onMounted, onUnmounted, ref } from 'vue';
 
   const props = defineProps({
     show: Boolean,
-    width: { type: Number, default: 400 },
-    height: { type: Number, default: 600 }
+    width: { type: Number, default: 315 },
+    height: { type: Number, default: 400 }
   });
 
+  const emit = defineEmits(['close']);
   const scale = ref(1);
 
   function updateScale() {
-    const sx = window.innerWidth / props.width
-    const sy = window.innerHeight / props.height
+    const sx = window.innerWidth / (props.width * 1.2)
+    const sy = window.innerHeight / (props.height * 1.2)
     scale.value = Math.min(sx, sy)
   }
 
@@ -31,21 +32,17 @@
       <div v-if="show" class="modal-mask">
         <div
           class="modal-container"
-          :style="{ '--modal-scale': scale }"
+          :style="{ width: width + 'px', height: height + 'px', '--modal-scale': scale }"
+          @click="(event) => event.stopPropagation()"
         >
-          <div class="modal-header">
-            <slot name="header">Sample modal</slot>
-          </div>
-          <div class="modal-body">
-            <slot name="body">Body of modal dialog</slot>
-          </div>
+          <slot></slot>
           <div class="modal-footer">
-            <slot name="footer">
-              <button
-                class="modal-default-button"
-                @click="$emit('close')"
-              >{{ $t('qrcode-modal.close') }}</button>
-            </slot>
+            <button
+              class="modal-default-button"
+              @click="$emit('close')"
+            >
+              {{ $t('modal.close') }}
+            </button>
           </div>
         </div>
       </div>
@@ -67,7 +64,6 @@
   }
   .modal-container {
     font-family: Calibri, sans-serif;
-    width: fit-content;
     margin: auto;
     padding: 10px;
     background-color: #fff;
@@ -86,6 +82,9 @@
   }
   .modal-body {
     margin: 10px 0;
+  }
+  .modal-footer {
+    margin-top: auto;
   }
   .modal-default-button {
     float: right;

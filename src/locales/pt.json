@@ -2,30 +2,29 @@
   "app": {
     "title": "BG Folha de Pontos"
   },
-  "qrcode-modal": {
-    "title": "Compartilhar",
-    "close": "Fechar"
+  "modal": {
+    "close": "Fechar",
+    "qrcode": {
+      "title": "Compartilhar"
+    },
+    "caligraphy": {
+      "title": "Caligrafia"
+    },
+    "language": {
+      "title": "Linguagem"
+    }
   },
   "panda-royale": {
     "table-header": {
       "round": "Rodada",
-      "A": "Σ de\nAmarelo",
-      "B": "Σ de\nRoxo",
-      "C": "Σ de Azul\n(2x se Brlhnt.)",
-      "D": "Σ de Vrm.\nX\n# de Vrm.",
-      "E": "Σ de\nVerde",
-      "F": "Σ de\nBranco",
+      "A": "Σ de\nAmarelos",
+      "B": "Σ de\nRoxos\nx2",
+      "C": "Σ de Azuis\n(x2 se Brlhnt.)",
+      "D": "Σ de Vrm.\nx\n# de Vrm.",
+      "E": "Σ de\nVerdes",
+      "F": "Σ de\nTransp.",
       "G": "Rosa",
-      "total": "Total Linha"
-    },
-    "table-cell": {
-      "A": "Am",
-      "B": "Rx",
-      "C": "Az",
-      "D": "Vm",
-      "E": "Vd",
-      "F": "Br",
-      "G": "Rs"
+      "total": "Total\nLinha"
     },
     "cheat-sheet": {
       "step1": "Lançar os dados e calcular as pontuações",
