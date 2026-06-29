@@ -1,8 +1,8 @@
 <script setup lang="ts">
   import { type Component } from 'vue';
-  import Pt from './icons/flags/Pt.vue';
-  import En from './icons/flags/En.vue';
-  import Es from './icons/flags/Es.vue';
+  import Pt from '../icons/flags/Pt.vue';
+  import En from '../icons/flags/En.vue';
+  import Es from '../icons/flags/Es.vue';
   import { type Language } from '@/types/CommonTypes';
   import { i18n, loadLocale } from '@/i18n.ts';
 

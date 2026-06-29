@@ -33,7 +33,7 @@
 <template>
   <div
     class="container" 
-    :style="{ transform: `scale(${scale})`, width, height  }"
+    :style="{ transform: `scale(${scale})`, width: width + 'px', height: height + 'px'  }"
   >
     <slot></slot>
   </div>

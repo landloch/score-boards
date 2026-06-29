@@ -1,10 +1,10 @@
 <script setup lang="ts">
   import HorizontalArrow from '@/components/panda-royale/HorizontalArrow.vue';
-  import SquareButton from '@/components/SquareButton.vue';
+  import SquareButton from '@/components/common/SquareButton.vue';
   import ReturnIcon from '@/components/icons/ReturnIcon.vue';
   import { useRoute } from 'vue-router';
   import router from '@/router/index.ts';
-  import Settings from '../Settings.vue';
+  import Settings from '../common/Settings.vue';
 
   const RouteMatch = (path: string) => {
     const route = useRoute();

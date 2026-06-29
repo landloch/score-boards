@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { FONTS } from "../constants/FontsMap.ts";
+  import { FONTS } from "../../constants/FontsMap.ts";
   import { useFontStore } from "@/stores/fontStore.ts";
 
   const fontStore = useFontStore();

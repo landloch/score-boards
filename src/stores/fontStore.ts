@@ -7,7 +7,6 @@ export const useFontStore = defineStore('font', () => {
   function setFont(newFont: string) {
     font.value = newFont;
     localStorage.setItem('font', newFont);
-    console.log('font:', font.value);
   }
 
   return { font, setFont };

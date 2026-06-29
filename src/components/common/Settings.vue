@@ -3,7 +3,7 @@
   import TranslateIcon from '@/components/icons/TranslateIcon.vue';
   import CaligraphyIcon from '@/components/icons/CaligraphyIcon.vue';
   import SettingsIcon from '@/components/icons/SettingsIcon.vue';
-  import Modal from '@/components/Modal.vue';
+  import Modal from './Modal.vue';
   import { computed, ref } from 'vue';
   import type { Tab } from '@/types/CommonTypes.ts';
   import Tabs from './Tabs.vue';
@@ -37,7 +37,7 @@
       </template>
 
       <template #qrCode>
-        <span class="qrcode-container"><img class="qrcode" src="../assets/qr-code.svg"></span>
+        <span class="qrcode-container"><img class="qrcode" src="../../assets/qr-code.svg"></span>
       </template>
     </Tabs>
   </Modal>

@@ -1,9 +1,9 @@
 <script setup lang="ts">
   import { onBeforeMount, ref } from 'vue';
   import { InputRow, type InputCell } from '@/types/PandaRoyalTypes';
-  import SquareButton from '@/components/SquareButton.vue';
-  import ScalingContainer from '@/components/ScalingContainer.vue';
-  import NaturalInput from '@/components/NaturalInput.vue';
+  import SquareButton from '@/components/common/SquareButton.vue';
+  import ScalingContainer from '@/components/common/ScalingContainer.vue';
+  import NaturalInput from '@/components/common/NaturalInput.vue';
   import CheatSheet from '@/components/panda-royale/CheatSheet.vue';
   import Header from '@/components/panda-royale/Header.vue';
   import EraserIcon from '@/components/icons/EraserIcon.vue';
