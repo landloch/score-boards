@@ -136,7 +136,6 @@
   * {
     font-size: 20px;
     color: #333;
-    font-family: Calibri, sans-serif;
     box-sizing: border-box;
     text-align: center;
     vertical-align: middle;

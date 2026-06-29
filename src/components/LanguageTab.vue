@@ -1,47 +1,37 @@
 <script setup lang="ts">
-  import LanguageSelector from "@/components/LanguageSelector.vue";
-  import { useFontStore } from "@/stores/fontStore.ts";
-  import { ref, type Component } from 'vue';
+  import { type Component } from 'vue';
   import Pt from './icons/flags/Pt.vue';
   import En from './icons/flags/En.vue';
   import Es from './icons/flags/Es.vue';
-  import SquareButton from './SquareButton.vue';
   import { type Language } from '@/types/CommonTypes';
   import { i18n, loadLocale } from '@/i18n.ts';
 
   // https://nucleoapp.com/svg-flag-icons
 
-  const flags = new Map<Language, Component>([
-    ['en', En], ['es', Es], ['pt', Pt],
+  const flags = new Map<Language, { icon: Component, label: string }>([
+    ['en', { icon: En, label: 'English' }],
+    ['es', { icon: Es, label: 'Español' }],
+    ['pt', { icon: Pt, label: 'Português' }],
   ]);
-
-  const selectedFlag = ref(
-    flags.get(i18n.global.locale.value as Language) ?? En);
-  const open = ref(false);
-
-  function selectIcon(lang: Language, flag: Component) {
-    selectedFlag.value = flag;
-    loadLocale(lang);
-    open.value = false;
-  }
-  const fontStore = useFontStore();
 </script>
 
 <template>
-    <div class="caligraphy-grid">
-      <SquareButton
-        v-for="[lang, flag] in flags"
-        :action="() => selectIcon(lang, flag)"
-        :height="40"
-        :width="40"
-      >
-        <component :is="flag" :height="34" :width="34" />
-      </SquareButton>
-    </div>
+    <div class="language-grid">
+          <div
+            v-for="[key, value] in flags"
+            :class="`${i18n.global.locale.value == key ? 'selected' : ''} card }`"
+            :key="key"
+            @click="() => loadLocale(key)"
+          >
+            <span class="icon-holder">
+              <component :is="value.icon" :height="34" :width="34" />
+            </span>
+            <span>{{ value.label }}</span>
+          </div>
+        </div>
 </template>
 
 <style scoped>
-
   .title-line {
     display: flex;
     justify-content: space-between;
@@ -49,35 +39,27 @@
 
   .icon-holder {
     position: relative;
-    margin-right: 20px;
+    display: inline-block;
+    height: 34px;
+    width: 34px;
+    margin-right: 4px;
   }
 
-  .qrcode {
-    width: 315px;
-  }
-
-  .caligraphy-grid {
+  .language-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 2px;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
   }
 
-  .font-card {
+  .card {
     border: 2px solid #333;
     border-radius: 5px;
-    padding: 4px;
+    padding: 2px;
     box-sizing: border-box;
-    /* width: 160px; */
-    height: 55px;
+    height: 40px;
     cursor: pointer;
-  }
-
-  .font-title {
-    font-size: 13px;
-  }
-
-  .font-sample {
-    font-size: 20px;
+    display: flex;
+    align-items: center;
   }
 
   .selected {

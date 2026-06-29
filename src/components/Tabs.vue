@@ -80,6 +80,7 @@
   }
 
   .tab-content {
-    padding: 1rem 0;
+    margin: 10px 0;
+    overflow: scroll;
   }
 </style>

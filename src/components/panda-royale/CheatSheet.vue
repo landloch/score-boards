@@ -28,7 +28,6 @@
 
 <style scoped>
   .cheat-sheet {
-    font-family: Calibri, sans-serif;
     box-sizing: border-box;
     color: #333;
     margin: 4px;

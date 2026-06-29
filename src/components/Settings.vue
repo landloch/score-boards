@@ -3,19 +3,16 @@
   import TranslateIcon from '@/components/icons/TranslateIcon.vue';
   import CaligraphyIcon from '@/components/icons/CaligraphyIcon.vue';
   import SettingsIcon from '@/components/icons/SettingsIcon.vue';
-  import LanguageSelector from '@/components/LanguageSelector.vue'
   import Modal from '@/components/Modal.vue';
   import { computed, ref } from 'vue';
-  import { FONTS } from './../Constants/FontsMap.ts';
-  import { useFontStore } from '@/stores/fontStore.ts';
   import type { Tab } from '@/types/CommonTypes.ts';
   import Tabs from './Tabs.vue';
   import { useI18n } from 'vue-i18n';
   import LanguageTab from './LanguageTab.vue';
+  import CaligraphyTab from './CaligraphyTab.vue';
 
   const { t } = useI18n();
   const shoModal = ref(false);
-  const fontStore = useFontStore();
   const tabs = computed<Tab[]>(() => [
     { id: 'caligraphy', label: t('modal.caligraphy.title'), icon: CaligraphyIcon },
     { id: 'language', label: t('modal.language.title'), icon: TranslateIcon },
@@ -31,18 +28,7 @@
   <Modal :show="shoModal" @close="shoModal = false">
     <Tabs v-model="currentTab" :tabs="tabs">
       <template #caligraphy>
-        <div class="caligraphy-grid">
-          <div
-            :class="`${fontStore.font == key ? 'selected' : ''} font-card font-${key} }`"
-            v-for="[key, value] in FONTS"
-            :key="key"
-            @click="fontStore.setFont(key)"
-          >
-            <span class="font-title">{{ value }}</span>
-            <br>
-            <span class="font-sample">0123456789</span>
-          </div>
-        </div>
+        <CaligraphyTab />
       </template>
 
       <template #language>
@@ -80,39 +66,9 @@
     position: relative;
     margin-right: 20px;
   }
-  
 
   .qrcode {
     width: 315px;
-  }
-
-  .caligraphy-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2px;
-  }
-
-  .font-card {
-    border: 2px solid #333;
-    border-radius: 5px;
-    padding: 4px;
-    box-sizing: border-box;
-    /* width: 160px; */
-    height: 55px;
-    cursor: pointer;
-  }
-
-  .font-title {
-    font-size: 13px;
-  }
-
-  .font-sample {
-    font-size: 20px;
-  }
-
-  .selected {
-    border: 4px solid rgb(101, 186, 255);
-    cursor: default;
   }
 
 </style>

@@ -4,15 +4,12 @@
   import ReturnIcon from '@/components/icons/ReturnIcon.vue';
   import { useRoute } from 'vue-router';
   import router from '@/router/index.ts';
-  import { useFontStore } from '@/stores/fontStore.ts';
   import Settings from '../Settings.vue';
 
   const RouteMatch = (path: string) => {
     const route = useRoute();
     return route.path === path;
   };
-
-  const fontStore = useFontStore();
   
 </script>
 
@@ -27,12 +24,12 @@
       <ReturnIcon color="#333" :height="40" :width="40" />
     </SquareButton>
     <div class="title-card">
-      <h1>Panda</h1>
+      <h1>PANDA</h1>
       <HorizontalArrow
-        :shaft-length="80"
+        :shaft-length="120"
         style="color: white; margin-top: -6px; margin-bottom: -6px;"
       />
-      <h1>Royale</h1>
+      <h2>ROYALE</h2>
     </div>
     <span class="right-element">
       <Settings />
@@ -60,8 +57,15 @@
   }
 
   h1 {
-    font-family: Calibri, sans-serif;
     font-size: 25px;
+    font-weight: bold;
+    color: white;
+    margin: 0;
+  }
+
+  h2 {
+    font-size: 23px;
+    font-weight: bold;
     color: white;
     margin: 0;
   }

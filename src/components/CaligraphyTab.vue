@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { FONTS } from "./../Constants/FontsMap.ts";
+  import { FONTS } from "../constants/FontsMap.ts";
   import { useFontStore } from "@/stores/fontStore.ts";
 
   const fontStore = useFontStore();
@@ -24,7 +24,7 @@
   .caligraphy-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2px;
+    gap: 4px;
   }
 
   .font-card {

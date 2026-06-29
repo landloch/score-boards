@@ -63,7 +63,6 @@
     transition: opacity 0.3s ease;
   }
   .modal-container {
-    font-family: Calibri, sans-serif;
     margin: auto;
     padding: 10px;
     background-color: #fff;
@@ -75,6 +74,8 @@
     position: absolute;
     transform-origin: center center;
     transform: translate(-50%, -50%) scale(var(--modal-scale, 1));
+    display: flex;
+    flex-direction: column;
   }
   .modal-header h2 {
     margin-top: 0;
@@ -85,9 +86,8 @@
   }
   .modal-footer {
     margin-top: auto;
-  }
-  .modal-default-button {
-    float: right;
+    height: fit-content;
+    align-self: flex-end;
   }
   .modal-enter-from {
     opacity: 0;
