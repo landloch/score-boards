@@ -22,7 +22,7 @@
 </script>
 
 <template>
-  <button @click="() => shoModal = true" className="button">
+  <button @click="() => shoModal = true" class="button">
     <SettingsIcon fill="#fff" stroke="#333" strokeWidt="2" :height="36" :width="36" />
   </button>
   <Modal :show="shoModal" @close="shoModal = false">

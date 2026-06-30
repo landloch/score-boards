@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <span className="circle" />
+  <span class="circle" />
 </template>
 
 <style scoped>

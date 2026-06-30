@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useScoreStore } from '@/stores/scoreStore';
-import { BoxData } from '@/types/NochMalTypes';
-import { computed } from 'vue';
+  import { useScoreStore } from '@/stores/scoreStore';
+  import { BoxData } from '@/types/NochMalTypes';
+  import { computed } from 'vue';
 
   const { box, centerLine } = defineProps({
     box: {
@@ -31,9 +31,9 @@ import { computed } from 'vue';
     :class="`box ${box.color} ${centerLine ? 'center-column' : ''}`"
     @click="() => handleClick(box.index)"
   >
-    {box.stared || <Circle />}
-    {box.stared && <Star />}
-    {isChecked && <Cross />}
+    <Star v-if="box.stared" />
+    <Circle v-else />
+    <Cross v-if="isChecked"/>
   </span>
 </template>
 
