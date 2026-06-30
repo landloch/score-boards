@@ -63,7 +63,7 @@
   }
 
   .selected {
-    border: 4px solid rgb(101, 186, 255);
+    border: 4px solid #7942b8;
     cursor: default;
   }
 </style>

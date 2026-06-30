@@ -4,7 +4,7 @@
 width="1155px" height="1155px" viewBox="0 0 1155 1155" enable-background="new 0 0 1155 1155" xml:space="preserve">
 <rect x="0" y="0" width="1155" height="1155" fill="rgb(255,255,255)" /><g transform="translate(70,70)"><g><defs>
     <radialGradient id="grad">
-    <stop offset="5%" stop-color="rgb(2,119,189)" />
+    <stop offset="5%" stop-color="#7942b8" />
     <stop offset="95%" stop-color="rgb(0,0,0)" />
     </radialGradient>
 <mask id="gmask"><g>

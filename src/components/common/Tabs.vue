@@ -74,13 +74,16 @@
   }
 
   .tab.active {
-    color: #42b883;
-    border-bottom-color: #42b883;
+    color: #7942b8;
+    border-bottom-color: #7942b8;
     font-weight: 600;
   }
 
   .tab-content {
     margin: 10px 0;
-    overflow: scroll;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
   }
 </style>

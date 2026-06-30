@@ -32,12 +32,11 @@
       </template>
 
       <template #language>
-        <!-- <LanguageSelector /> -->
         <LanguageTab />
       </template>
 
       <template #qrCode>
-        <span class="qrcode-container"><img class="qrcode" src="../../assets/qr-code.svg"></span>
+        <img class="qrcode" src="../../assets/qr-code.svg">
       </template>
     </Tabs>
   </Modal>

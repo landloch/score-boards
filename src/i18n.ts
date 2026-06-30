@@ -1,4 +1,5 @@
 import { createI18n } from 'vue-i18n';
+import { SUPPORTED_LOCALES } from './constants/Locales';
 
 export const i18n = createI18n({
   legacy: false,
@@ -35,5 +36,8 @@ export async function loadLocale(locale: string) {
   localStorage.setItem('locale', locale);
 }
 
-const savedLocale = localStorage.getItem('locale') ?? 'en';
+const savedLocale =
+  localStorage.getItem('locale') ??
+    SUPPORTED_LOCALES.includes(navigator.language.substring(0,2)) ?
+      navigator.language.substring(0,2) : 'en';
 await loadLocale(savedLocale);
