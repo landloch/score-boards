@@ -9,7 +9,7 @@
 <template>
   <button
     @click="(event) => action!(event)"
-    className="button"
+    class="button"
     :style="{ '--width': width + 'px', '--height': height + 'px' }"
   >
     <slot></slot>

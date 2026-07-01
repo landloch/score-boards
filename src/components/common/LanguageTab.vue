@@ -16,19 +16,19 @@
 </script>
 
 <template>
-    <div class="language-grid">
-          <div
-            v-for="[key, value] in flags"
-            :class="`${i18n.global.locale.value == key ? 'selected' : ''} card }`"
-            :key="key"
-            @click="() => loadLocale(key)"
-          >
-            <span class="icon-holder">
-              <component :is="value.icon" :height="34" :width="34" />
-            </span>
-            <span>{{ value.label }}</span>
-          </div>
-        </div>
+  <div class="language-grid">
+    <div
+      v-for="[key, value] in flags"
+      :class="`${i18n.global.locale.value == key ? 'selected' : ''} card }`"
+      :key="key"
+      @click="() => loadLocale(key)"
+    >
+      <span class="icon-holder">
+        <component :is="value.icon" :height="34" :width="34" />
+      </span>
+      <span>{{ value.label }}</span>
+    </div>
+  </div>
 </template>
 
 <style scoped>

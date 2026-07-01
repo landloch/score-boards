@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import ScalingContainer from '@/components/ScalingContainer.vue';
-
-
+  import JokerPane from '@/components/nochMal/JokerPane/JokerPane.vue';
+  import MainGridColumn from '@/components/nochMal/mainGrid/MainGridColumn.vue';
+  import ScalingContainer from '@/components/ScalingContainer.vue';
+  import { columnAdata, columnBdata, columnCdata, columnDdata, columnEdata, columnFdata, columnGdata, columnHdata, columnIdata, columnJdata, columnKdata, columnLdata, columnMdata, columnNdata, columnOdata } from '@/constants/noch-mal/MainGridBoxes';
   /*
   Auto borad rules:
   every column and row has every color
@@ -9,33 +10,28 @@ import ScalingContainer from '@/components/ScalingContainer.vue';
   for each color, there are 6 regimes, each with a different number of boxes.
   there is never more than one regime of the same color in the same column
   */
-
-
-  const baseHeight = 418;
-  const baseWidth = 695;
-
 </script>
 
 <template>
   <ScalingContainer :height="418" :width="695" >
     <div id="base" class="row base">
       <div>
-        <div className="row">
-          <MainGridColumn column={columnAdata} />
-          <MainGridColumn column={columnBdata} />
-          <MainGridColumn column={columnCdata} />
-          <MainGridColumn column={columnDdata} />
-          <MainGridColumn column={columnEdata} />
-          <MainGridColumn column={columnFdata} />
-          <MainGridColumn column={columnGdata} />
-          <MainGridColumn column={columnHdata} centerLine />
-          <MainGridColumn column={columnIdata} />
-          <MainGridColumn column={columnJdata} />
-          <MainGridColumn column={columnKdata} />
-          <MainGridColumn column={columnLdata} />
-          <MainGridColumn column={columnMdata} />
-          <MainGridColumn column={columnNdata} />
-          <MainGridColumn column={columnOdata} />
+        <div class="row">
+          <MainGridColumn :column="columnAdata" />
+          <MainGridColumn :column="columnBdata" />
+          <MainGridColumn :column="columnCdata" />
+          <MainGridColumn :column="columnDdata" />
+          <MainGridColumn :column="columnEdata" />
+          <MainGridColumn :column="columnFdata" />
+          <MainGridColumn :column="columnGdata" />
+          <MainGridColumn :column="columnHdata" centerLine />
+          <MainGridColumn :column="columnIdata" />
+          <MainGridColumn :column="columnJdata" />
+          <MainGridColumn :column="columnKdata" />
+          <MainGridColumn :column="columnLdata" />
+          <MainGridColumn :column="columnMdata" />
+          <MainGridColumn :column="columnNdata" />
+          <MainGridColumn :column="columnOdata" />
         </div>
         <JokerPane />
       </div>

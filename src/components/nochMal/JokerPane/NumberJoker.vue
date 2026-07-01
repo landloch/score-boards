@@ -3,23 +3,29 @@
 </script>
 
 <template>
-  <span className="white-square">
+  <span class="black-square">
     <svg
-      fill="black"
-      stroke="black"
+      fill="white"
+      stroke="white"
       strokeLinecap="round"
       strokeLinejoin="round"
-      viewBox="0 0 24 24"
-      strokeWidth="1.5"
-      className="character"
+      class="character"
     >
-      <path d="M 16.5,21 12,15.634613 7.5,21 3,16.5 8.3653858,12 3,7.5 7.5,3 12,8.3653852 16.5,3 21,7.5 15.634614,12 21,16.5 Z" />
+      <text
+        x="47%"
+        y="50%"
+        fontSize="24"
+        textAnchor="middle"
+        dominantBaseline="central"
+      >
+        ?
+      </text>
     </svg>
   </span>
 </template>
 
 <style>
-  .white-square {
+  .black-square {
     width: 32px;
     height: 32px;
     display: -webkit-box;
@@ -28,11 +34,9 @@
     display: -moz-flex;
     display: -webkit-flex;
     display: flex;
-    border: black solid 1px;
     border-radius: 5px;
     position: relative;
-    background-color: white;
-    box-sizing: border-box;
+    background-color: black;
   }
 
   .character {
