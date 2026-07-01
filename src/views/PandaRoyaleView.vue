@@ -3,7 +3,7 @@
   import { InputRow, type InputCell } from '@/types/PandaRoyalTypes';
   import SquareButton from '@/components/common/SquareButton.vue';
   import ScalingContainer from '@/components/common/ScalingContainer.vue';
-  import NaturalInput from '@/components/common/NaturalInput.vue';
+  import IntegerInput from '@/components/common/IntegerInput.vue';
   import CheatSheet from '@/components/panda-royale/CheatSheet.vue';
   import Header from '@/components/panda-royale/Header.vue';
   import EraserIcon from '@/components/icons/EraserIcon.vue';
@@ -67,9 +67,10 @@
           <tr v-for="row in rows">
             <td>{{ row.index }}</td>
             <td v-for="(cell, index) in row.valueCells" :class="cell.column">
-              <NaturalInput
+              <IntegerInput
                 v-model="cell.value"
                 :class="`font-${fontStore.font}`"
+                :allow-negastive="cell.column === 'D'"
               />
             </td>
             <td v-if="row.index == 1" colspan="6"></td>

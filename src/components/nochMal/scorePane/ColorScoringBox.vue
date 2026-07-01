@@ -1,28 +1,21 @@
 <script setup lang="ts">
+import { useScoreStore } from '@/stores/scoreStore';
+import { type Colors, Mark } from '@/types/NochMalTypes';
 
-export const ColorScoringBox = ({
-  score,
-  color,
-  index,
-}: {
-  score: number;
-  color: Colors;
-  index: string;
-}) => {
+
+const { score, color, index } = defineProps<{
+  score: number; color: Colors; index: string;
+}>();
   const stateArray: Mark[] = [Mark.Blank, Mark.Circled, Mark.Scratched];
-  const { colorBoxesMarkedState, colorBoxesMarkedDispatch } = useScoreContext();
+  const { colorBoxesMarkedState, setColorBoxMark } = useScoreStore();
 
   const getState = () =>
     colorBoxesMarkedState.find((el) => el.index === index)!.mark;
 
-  function handleClick = () => {
+  function handleClick() {
     const nextMark = stateArray[(getState() + 1) % 3];
-    colorBoxesMarkedDispatch({
-      type: "mark",
-      index: index,
-      mark: nextMark,
-    });
-  };
+    setColorBoxMark(index, nextMark!);
+  }
 
 </script>
 
