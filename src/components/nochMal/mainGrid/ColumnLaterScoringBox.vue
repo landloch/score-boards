@@ -1,8 +1,9 @@
 <script setup lang="ts">
+  import CircledIcon from '@/components/icons/CircledIcon.vue';
   import { useScoreStore } from '@/stores/scoreStore';
-  import type { ColumnId } from '@/types/NochMalTypes';
+  import type { ColumnId, MarkedState } from '@/types/NochMalTypes';
   import { Mark } from '@/types/NochMalTypes';
-import { computed } from 'vue';
+  import { computed } from 'vue';
 
   const {
     columnId, score, redText, marginAdjust, index
@@ -15,16 +16,17 @@ import { computed } from 'vue';
   }>();
 
   const {
-    letterScoreingBoxesState,
+    deepState,
     setLetterScoreBoxMark
   } = useScoreStore();
 
   const isCircled = computed(
-    () => letterScoreingBoxesState.find((el) => el.index === index)!.mark === Mark.Circled
+    () => deepState.letterScoreingBoxesState.find((el: MarkedState) =>
+      el.index === index)!.mark === Mark.Circled
   );
 
   function handleClick() {
-    setLetterScoreBoxMark(index, !isCircled ? Mark.Circled : Mark.Blank,);
+    setLetterScoreBoxMark(index, !isCircled.value ? Mark.Circled : Mark.Blank,);
   }
 </script>
 
@@ -54,7 +56,7 @@ import { computed } from 'vue';
         {{ score }}
       </text>
     </svg>
-    <Circled v-if="isCircled" />
+    <CircledIcon v-if="isCircled" />
   </span>
 </template>
 

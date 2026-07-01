@@ -1,204 +1,186 @@
-import { ref, computed } from 'vue';
+import { ref, computed, reactive } from 'vue';
 import { defineStore } from 'pinia';
-import {
-  Mark,
-  type CheckedState,
-  type MarkedState,
-  type MainGridCheckedState
+import { Mark, type CheckedState,
+  type MarkedState, type MainGridCheckedState
 } from '@/types/NochMalTypes';
 import {
-  colorScoreingBoxesInitialState,
-  letterHeaderBoxesInitalState,
-  letterScoreingBoxesInitialState,
-  jokerBoxesInitialState,
+  colorScoreingBoxesInitialState, letterHeaderBoxesInitalState,
+  letterScoreingBoxesInitialState, jokerBoxesInitialState,
   mainGridInitialState,
 } from '@/hooks/reducerDefs';
 
 export const useScoreStore = defineStore('score', () => {
-  const colorBoxesMarkedState = ref<MarkedState[]>(
-    sessionStorage.getItem('colorScoring')
+  const deepState = reactive({
+    colorBoxesMarkedState: sessionStorage.getItem('colorScoring')
       ? JSON.parse(sessionStorage.getItem('colorScoring') ?? '[]')
-      : structuredClone(colorScoreingBoxesInitialState)
-  );
-
-  const letterHeaderBoxesState = ref<CheckedState[]>(
-    sessionStorage.getItem('headers')
+      : structuredClone(colorScoreingBoxesInitialState) as MarkedState[],
+    
+    letterHeaderBoxesState: sessionStorage.getItem('headers')
       ? JSON.parse(sessionStorage.getItem('headers') ?? '[]')
-      : structuredClone(letterHeaderBoxesInitalState)
-  );
-
-  const letterScoreingBoxesState = ref<MarkedState[]>(
-    sessionStorage.getItem('columnScoring')
+      : structuredClone(letterHeaderBoxesInitalState) as CheckedState[],
+    
+    letterScoreingBoxesState: sessionStorage.getItem('columnScoring')
       ? JSON.parse(sessionStorage.getItem('columnScoring') ?? '[]')
-      : structuredClone(letterScoreingBoxesInitialState)
-  );
-
-  const jokerBoxesState = ref<CheckedState[]>(
-    sessionStorage.getItem('jokers')
+      : structuredClone(letterScoreingBoxesInitialState) as MarkedState[],
+  
+    jokerBoxesState: sessionStorage.getItem('jokers')
       ? JSON.parse(sessionStorage.getItem('jokers') ?? '[]')
-      : structuredClone(jokerBoxesInitialState)
-  );
-
-  const mainGridState = ref<MainGridCheckedState[]>(
-    sessionStorage.getItem('main')
+      : structuredClone(jokerBoxesInitialState) as CheckedState[],
+    
+    mainGridState: sessionStorage.getItem('main')
       ? JSON.parse(sessionStorage.getItem('main') ?? '[]')
-      : structuredClone(mainGridInitialState)
-  );
-
-  const colorScore = computed<number>(() => {
-    let value = 0;
-    colorBoxesMarkedState.value.forEach((el: any) => {
-      if (el.mark === Mark.Circled) value += el.score;
-    });
-    return value;
+      : structuredClone(mainGridInitialState) as MainGridCheckedState[],
   });
+  function colorScore() {
+    return deepState.colorBoxesMarkedState.reduce((sum: number, el: MarkedState) => {
+      return el.mark === Mark.Circled ? sum + el.score : sum;
+    }, 0);
+  }
 
-  const letterScore = computed<number>(() => {
-    let value = 0;
-    letterScoreingBoxesState.value.forEach((el: any) => {
-      if (el.mark === Mark.Circled) value += el.score;
-    });
-    return value;
-  });
+  function letterScore() {
+    return deepState.letterScoreingBoxesState.reduce((sum: number, el: MarkedState) => {
+      return el.mark === Mark.Circled ? sum + el.score : sum;
+    }, 0);
+  }
 
-  const jokerScore = computed<number>(() => {
-    return jokerBoxesState.value.filter((el: any) => !el.isChecked).length;
-  });
+  function jokerScore() {
+    return deepState.jokerBoxesState.filter((el: any) => !el.isChecked).length;
+  }
 
-  const starScore = computed<number>(() => {
+  function starScore() {
     return (
-      mainGridState.value.filter((el: any) => el.stared && !el.isChecked).length * -2
+      deepState.mainGridState.filter(
+        (el: any) => el.stared && !el.isChecked).length * -2
     );
-  });
+  }
 
   function setColorBoxMark(index: string, mark: Mark) {
-    colorBoxesMarkedState.value =
-      colorBoxesMarkedState.value.map((box) =>
+    deepState.colorBoxesMarkedState =
+      deepState.colorBoxesMarkedState.map((box: MarkedState) =>
         box.index === index ? { ...box, mark } : box
       );
     sessionStorage.setItem(
       'colorScoring',
-      JSON.stringify(colorBoxesMarkedState.value
+      JSON.stringify(deepState.colorBoxesMarkedState
     ));
   }
 
   function resetColorBoxes() {
-    colorBoxesMarkedState.value =
-      colorBoxesMarkedState.value.map((box) =>
+    deepState.colorBoxesMarkedState =
+      deepState.colorBoxesMarkedState.map((box: MarkedState) =>
         ({ ...box, mark: Mark.Blank })
       );
     sessionStorage.setItem(
       'colorScoring',
-      JSON.stringify(colorBoxesMarkedState.value)
+      JSON.stringify(deepState.colorBoxesMarkedState)
     );
   }
 
   function setLetterHeaderChecked(index: string, isChecked: boolean) {
-    letterHeaderBoxesState.value =
-      letterHeaderBoxesState.value.map((box) =>
+    deepState.letterHeaderBoxesState =
+      deepState.letterHeaderBoxesState.map((box: MarkedState) =>
         box.index === index ? { ...box, isChecked } : box
       );
     sessionStorage.setItem(
       'headers',
-      JSON.stringify(letterHeaderBoxesState.value)
+      JSON.stringify(deepState.letterHeaderBoxesState)
     );
   }
 
   function resetLetterHeaderBoxes() {
-    letterHeaderBoxesState.value =
-      letterHeaderBoxesState.value.map((box) =>
+    deepState.letterHeaderBoxesState =
+      deepState.letterHeaderBoxesState.map((box: MarkedState) =>
         ({ ...box, isChecked: false })
       );
     sessionStorage.setItem(
       'headers',
-      JSON.stringify(letterHeaderBoxesState.value)
+      JSON.stringify(deepState.letterHeaderBoxesState)
     );
   }
 
   function setLetterScoreBoxMark(index: string, mark: Mark) {
-    letterScoreingBoxesState.value =
-      letterScoreingBoxesState.value.map((box) =>
+    deepState.letterScoreingBoxesState =
+      deepState.letterScoreingBoxesState.map((box: MarkedState) =>
         box.index === index ? { ...box, mark } : box
       );
     sessionStorage.setItem(
       'columnScoring',
-      JSON.stringify(letterScoreingBoxesState.value)
+      JSON.stringify(deepState.letterScoreingBoxesState)
     );
   }
 
   function resetLetterScoreBoxes() {
-    letterScoreingBoxesState.value =
-      letterScoreingBoxesState.value.map((box) =>
+    deepState.letterScoreingBoxesState =
+      deepState.letterScoreingBoxesState.map((box: MarkedState) =>
         ({ ...box, mark: Mark.Blank })
       );
     sessionStorage.setItem(
       'columnScoring',
-      JSON.stringify(letterScoreingBoxesState.value)
+      JSON.stringify(deepState.letterScoreingBoxesState)
     );
   }
 
   function setJokerChecked(index: string, isChecked: boolean) {
-    jokerBoxesState.value = jokerBoxesState.value.map((box) =>
+    deepState.jokerBoxesState = deepState.jokerBoxesState.map((box: MarkedState) =>
       box.index === index ? { ...box, isChecked } : box
     );
     sessionStorage.setItem(
       'jokers',
-      JSON.stringify(jokerBoxesState.value)
+      JSON.stringify(deepState.jokerBoxesState)
     );
   }
 
   function resetJokers() {
-    jokerBoxesState.value = jokerBoxesState.value.map((box) =>
+    deepState.jokerBoxesState = deepState.jokerBoxesState.map((box: MarkedState) =>
       ({ ...box, isChecked: false })
     );
     sessionStorage.setItem(
       'jokers',
-      JSON.stringify(jokerBoxesState.value)
+      JSON.stringify(deepState.jokerBoxesState)
     );
   }
 
   function setMainGridChecked(index: string, isChecked: boolean) {
-    mainGridState.value = mainGridState.value.map((box) =>
+    const temp = deepState.mainGridState.map((box: MarkedState) =>
       box.index === index ? { ...box, isChecked } : box
     );
+    deepState.mainGridState = temp
     sessionStorage.setItem(
       'main',
-      JSON.stringify(mainGridState.value)
+      JSON.stringify(temp)
     );
   }
 
   function resetMainGrid() {
-    mainGridState.value = mainGridState.value.map((box) =>
+    deepState.mainGridState = deepState.mainGridState.map((box: MarkedState) =>
       ({ ...box, isChecked: false })
     );
     sessionStorage.setItem(
       'main',
-      JSON.stringify(mainGridState.value)
+      JSON.stringify(deepState.mainGridState)
     );
   }
 
   return {
+    deepState,
+
     colorScore,
-    colorBoxesMarkedState,
     setColorBoxMark,
     resetColorBoxes,
 
-    letterScore,
-    letterHeaderBoxesState,
     setLetterHeaderChecked,
     resetLetterHeaderBoxes,
-    letterScoreingBoxesState,
+
+    letterScore,
     setLetterScoreBoxMark,
     resetLetterScoreBoxes,
 
     starScore,
 
-    mainGridState,
     setMainGridChecked,
     resetMainGrid,
 
     jokerScore,
-    jokerBoxesState,
     setJokerChecked,
     resetJokers,
   };

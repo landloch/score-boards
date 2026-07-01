@@ -1,5 +1,9 @@
 <script setup lang="ts">
   import type { ColumnData } from '@/types/NochMalTypes';
+  import ColumnIdBox from './ColumnIdBox.vue';
+  import MainGridBox from './MainGridBox.vue';
+  import ColumnFirstScoringBox from './ColumnFirstScoringBox.vue';
+  import ColumnLaterScoringBox from './ColumnLaterScoringBox.vue';
 
   defineProps<{
     column: ColumnData;
@@ -25,17 +29,21 @@
       :redText="centerLine" 
       :score="column.pointsFirstBonus + column.pointsBase"
       marginAdjust="top"
-      :index="`${column.column}-1st`"
+      :index="`${column.column}1st`"
     />
     <ColumnLaterScoringBox
       :columnId="column.column"
       :redText="centerLine" 
       :score="column.pointsBase"
-      :index="`${column.column}-2nd`"
+      :index="`${column.column}2nd`"
     />
   </div>
 </template>
 
 <style>
-
+  .column {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
 </style>

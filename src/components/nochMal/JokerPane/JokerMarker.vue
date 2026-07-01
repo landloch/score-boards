@@ -1,20 +1,21 @@
 <script setup lang="ts">
-  import { useScoreStore } from '@/stores/scoreStore';
+  import CrossIcon from '@/components/icons/CrossIcon.vue';
+import { useScoreStore } from '@/stores/scoreStore';
   import { computed } from 'vue';
 
   const { index } = defineProps<{ index: string }>();
 
   const {
-    jokerBoxesState,
+    deepState,
     setJokerChecked,
   } = useScoreStore();
 
   const isChecked = computed(
-    () => jokerBoxesState.find((el) => el.index === index)!.isChecked
+    () => deepState.jokerBoxesState.find((el) => el.index === index)!.isChecked
   );
 
   const handleClick = () => {
-    setJokerChecked(index, !isChecked);
+    setJokerChecked(index, !isChecked.value);
   };
 </script>
 
@@ -37,7 +38,7 @@
         !
       </text>
     </svg>
-    <Cross v-if="isChecked" />
+    <CrossIcon v-if="isChecked" />
   </span>
 </template>
 

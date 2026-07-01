@@ -1,5 +1,5 @@
 body {
-  font-family: "Noto Sans", sans-serif;
+  font-family: "Noto Sans", sans-serif !important;
   line-height: 1.2;
   font-weight: 400;
   font-style: normal;

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import CircledIcon from '@/components/icons/CircledIcon.vue';
+import CrossIcon from '@/components/icons/CrossIcon.vue';
 import { useScoreStore } from '@/stores/scoreStore';
 import { type Colors, Mark } from '@/types/NochMalTypes';
 
@@ -7,10 +9,10 @@ const { score, color, index } = defineProps<{
   score: number; color: Colors; index: string;
 }>();
   const stateArray: Mark[] = [Mark.Blank, Mark.Circled, Mark.Scratched];
-  const { colorBoxesMarkedState, setColorBoxMark } = useScoreStore();
+  const { deepState, setColorBoxMark } = useScoreStore();
 
   const getState = () =>
-    colorBoxesMarkedState.find((el) => el.index === index)!.mark;
+    deepState.colorBoxesMarkedState.find((el) => el.index === index)!.mark;
 
   function handleClick() {
     const nextMark = stateArray[(getState() + 1) % 3];
@@ -20,7 +22,7 @@ const { score, color, index } = defineProps<{
 </script>
 
 <template>
-  <span class="`box ${color}`" @click="handleClick">
+  <span :class="`box ${color}`" @click="handleClick">
       <span class="light" />
       <svg
         fill={ColorMap.get(color)}
@@ -28,7 +30,7 @@ const { score, color, index } = defineProps<{
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth={0.5}
-        className="character"
+        class="character"
       >
         <text
           x="47%"
@@ -37,14 +39,14 @@ const { score, color, index } = defineProps<{
           textAnchor="middle"
           dominantBaseline="central"
         >
-          {score}
+          {{ score }}
         </text>
       </svg>
-      {getState() === Mark.Scratched && <Cross />}
-      {getState() === Mark.Circled && <Circled />}
+      <CrossIcon v-if="getState() === Mark.Scratched" />
+      <CircledIcon v-else-if="getState() === Mark.Circled"/>
     </span>
 </template>
 
-<style>
+<style scoped>
 
 </style>

@@ -10,43 +10,57 @@
       stroke="#000"
       strokeLinecap="round"
       strokeLinejoin="round"
-      strokeWidth={4}
+      strokeWidth="4"
     >
-      <BonusSvgText stroke="#fff" :x="10">
+      <BonusSvgText stroke="#fff" :strokeWidth="7" :x="10">
         B
       </BonusSvgText>
-      <BonusSvgText stroke="#fff" :x="24">
+      <BonusSvgText stroke="#fff" :strokeWidth="7" :x="24">
         O
       </BonusSvgText>
-      <BonusSvgText stroke="#fff" :x="38">
+      <BonusSvgText stroke="#fff" :strokeWidth="7" :x="38">
         N
       </BonusSvgText>
-      <BonusSvgText stroke="#fff" :x="52">
+      <BonusSvgText stroke="#fff" :strokeWidth="7" :x="52">
         U
       </BonusSvgText>
-      <BonusSvgText stroke="#fff" :x="66">
+      <BonusSvgText stroke="#fff" :strokeWidth="7" :x="66">
         S
       </BonusSvgText>
-      <BonusSvgText :fill="ColorMap.get(Colors.Green)" :x="10">
+      <BonusSvgText
+        :fill="ColorMap.get(Colors.Green)"
+        :x="10"
+      >
         B
       </BonusSvgText>
-      <BonusSvgText :fill="ColorMap.get(Colors.Yellow)" :x="24">
+      <BonusSvgText
+        :fill="ColorMap.get(Colors.Yellow)"
+        :x="24"
+      >
         O
       </BonusSvgText>
-      <BonusSvgText :fill="ColorMap.get(Colors.Blue)" :x="38">
+      <BonusSvgText
+        :fill="ColorMap.get(Colors.Blue)"
+        :x="38"
+      >
         N
       </BonusSvgText>
-      <BonusSvgText :fill="ColorMap.get(Colors.Red)" :x="52">
+      <BonusSvgText
+        :fill="ColorMap.get(Colors.Red)"
+        :x="52"
+      >
         U
       </BonusSvgText>
-      <BonusSvgText :fill="ColorMap.get(Colors.Orange)" :x="66">
+      <BonusSvgText
+        :fill="ColorMap.get(Colors.Orange)"
+        :x="66">
         S
       </BonusSvgText>
       </svg>
     </span>
 </template>
 
-<style>
+<style scoped>
   .bonus {
     width: 94px;
     height: 32px;

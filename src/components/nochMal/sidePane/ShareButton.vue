@@ -1,5 +1,6 @@
 <script setup lang="ts">
-  import { ref } from 'vue';
+  import QrCodeIcon from '@/components/icons/QrCodeIcon.vue';
+import { ref } from 'vue';
   
   const isShareModalVisible = ref(false);
 
@@ -10,15 +11,15 @@
 
 <template>
   <button
-    className="resset-button"
+    class="resset-button"
     @click="() => isShareModalVisible = true"
   >
-    <Share />
+    <QrCodeIcon />
   </button>
-  <div className="overlay">
-    <div className="modal">
-      <div className="modal-title">
-        <span className="link" @click="share">Copy Link</span>
+  <div v-if="isShareModalVisible" class="overlay">
+    <div class="modal">
+      <div class="modal-title">
+        <span class="link" @click="share">Copy Link</span>
         <svg
           fill="white"
           stroke="white"
@@ -26,8 +27,8 @@
           strokeLinejoin="round"
           viewBox="0 0 24 24"
           strokeWidth="1"
-          className="modal-close"
-          @click="() => isShareModalVisible = true"
+          class="modal-close"
+          @click="() => isShareModalVisible = false"
         >
           <path d="M 16.5,21 12,15.634613 7.5,21 3,16.5 8.3653858,12 3,7.5 7.5,3 12,8.3653852 16.5,3 21,7.5 15.634614,12 21,16.5 Z" />
         </svg>
@@ -39,7 +40,18 @@
   </div>
 </template>
 
-<style>
+<style scoped>
+  .resset-button {
+    width: 32px;
+    height: 32px;
+    border-radius: 5px;
+    background: white;
+    align-items: center;
+    box-sizing: border-box;
+    justify-content: space-between;
+    position: relative;
+  }
+
   .img-container {
     display: flex;
     height: calc(100% - 55px);
@@ -108,5 +120,24 @@
     font-size: 30px;
     width: 70px;
     height: 35px;
+  }
+
+  .link {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 40px;
+    height: fit-content;
+    text-align: center;
+    color: #fff;
+    transition: all 0.5s;
+    cursor: pointer;
+  }
+
+  .link:hover {
+    color: var(--blue);
+  }
+
+  .link:active {
+    color: var(--red);
   }
 </style>

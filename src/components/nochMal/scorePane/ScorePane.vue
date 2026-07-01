@@ -1,9 +1,14 @@
 <script setup lang="ts">
   import { useScoreStore } from '@/stores/scoreStore';
   import { ref } from 'vue';
+  import { Colors } from '@/types/NochMalTypes.ts';
   import ShareButton from '../sidePane/ShareButton.vue';
   import EraserButton from '../sidePane/EraserButton.vue';
-  import { Colors } from '@/types/NochMalTypes.ts';
+  import ScoreStar from './ScoreStar.vue';
+  import ScoreJoker from './ScoreJoker.vue';
+  import Bonus from './Bonus.vue';
+  import ColorFirstScoringBox from './ColorFirstScoringBox.vue';
+  import ColorLaterScoringBox from './ColorLaterScoringBox.vue';
 
   const {
     colorScore, letterScore, jokerScore, starScore
@@ -36,28 +41,28 @@
         <Bonus />
         <span class="score-container">
           <span>=</span>
-          <span class="score">{{ colorScore }}</span>
+          <span class="score">{{ colorScore() }}</span>
         </span>
       </div>
       <div class="row right">
         <span class="score-label letter-score">A-O</span>
         <span class="score-container">
           <span class="text-green">+</span>
-          <span class="score">{{ letterScore }}</span>
+          <span class="score">{{ letterScore() }}</span>
         </span>
       </div>
       <div class="row right">
         <ScoreJoker />
         <span class="score-container">
           <span class="text-green">+</span>
-          <span class="score">{{ jokerScore }}</span>
+          <span class="score">{{ jokerScore() }}</span>
         </span>
       </div>
       <div class="row right">
         <ScoreStar />
         <span class="score-container">
           <span class="text-red">-</span>
-          <span class="score">{{ starScore }}</span>
+          <span class="score">{{ starScore() }}</span>
         </span>
       </div>
       <div class="row right">
@@ -68,7 +73,7 @@
         <span class="score-container">
           <span>=</span>
           <span class="score">
-            {{ colorScore + jokerScore + letterScore + starScore }}
+            {{ colorScore() + jokerScore() + letterScore() + starScore() }}
           </span>
         </span>
       </div>
@@ -79,24 +84,11 @@
     </div>
 </template>
 
-<style>
+<style scoped>
   .right {
     width: 100%;
-    justify-content: right;
-    -webkit-justify-content: right;
-  }
-
-  .box {
-    width: 32px;
-    height: 32px;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -moz-flex;
-    display: -webkit-flex;
     display: flex;
-    border-radius: 5px;
-    position: relative;
+    justify-content: right;
   }
 
   .light {

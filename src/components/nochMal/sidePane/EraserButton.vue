@@ -44,7 +44,7 @@
           No
         </button>
         <button
-          className="modal-button"
+          class="modal-button"
           @click="() => {
             resset();
             isModalVisible = false;
@@ -57,7 +57,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
   .resset-button {
     width: 32px;
     height: 32px;

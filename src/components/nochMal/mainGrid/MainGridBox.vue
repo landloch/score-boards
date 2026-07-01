@@ -1,4 +1,7 @@
 <script setup lang="ts">
+  import CrossIcon from '@/components/icons/CrossIcon.vue';
+  import CircleIcon from '@/components/icons/nochMal/CircleIcon.vue';
+  import StarIcon from '@/components/icons/nochMal/StarIcon.vue';
   import { useScoreStore } from '@/stores/scoreStore';
   import { BoxData } from '@/types/NochMalTypes';
   import { computed } from 'vue';
@@ -10,17 +13,17 @@
     },
     centerLine: Boolean
   });
-  const { mainGridState, setMainGridChecked } =
+  const { deepState, setMainGridChecked } =
     useScoreStore();
 
   const isChecked = computed(
-    () => mainGridState.find(
+    () => deepState.mainGridState.find(
       (el) => el.index === box.index
     )!.isChecked
   );
 
   function handleClick(boxIndex: string) {
-    setMainGridChecked(box.index, !isChecked);
+    setMainGridChecked(box.index, !isChecked.value);
   };
 </script>
 
@@ -31,12 +34,48 @@
     :class="`box ${box.color} ${centerLine ? 'center-column' : ''}`"
     @click="() => handleClick(box.index)"
   >
-    <Star v-if="box.stared" />
-    <Circle v-else />
-    <Cross v-if="isChecked"/>
+    <StarIcon v-if="box.stared" />
+    <CircleIcon v-else />
+    <CrossIcon v-if="isChecked"/>
   </span>
 </template>
 
-<style>
+<style scoped>
+  .box {
+    width: 32px;
+    height: 32px;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+    border-radius: 5px;
+    position: relative;
+  }
 
+  .center-column {
+    border: 2px solid white;
+    margin: -2px;
+  }
+
+  .blue {
+    background-color: var(--blue);
+  }
+
+  .green {
+    background-color: var(--green);
+  }
+
+  .orange {
+    background-color: var(--orange);
+  }
+
+  .red {
+    background-color: var(--red);
+  }
+
+  .yellow {
+    background-color: var(--yellow);
+  }
 </style>

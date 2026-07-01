@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import CircledIcon from '@/components/icons/CircledIcon.vue';
+  import CrossIcon from '@/components/icons/CrossIcon.vue';
   import { useScoreStore } from '@/stores/scoreStore';
   import type { ColumnId } from '@/types/NochMalTypes';
   import { Mark } from '@/types/NochMalTypes';
@@ -15,12 +17,12 @@
 
   const stateArray: Mark[] = [Mark.Blank, Mark.Circled, Mark.Scratched];
   const {
-    letterScoreingBoxesState,
+    deepState,
     setLetterScoreBoxMark
   } = useScoreStore();
 
   function getState() {
-    return letterScoreingBoxesState.find((el) => el.index === index)!.mark;
+    return deepState.letterScoreingBoxesState.find((el) => el.index === index)!.mark;
   } 
 
   function handleClick() {
@@ -55,8 +57,8 @@
         {{ score }}
       </text>
     </svg>
-    <Cross v-if="getState() === Mark.Scratched" />
-    <Circled v-else-if="getState() === Mark.Circled" />
+    <CrossIcon v-if="getState() === Mark.Scratched" />
+    <CircledIcon v-else-if="getState() === Mark.Circled" />
   </span>
 </template>
 

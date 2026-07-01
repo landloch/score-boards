@@ -1,8 +1,13 @@
 <script setup lang="ts">
   import JokerPane from '@/components/nochMal/JokerPane/JokerPane.vue';
   import MainGridColumn from '@/components/nochMal/mainGrid/MainGridColumn.vue';
-  import ScalingContainer from '@/components/ScalingContainer.vue';
-  import { columnAdata, columnBdata, columnCdata, columnDdata, columnEdata, columnFdata, columnGdata, columnHdata, columnIdata, columnJdata, columnKdata, columnLdata, columnMdata, columnNdata, columnOdata } from '@/constants/noch-mal/MainGridBoxes';
+  import ScorePane from '@/components/nochMal/scorePane/ScorePane.vue';
+  import ScalingContainer from '@/components/common/ScalingContainer.vue';
+  import {
+    columnAdata, columnBdata, columnCdata, columnDdata, columnEdata,
+    columnFdata, columnGdata, columnHdata, columnIdata, columnJdata,
+    columnKdata, columnLdata, columnMdata, columnNdata, columnOdata
+  } from '@/constants/noch-mal/MainGridBoxes';
   /*
   Auto borad rules:
   every column and row has every color
@@ -13,7 +18,7 @@
 </script>
 
 <template>
-  <ScalingContainer :height="418" :width="695" >
+  <!-- <ScalingContainer :height="418" :width="695" > -->
     <div id="base" class="row base">
       <div>
         <div class="row">
@@ -37,7 +42,7 @@
       </div>
       <ScorePane />
     </div>
-  </ScalingContainer>
+  <!-- </ScalingContainer> -->
 </template>
 
 <style scoped>
@@ -62,29 +67,23 @@
   .base {
     background-color: #404040;
     padding: 5px;
-    margin: auto;
     box-sizing: border-box;
     width: 695px;
     height: 418px;
   }
-    
+
   .row {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -moz-flex;
-    display: -webkit-flex;
     display: flex;
     flex-direction: row;
     gap: 2px;
   }
-    
+
   .column {
     display: flex;
     flex-direction: column;
     gap: 2px;
   }
-    
+
   .blue {
     background-color: var(--blue);
   }
