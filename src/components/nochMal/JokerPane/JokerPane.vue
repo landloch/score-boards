@@ -1,10 +1,13 @@
 <script setup lang="ts">
-  import ColorJoker from './ColorJoker.vue';
+  import EraserButton from '../sidePane/EraserButton.vue';
+import ShareButton from '../sidePane/ShareButton.vue';
+import ColorJoker from './ColorJoker.vue';
   import JokerMarker from './JokerMarker.vue';
   import NumberJoker from './NumberJoker.vue';
 </script>
 
 <template>
+  <div class="row">
   <div class="joker-pane">
     <NumberJoker />
     <span class="text">/</span>
@@ -19,74 +22,84 @@
     <JokerMarker index="Joker6" />
     <JokerMarker index="Joker7" />
   </div>
+  <div class="row right" style="margin-top: auto">
+    <ShareButton />
+    <EraserButton />
+  </div>
+  </div>
 </template>
 
-<style>
-.joker-pane {
-  width: fit-content;
-  height: 32px;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -moz-flex;
-  display: -webkit-flex;
-  display: flex;
-  border-radius: 5px;
-  background: white;
-  margin-top: 10px;
-  padding: 4px;
-  gap: 8px;
-  align-items: center;
-}
-  
-.text {
-  font-size: 32px;
-  background-color: transparent;
-}
-  
-.black-square {
-  width: 32px;
-  height: 32px;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -moz-flex;
-  display: -webkit-flex;
-  display: flex;
-  border-radius: 5px;
-  position: relative;
-  background-color: black;
-}
+<style scoped>
+  .row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+  }
 
-.white-square {
-  width: 32px;
-  height: 32px;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -moz-flex;
-  display: -webkit-flex;
-  display: flex;
-  border: black solid 1px;
-  border-radius: 5px;
-  position: relative;
-  background-color: white;
-  box-sizing: border-box;
-}
+  .right {
+    justify-content: right;
+  }
 
-.white-circle {
-  width: 32px;
-  height: 32px;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -moz-flex;
-  display: -webkit-flex;
-  display: flex;
-  border: black solid 2px;
-  border-radius: 50%;
-  position: relative;
-  background-color: white;
-  box-sizing: border-box;
-}
+  .joker-pane {
+    width: fit-content;
+    height: 32px;
+    display: flex;
+    border-radius: 5px;
+    background: white;
+    margin-top: 5px;
+    padding: 4px;
+    gap: 8px;
+    align-items: center;
+  }
+    
+  .text {
+    font-size: 32px;
+    background-color: transparent;
+  }
+    
+  .black-square {
+    width: 32px;
+    height: 32px;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+    border-radius: 5px;
+    position: relative;
+    background-color: black;
+  }
+
+  .white-square {
+    width: 32px;
+    height: 32px;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+    border: black solid 1px;
+    border-radius: 5px;
+    position: relative;
+    background-color: white;
+    box-sizing: border-box;
+  }
+
+  .white-circle {
+    width: 32px;
+    height: 32px;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+    border: black solid 2px;
+    border-radius: 50%;
+    position: relative;
+    background-color: white;
+    box-sizing: border-box;
+  }
 </style>

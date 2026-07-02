@@ -1,7 +1,7 @@
 <script setup lang="tsx">
   import CrossIcon from '@/components/icons/CrossIcon.vue';
   import { useScoreStore } from '@/stores/scoreStore';
-  import type { ColumnId } from '@/types/NochMalTypes';
+  import type { ColumnId, MarkedState } from '@/types/NochMalTypes';
   import { computed } from 'vue';
 
   const { columnId, redText, marginAdjust } = defineProps<{
@@ -17,7 +17,7 @@
 
   const isChecked = computed(
     () => deepState.letterHeaderBoxesState.find(
-      (el) => el.index === columnId)!.isChecked
+      (el: MarkedState) => el.index === columnId)!.isChecked
   );
 
   const handleClick = () => {
@@ -27,15 +27,15 @@
 
 <template>
   <span
-    id={columnId}
-    key={columnId}
-    :class="`main-grid-scoring-boxes ${(marginAdjust ? marginAdjust + '-margin' : '')}`"
+    :id="columnId"
+    :key="columnId"
+    class="main-grid-scoring-boxes"
     @click="handleClick"
   >
     <svg
       :fill="redText ? 'red' : 'black'"
       :stroke="redText ? 'red' : 'black'"
-      strokeWidth={0.5}
+      :strokeWidth="0.5"
       strokeLinecap="round"
       strokeLinejoin="round"
       class="character"
@@ -43,10 +43,9 @@
       <text
         x="47%"
         y="50%"
-        fontSize="24"
+        :fontSize="24"
         textAnchor="middle"
         dominantBaseline="central"
-        class="small"
       >
         {{ columnId }}
       </text>
@@ -55,26 +54,25 @@
   </span>
 </template>
 
-<style>
+<style scoped>
   .main-grid-scoring-boxes {
     width: 32px;
     height: 32px;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -moz-flex;
-    display: -webkit-flex;
     display: flex;
     border-radius: 5px;
     position: relative;
     background-color: white;
   }
 
-  .top-margin{
-    margin-top: 10px;
-  }
-
-  .bottom-margin{
-    margin-bottom: 10px;
+  .character {
+    height: 30px;
+    width: 30px;
+    background-color: transparent;
+    margin: auto;
+    display: inline-block;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
   }
 </style>

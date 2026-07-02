@@ -1,13 +1,7 @@
 <script setup lang="ts">
   import JokerPane from '@/components/nochMal/JokerPane/JokerPane.vue';
-  import MainGridColumn from '@/components/nochMal/mainGrid/MainGridColumn.vue';
   import ScorePane from '@/components/nochMal/scorePane/ScorePane.vue';
-  import ScalingContainer from '@/components/common/ScalingContainer.vue';
-  import {
-    columnAdata, columnBdata, columnCdata, columnDdata, columnEdata,
-    columnFdata, columnGdata, columnHdata, columnIdata, columnJdata,
-    columnKdata, columnLdata, columnMdata, columnNdata, columnOdata
-  } from '@/constants/noch-mal/MainGridBoxes';
+  import MainGrid from '@/components/nochMal/newMainGrid/MainGrid.vue';
   /*
   Auto borad rules:
   every column and row has every color
@@ -19,28 +13,12 @@
 
 <template>
   <!-- <ScalingContainer :height="418" :width="695" > -->
-    <div id="base" class="row base">
-      <div>
-        <div class="row">
-          <MainGridColumn :column="columnAdata" />
-          <MainGridColumn :column="columnBdata" />
-          <MainGridColumn :column="columnCdata" />
-          <MainGridColumn :column="columnDdata" />
-          <MainGridColumn :column="columnEdata" />
-          <MainGridColumn :column="columnFdata" />
-          <MainGridColumn :column="columnGdata" />
-          <MainGridColumn :column="columnHdata" centerLine />
-          <MainGridColumn :column="columnIdata" />
-          <MainGridColumn :column="columnJdata" />
-          <MainGridColumn :column="columnKdata" />
-          <MainGridColumn :column="columnLdata" />
-          <MainGridColumn :column="columnMdata" />
-          <MainGridColumn :column="columnNdata" />
-          <MainGridColumn :column="columnOdata" />
-        </div>
-        <JokerPane />
+    <div id="base" class="base">
+      <div class="row">
+        <MainGrid />
+        <ScorePane />
       </div>
-      <ScorePane />
+      <JokerPane />
     </div>
   <!-- </ScalingContainer> -->
 </template>
@@ -68,20 +46,18 @@
     background-color: #404040;
     padding: 5px;
     box-sizing: border-box;
-    width: 695px;
-    height: 418px;
+    width: 544.25px;
+    height: 574px;
   }
 
   .row {
     display: flex;
     flex-direction: row;
-    gap: 2px;
   }
 
   .column {
     display: flex;
     flex-direction: column;
-    gap: 2px;
   }
 
   .blue {

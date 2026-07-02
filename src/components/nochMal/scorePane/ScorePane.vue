@@ -17,58 +17,71 @@
 
 <template>
   <div class="column right">
-      <div class="row right">
-        <ColorFirstScoringBox :color="Colors.Green" index="R1st" />
-        <ColorLaterScoringBox :color="Colors.Green" index="R2nd" />
-      </div>
-      <div class="row right">
-        <ColorFirstScoringBox :color="Colors.Yellow" index="G1st" />
-        <ColorLaterScoringBox :color="Colors.Yellow" index="G2nd" />
-      </div>
-      <div class="row right">
-        <ColorFirstScoringBox :color="Colors.Blue" index="B1st" />
-        <ColorLaterScoringBox :color="Colors.Blue" index="B2nd" />
-      </div>
-      <div class="row right">
-        <ColorFirstScoringBox :color="Colors.Red" index="Y1st" />
-        <ColorLaterScoringBox :color="Colors.Red" index="Y2nd" />
-      </div>
-      <div class="row right">
-        <ColorFirstScoringBox :color="Colors.Orange" index="O1st" />
-        <ColorLaterScoringBox :color="Colors.Orange" index="O2nd" />
-      </div>
-      <div class="row right">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <ColorFirstScoringBox :color="Colors.Green" index="G1st" />
+          </td>
+          <td>
+            <ColorLaterScoringBox :color="Colors.Green" index="R2nd" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <ColorFirstScoringBox :color="Colors.Yellow" index="Y1st" />
+          </td>
+          <td>
+            <ColorLaterScoringBox :color="Colors.Yellow" index="Y2nd" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <ColorFirstScoringBox :color="Colors.Blue" index="B1st" />
+          </td>
+          <td>
+            <ColorLaterScoringBox :color="Colors.Blue" index="B2nd" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <ColorFirstScoringBox :color="Colors.Red" index="R1st" />
+          </td>
+          <td>
+            <ColorLaterScoringBox :color="Colors.Red" index="R2nd" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <ColorFirstScoringBox :color="Colors.Orange" index="O1st" />
+          </td>
+          <td>
+            <ColorLaterScoringBox :color="Colors.Orange" index="O2nd" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
         <Bonus />
         <span class="score-container">
           <span>=</span>
           <span class="score">{{ colorScore() }}</span>
         </span>
-      </div>
-      <div class="row right">
         <span class="score-label letter-score">A-O</span>
         <span class="score-container">
           <span class="text-green">+</span>
           <span class="score">{{ letterScore() }}</span>
         </span>
-      </div>
-      <div class="row right">
         <ScoreJoker />
         <span class="score-container">
           <span class="text-green">+</span>
           <span class="score">{{ jokerScore() }}</span>
         </span>
-      </div>
-      <div class="row right">
         <ScoreStar />
         <span class="score-container">
           <span class="text-red">-</span>
           <span class="score">{{ starScore() }}</span>
         </span>
-      </div>
-      <div class="row right">
-        <span class="spacer">---------------</span>
-      </div>
-      <div class="row right">
+        <span class="spacer">------</span>
         <span class="score-label letter-score">TOTAL</span>
         <span class="score-container">
           <span>=</span>
@@ -76,17 +89,20 @@
             {{ colorScore() + jokerScore() + letterScore() + starScore() }}
           </span>
         </span>
-      </div>
-      <div class="row right" style="margin-top: auto">
-        <ShareButton />
-        <EraserButton />
-      </div>
     </div>
 </template>
 
 <style scoped>
+  table {
+    width: fit-content;
+  }
+
+  .column {
+    display: flex;
+    flex-direction: column;
+  }
+
   .right {
-    width: 100%;
     display: flex;
     justify-content: right;
   }
@@ -106,11 +122,6 @@
   .bonus {
     width: 94px;
     height: 32px;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -moz-flex;
-    display: -webkit-flex;
     display: flex;
     background-color: transparent;
     font-weight: 1000;
@@ -125,11 +136,6 @@
   .score-container {
     width: 66px;
     height: 32px;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -moz-flex;
-    display: -webkit-flex;
     display: flex;
     border-radius: 5px;
     background: white;
@@ -149,12 +155,8 @@
   }
 
   .score-label {
+    width: fit-content;
     align-items: center;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -moz-flex;
-    display: -webkit-flex;
     display: flex;
     height: 32px;
     color: #fff;
@@ -165,18 +167,12 @@
 
   .letter-score {
     font-size: 28px;
-    padding-right: 8px;
     transform:scale(1.2,1);
   }
 
   .joker-score {
     width: 26px;
     height: 26px;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -moz-flex;
-    display: -webkit-flex;
     display: flex;
     border-radius: 50%;
     position: relative;
@@ -187,11 +183,6 @@
   .small-text {
     height: 100%;
     font-size: 14px;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -moz-flex;
-    display: -webkit-flex;
     display: flex;
     align-items: flex-end;
     padding: 4px;
@@ -201,22 +192,12 @@
     height: 100%;
     font-size: 22px;
     padding-right: 2px;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -moz-flex;
-    display: -webkit-flex;
     display: flex;
     align-items: flex-end;
   }
 
   .spacer {
     align-items: center;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -moz-flex;
-    display: -webkit-flex;
     display: flex;
     height: 18px;
     color: #fff;

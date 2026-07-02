@@ -2,7 +2,7 @@
   defineProps({
     fill: { type: String, default: 'none' },
     stroke: { type: String, default: '#000' },
-    strokeWidth: { type: Number, default: '4' },
+    strokeWidth: { type: Number, default: 4 },
     x: { type: Number, required: true }
   });
 </script>

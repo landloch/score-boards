@@ -10,7 +10,7 @@
       stroke="#000"
       strokeLinecap="round"
       strokeLinejoin="round"
-      strokeWidth="4"
+      :strokeWidth="4"
     >
       <BonusSvgText stroke="#fff" :strokeWidth="7" :x="10">
         B
@@ -53,7 +53,8 @@
       </BonusSvgText>
       <BonusSvgText
         :fill="ColorMap.get(Colors.Orange)"
-        :x="66">
+        :x="66"
+      >
         S
       </BonusSvgText>
       </svg>

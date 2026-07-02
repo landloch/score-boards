@@ -1,10 +1,10 @@
 <script setup lang="ts">
   import CircledIcon from '@/components/icons/CircledIcon.vue';
-import CrossIcon from '@/components/icons/CrossIcon.vue';
-import { ColorMap } from '@/constants/noch-mal/ColorMap';
+  import CrossIcon from '@/components/icons/CrossIcon.vue';
+  import { ColorMap } from '@/constants/noch-mal/ColorMap';
   import { useScoreStore } from '@/stores/scoreStore';
   import { Mark, type Colors, type MarkedState } from '@/types/NochMalTypes';
-import { computed } from 'vue';
+  import { computed } from 'vue';
 
   const { color, index } = defineProps<{
     color: Colors;
