@@ -3,7 +3,7 @@
 import CrossIcon from '@/components/icons/CrossIcon.vue';
 import { ColorMap } from '@/constants/noch-mal/ColorMap';
   import { useScoreStore } from '@/stores/scoreStore';
-  import { Mark, type Colors } from '@/types/NochMalTypes';
+  import { Mark, type Colors, type MarkedState } from '@/types/NochMalTypes';
 
   const { color, index } = defineProps<{
     color: Colors;
@@ -14,7 +14,7 @@ import { ColorMap } from '@/constants/noch-mal/ColorMap';
   const { deepState, setColorBoxMark } = useScoreStore();
 
   const getState = () =>
-    deepState.colorBoxesMarkedState.find((el) => el.index === index)!.mark;
+    deepState.colorBoxesMarkedState.find((el: MarkedState) => el.index === index)!.mark;
 
   const handleClick = () => {
     const nextMark = stateArray[(getState() + 1) % 3];
@@ -28,17 +28,17 @@ import { ColorMap } from '@/constants/noch-mal/ColorMap';
     <svg
       :fill="ColorMap.get(color)"
       :stroke="ColorMap.get(color)"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={0.5}
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width={0.5}
       class="character"
     >
       <text
         x="47%"
         y="50%"
-        fontSize="24"
-        textAnchor="middle"
-        dominantBaseline="central"
+        font-size="24"
+        text-anchor="middle"
+        dominant-baseline="central"
       >
         5
       </text>

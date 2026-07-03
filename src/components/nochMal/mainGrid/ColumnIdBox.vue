@@ -36,16 +36,16 @@
       :fill="redText ? 'red' : 'black'"
       :stroke="redText ? 'red' : 'black'"
       :strokeWidth="0.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      stroke-linecap="round"
+      stroke-linejoin="round"
       class="character"
     >
       <text
         x="47%"
         y="50%"
-        :fontSize="24"
-        textAnchor="middle"
-        dominantBaseline="central"
+        :font-size="24"
+        text-anchor="middle"
+        dominant-baseline="central"
       >
         {{ columnId }}
       </text>

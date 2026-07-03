@@ -32,5 +32,8 @@
       "step3": "Trade dice",
       "step4": "Choose a new die"
     }
+  },
+  "noch-mal": {
+    "title": "Encore!"
   }
 }

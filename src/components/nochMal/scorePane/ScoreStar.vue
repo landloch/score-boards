@@ -7,10 +7,10 @@
     <svg
       stroke="white"
       fill="white"
-      strokeWidth="0"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      viewBox="0 0 24 24"
+      stroke-width="0"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      view-box="0 0 24 24"
       height="28px"
       width="28px"
     >

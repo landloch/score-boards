@@ -2,7 +2,7 @@
 import CircledIcon from '@/components/icons/CircledIcon.vue';
 import CrossIcon from '@/components/icons/CrossIcon.vue';
 import { useScoreStore } from '@/stores/scoreStore';
-import { type Colors, Mark } from '@/types/NochMalTypes';
+import { type Colors, Mark, type MarkedState } from '@/types/NochMalTypes';
 
 
 const { score, color, index } = defineProps<{
@@ -12,7 +12,7 @@ const { score, color, index } = defineProps<{
   const { deepState, setColorBoxMark } = useScoreStore();
 
   const getState = () =>
-    deepState.colorBoxesMarkedState.find((el) => el.index === index)!.mark;
+    deepState.colorBoxesMarkedState.find((el: MarkedState) => el.index === index)!.mark;
 
   function handleClick() {
     const nextMark = stateArray[(getState() + 1) % 3];
@@ -27,17 +27,17 @@ const { score, color, index } = defineProps<{
       <svg
         fill={ColorMap.get(color)}
         stroke={ColorMap.get(color)}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={0.5}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width={0.5}
         class="character"
       >
         <text
           x="47%"
           y="50%"
           fontSize="24"
-          textAnchor="middle"
-          dominantBaseline="central"
+          text-anchor="middle"
+          dominant-baseline="central"
         >
           {{ score }}
         </text>

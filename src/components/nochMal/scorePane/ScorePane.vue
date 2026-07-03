@@ -16,8 +16,8 @@
 </script>
 
 <template>
-  <div class="column right">
-    <table>
+  <div class="right">
+    <table class="score-pane">
       <tbody>
         <tr>
           <td>
@@ -59,50 +59,93 @@
             <ColorLaterScoringBox :color="Colors.Orange" index="O2nd" />
           </td>
         </tr>
+        <tr>
+          <td colspan="2"><Bonus /></td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <span class="score-container">
+              <span>=</span>
+              <span class="score">{{ colorScore() }}</span>
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <span class="score-label letter-score">A-O</span>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <span class="score-container">
+              <span class="text-green">+</span>
+              <span class="score">{{ letterScore() }}</span>
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <ScoreJoker />
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <span class="score-container">
+              <span class="text-green">+</span>
+              <span class="score">{{ jokerScore() }}</span>
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <ScoreStar />
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <span class="score-container">
+              <span class="text-red">-</span>
+              <span class="score">{{ starScore() }}</span>
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <span class="spacer">------</span>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <span class="score-label letter-score">TOTAL</span>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <span class="score-container">
+              <span>=</span>
+              <span class="score">
+                {{ colorScore() + jokerScore() + letterScore() + starScore() }}
+              </span>
+            </span>
+          </td>
+        </tr>
       </tbody>
     </table>
-        <Bonus />
-        <span class="score-container">
-          <span>=</span>
-          <span class="score">{{ colorScore() }}</span>
-        </span>
-        <span class="score-label letter-score">A-O</span>
-        <span class="score-container">
-          <span class="text-green">+</span>
-          <span class="score">{{ letterScore() }}</span>
-        </span>
-        <ScoreJoker />
-        <span class="score-container">
-          <span class="text-green">+</span>
-          <span class="score">{{ jokerScore() }}</span>
-        </span>
-        <ScoreStar />
-        <span class="score-container">
-          <span class="text-red">-</span>
-          <span class="score">{{ starScore() }}</span>
-        </span>
-        <span class="spacer">------</span>
-        <span class="score-label letter-score">TOTAL</span>
-        <span class="score-container">
-          <span>=</span>
-          <span class="score">
-            {{ colorScore() + jokerScore() + letterScore() + starScore() }}
-          </span>
-        </span>
-    </div>
+  </div>
 </template>
 
 <style scoped>
-  table {
+  .score-pane {
     width: fit-content;
-  }
 
-  .column {
-    display: flex;
-    flex-direction: column;
+    td {
+      display: flex;
+      justify-content: right;
+    }
   }
 
   .right {
+    width: 100%;
     display: flex;
     justify-content: right;
   }
@@ -117,14 +160,6 @@
     transform: translate(-50%, -50%);
     top: 50%;
     left: 50%;
-  }
-
-  .bonus {
-    width: 94px;
-    height: 32px;
-    display: flex;
-    background-color: transparent;
-    font-weight: 1000;
   }
 
   .text {
@@ -166,7 +201,7 @@
   }
 
   .letter-score {
-    font-size: 28px;
+    font-size: 24px;
     transform:scale(1.2,1);
   }
 
@@ -204,9 +239,7 @@
     box-sizing: border-box;
     padding: 4px;
     letter-spacing: 1px;
-    font-size: 28px;
-    transform:scale(1.2,1);
-    transform:translate(0px, 0px);
+    font-size: 24px;
   }
 
   .resset-button {

@@ -15,9 +15,12 @@
   const scale = ref(1);
 
   function updateScale() {
-    const sx = window.innerWidth / props.width
-    const sy = window.innerHeight / props.height
-    scale.value = Math.min(sx, sy)
+    const sx = window.innerWidth / props.width;
+    const sy = window.innerHeight / props.height;
+    scale.value = Math.min(sx, sy);
+    console.log('sx:', sx);
+    console.log('sy:', sy);
+    console.log('scale.value:', scale.value);
   }
 
   onMounted(() => {

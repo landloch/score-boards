@@ -8,11 +8,11 @@
       <svg
         fill="#404040"
         stroke="#404040"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        stroke-linecap="round"
+        stroke-linejoin="round"
         class="character"
       >
-        <text x="45%" y="52%" fontSize="24" textAnchor="middle" dominantBaseline="central">
+        <text x="45%" y="52%" font-size="24" text-anchor="middle" dominant-baseline="central">
           !
         </text>
       </svg>

@@ -7,7 +7,6 @@ import ColorJoker from './ColorJoker.vue';
 </script>
 
 <template>
-  <div class="row">
   <div class="joker-pane">
     <NumberJoker />
     <span class="text">/</span>
@@ -21,11 +20,6 @@ import ColorJoker from './ColorJoker.vue';
     <JokerMarker index="Joker5" />
     <JokerMarker index="Joker6" />
     <JokerMarker index="Joker7" />
-  </div>
-  <div class="row right" style="margin-top: auto">
-    <ShareButton />
-    <EraserButton />
-  </div>
   </div>
 </template>
 

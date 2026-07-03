@@ -32,5 +32,8 @@
       "step3": "Trocar dados",
       "step4": "Escolher um novo dado"
     }
+  },
+  "noch-mal": {
+    "title": "Plenus"
   }
 }

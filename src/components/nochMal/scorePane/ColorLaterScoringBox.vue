@@ -29,17 +29,17 @@
     <svg
       :fill="ColorMap.get(color)"
       :stroke="ColorMap.get(color)"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={0.5}
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width={0.5}
       class="character"
     >
       <text
         x="47%"
         y="50%"
-        fontSize="24"
-        textAnchor="middle"
-        dominantBaseline="central"
+        font-size="24"
+        text-anchor="middle"
+        dominant-baseline="central"
       >
         3
       </text>

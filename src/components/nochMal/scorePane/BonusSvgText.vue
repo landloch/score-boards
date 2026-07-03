@@ -2,7 +2,7 @@
   defineProps({
     fill: { type: String, default: 'none' },
     stroke: { type: String, default: '#000' },
-    strokeWidth: { type: Number, default: 4 },
+    strokeWidth: { type: Number, default: 3 },
     x: { type: Number, required: true }
   });
 </script>
@@ -11,11 +11,11 @@
   <text
     :fill="fill"
     :stroke="stroke"
-    :strokeWidth="strokeWidth"
+    :stroke-width="strokeWidth"
     :x="x + 'px'"
     y="50%"
-    textAnchor="middle"
-    dominantBaseline="central"
+    text-anchor="middle"
+    dominant-baseline="central"
     class="text"
   >
     <slot></slot>
@@ -24,8 +24,6 @@
 
 <style scoped>
   .text {
-    font-size: 24px;
-    transform:scaleX(1.2);
-    -webkit-transform: scaleX(1.2);
+    font-size: 20px;
   }
 </style>

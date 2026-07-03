@@ -2,58 +2,66 @@
   import { Colors } from "@/types/NochMalTypes.ts";
   import BonusSvgText from "./BonusSvgText.vue";
   import { ColorMap } from "@/constants/noch-mal/ColorMap.ts";
+  import { ref } from "vue";
+
+  const bX = ref(8);
+  const oX = ref(20);
+  const nX = ref(32);
+  const uX = ref(44);
+  const sX = ref(56);
+
 </script>
 
 <template>
   <span class="bonus">
     <svg
       stroke="#000"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      :strokeWidth="4"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      :stroke-width="3"
     >
-      <BonusSvgText stroke="#fff" :strokeWidth="7" :x="10">
+      <BonusSvgText stroke="#fff" :strokeWidth="6" :x="bX">
         B
       </BonusSvgText>
-      <BonusSvgText stroke="#fff" :strokeWidth="7" :x="24">
+      <BonusSvgText stroke="#fff" :strokeWidth="6" :x="oX">
         O
       </BonusSvgText>
-      <BonusSvgText stroke="#fff" :strokeWidth="7" :x="38">
+      <BonusSvgText stroke="#fff" :strokeWidth="6" :x="nX">
         N
       </BonusSvgText>
-      <BonusSvgText stroke="#fff" :strokeWidth="7" :x="52">
+      <BonusSvgText stroke="#fff" :strokeWidth="6" :x="uX">
         U
       </BonusSvgText>
-      <BonusSvgText stroke="#fff" :strokeWidth="7" :x="66">
+      <BonusSvgText stroke="#fff" :strokeWidth="6" :x="sX">
         S
       </BonusSvgText>
       <BonusSvgText
         :fill="ColorMap.get(Colors.Green)"
-        :x="10"
+        :x="bX"
       >
         B
       </BonusSvgText>
       <BonusSvgText
         :fill="ColorMap.get(Colors.Yellow)"
-        :x="24"
+        :x="oX"
       >
         O
       </BonusSvgText>
       <BonusSvgText
         :fill="ColorMap.get(Colors.Blue)"
-        :x="38"
+        :x="nX"
       >
         N
       </BonusSvgText>
       <BonusSvgText
         :fill="ColorMap.get(Colors.Red)"
-        :x="52"
+        :x="uX"
       >
         U
       </BonusSvgText>
       <BonusSvgText
         :fill="ColorMap.get(Colors.Orange)"
-        :x="66"
+        :x="sX"
       >
         S
       </BonusSvgText>
@@ -63,13 +71,8 @@
 
 <style scoped>
   .bonus {
-    width: 94px;
-    height: 32px;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -moz-flex;
-    display: -webkit-flex;
+    width: 66px;
+    height: 28px;
     display: flex;
     background-color: transparent;
     font-weight: 1000;

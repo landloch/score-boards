@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import CrossIcon from '@/components/icons/CrossIcon.vue';
-import { useScoreStore } from '@/stores/scoreStore';
+  import { useScoreStore } from '@/stores/scoreStore';
+import type { CheckedState } from '@/types/NochMalTypes';
   import { computed } from 'vue';
 
   const { index } = defineProps<{ index: string }>();
@@ -11,7 +12,7 @@ import { useScoreStore } from '@/stores/scoreStore';
   } = useScoreStore();
 
   const isChecked = computed(
-    () => deepState.jokerBoxesState.find((el) => el.index === index)!.isChecked
+    () => deepState.jokerBoxesState.find((el: CheckedState) => el.index === index)!.isChecked
   );
 
   const handleClick = () => {
@@ -24,16 +25,16 @@ import { useScoreStore } from '@/stores/scoreStore';
     <svg
       fill="black"
       stroke="black"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      stroke-linecap="round"
+      stroke-linejoin="round"
       class="character"
     >
       <text
         x="45%"
         y="52%"
-        fontSize="24"
-        textAnchor="middle"
-        dominantBaseline="central"
+        font-size="24"
+        text-anchor="middle"
+        dominant-baseline="central"
       >
         !
       </text>

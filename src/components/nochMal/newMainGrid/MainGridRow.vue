@@ -20,7 +20,7 @@ import ColumnLaterScoringBox from '../mainGrid/ColumnLaterScoringBox.vue';
         marginAdjust="bottom"
       />
     </td>
-    <td class="spacer"></td>
+    <td><span class="spacer"></span></td>
     <td v-for="box in column.boxesData">
       <MainGridBox
         :key="box.index"
@@ -28,7 +28,7 @@ import ColumnLaterScoringBox from '../mainGrid/ColumnLaterScoringBox.vue';
         :centerLine="centerLine"
       />
     </td>
-    <td class="spacer"></td>
+    <td><span class="spacer"></span></td>
     <td>
       <ColumnFirstScoringBox
         :columnId="column.column"
@@ -52,9 +52,11 @@ import ColumnLaterScoringBox from '../mainGrid/ColumnLaterScoringBox.vue';
 <style scoped>
   .spacer {
     width: 10px;
+    display: block;
   }
 
   td {
     padding: 0;
+    width: fit-content;
   }
 </style>
