@@ -5,7 +5,7 @@
 <template>
   <svg
     stroke="white"
-    fill="#fff5"
+    fill="var(--semi-clear)"
     strokeWidth="1.5"
     strokeLinecap="round"
     strokeLinejoin="round"

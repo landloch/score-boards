@@ -72,7 +72,7 @@
 <style scoped>
   .bonus {
     width: 66px;
-    height: 28px;
+    height: 24px;
     display: flex;
     background-color: transparent;
     font-weight: 1000;

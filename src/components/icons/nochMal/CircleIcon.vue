@@ -10,7 +10,7 @@
   .circle {
     height: 28px;
     width: 28px;
-    background-color: #fff5;
+    background-color: var(--semi-clear);
     border-radius: 50%;
     display: inline-block;
     position: absolute;

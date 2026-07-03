@@ -30,7 +30,7 @@ import { ColorMap } from '@/constants/noch-mal/ColorMap';
       :stroke="ColorMap.get(color)"
       stroke-linecap="round"
       stroke-linejoin="round"
-      stroke-width={0.5}
+      :stroke-width="0.5"
       class="character"
     >
       <text
@@ -73,7 +73,7 @@ import { ColorMap } from '@/constants/noch-mal/ColorMap';
     width: 32px;
     height: 32px;
     border-radius: 5px;
-    background-color: #fff5;
+    background-color: var(--semi-clear);
     display: inline-block;
     position: absolute;
     transform: translate(-50%, -50%);

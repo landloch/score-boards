@@ -31,7 +31,7 @@
       :stroke="ColorMap.get(color)"
       stroke-linecap="round"
       stroke-linejoin="round"
-      stroke-width={0.5}
+      :stroke-width="0.5"
       class="character"
     >
       <text
@@ -52,11 +52,6 @@
   .box {
     width: 32px;
     height: 32px;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -moz-flex;
-    display: -webkit-flex;
     display: flex;
     border-radius: 5px;
     position: relative !important;
@@ -78,7 +73,7 @@
     width: 32px;
     height: 32px;
     border-radius: 5px;
-    background-color: #fff5;
+    background-color: var(--semi-clear);
     display: inline-block;
     position: absolute;
     transform: translate(-50%, -50%);

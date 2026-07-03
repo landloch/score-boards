@@ -37,6 +37,7 @@
     --orange: #ff6600;
     --red: #cc0f4f;
     --yellow: #ffcc00;
+    --semi-clear: #fff8;
     user-select: none;
   }
 

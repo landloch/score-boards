@@ -17,7 +17,7 @@
 
 <template>
   <div class="right">
-    <table class="score-pane">
+    <table>
       <tbody>
         <tr>
           <td>
@@ -135,12 +135,12 @@
 </template>
 
 <style scoped>
-  .score-pane {
+  table {
     width: fit-content;
+    height: fit-content;
 
     td {
-      display: flex;
-      justify-content: right;
+      text-align: right;
     }
   }
 
@@ -148,18 +148,6 @@
     width: 100%;
     display: flex;
     justify-content: right;
-  }
-
-  .light {
-    width: 32px;
-    height: 32px;
-    border-radius: 5px;
-    background-color: #fff5;
-    display: inline-block;
-    position: absolute;
-    transform: translate(-50%, -50%);
-    top: 50%;
-    left: 50%;
   }
 
   .text {
@@ -170,14 +158,14 @@
 
   .score-container {
     width: 66px;
-    height: 32px;
+    height: 28px;
     display: flex;
     border-radius: 5px;
     background: white;
     align-items: center;
     box-sizing: border-box;
     padding: 4px;
-    font-size: 32px;
+    font-size: 28px;
     justify-content: space-between;
   }
 
@@ -190,14 +178,15 @@
   }
 
   .score-label {
-    width: fit-content;
+    width: 100%;
     align-items: center;
     display: flex;
-    height: 32px;
+    height: 2px;
     color: #fff;
     box-sizing: border-box;
     padding: 4px;
     letter-spacing: 1px;
+    justify-content: end;
   }
 
   .letter-score {
@@ -225,7 +214,7 @@
 
   .score {
     height: 100%;
-    font-size: 22px;
+    font-size: 20px;
     padding-right: 2px;
     display: flex;
     align-items: flex-end;
