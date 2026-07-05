@@ -12,7 +12,7 @@
     resetLetterScoreBoxes,
   } = useScoreStore();
 
-  const resset = () => {
+  function resset() {
     resetMainGrid();
     resetJokers();
     resetColorBoxes();
@@ -34,14 +34,14 @@
         class="modal-title"
         :style="{ marginBottom: '20px' }"
       >
-      <span class="modal-title-text">Clear sheet?</span>
+      <span class="modal-title-text">{{ $t("noch-mal.clear-sheet") }}?</span>
       </div>
       <div class="modal-actions">
         <button
           class="modal-button"
           @click="() => isModalVisible = false"
         >
-          No
+          {{ $t("modal.no") }}
         </button>
         <button
           class="modal-button"
@@ -50,7 +50,7 @@
             isModalVisible = false;
           }"
         >
-          Yes
+          {{ $t("modal.yes") }}
         </button>
       </div>
     </div>
@@ -84,7 +84,7 @@
 
   .modal {
     height: 400px;
-    width: 350px;
+    width: 450px;
     background-color: #404040;
     display: flex;
     flex-direction: column;
@@ -127,8 +127,11 @@
   }
 
   .modal-button {
-    font-size: 30px;
+    font-size: 26px;
     width: 70px;
     height: 35px;
+    font-family: "Bangers", sans-serif;
+    background-color: #fff;
+    border-radius: 5px;
   }
 </style>

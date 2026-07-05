@@ -3,6 +3,8 @@
     "title": "BG Folha de Pontos"
   },
   "modal": {
+    "yes": "Sim",
+    "no": "Não",
     "close": "Fechar",
     "qrcode": {
       "title": "Compartilhar"
@@ -34,6 +36,7 @@
     }
   },
   "noch-mal": {
-    "title": "PLENUS"
+    "title": "PLENUS",
+    "clear-sheet": "Limpar Folha"
   }
 }

@@ -3,6 +3,8 @@
     "title": "BG Hoja de Puntuación"
   },
    "modal": {
+    "yes": "Si",
+    "no": "No",
     "close": "Cerrar",
     "qrcode": {
       "title": "Compartir"
@@ -34,6 +36,7 @@
     }
   },
   "noch-mal": {
-    "title": "PLENUS"
+    "title": "PLENUS",
+    "clear-sheet": "Borrar la Hoja"
   }
 }

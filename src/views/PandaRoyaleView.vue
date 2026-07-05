@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { onBeforeMount, ref } from 'vue';
+  import { onBeforeMount, ref, watch } from 'vue';
   import { InputRow, type InputCell } from '@/types/PandaRoyalTypes';
   import SquareButton from '@/components/common/SquareButton.vue';
   import ScalingContainer from '@/components/common/ScalingContainer.vue';
@@ -15,6 +15,18 @@
 
   const rows = ref<InputRow[]>([]);
   onBeforeMount(() => {
+    const storeStateString = sessionStorage.getItem('panda-royale-sheet-state');
+    if (storeStateString) {
+      const storeState = JSON.parse(storeStateString) as InputRow[];
+      storeState.forEach(row => {
+        const valueCells: InputCell[] = [];
+        row.valueCells.forEach(cell => {
+          valueCells.push({ column: cell.column, value: cell.value });
+        });
+        rows.value.push(new InputRow(row.index, valueCells));
+      });
+      return;
+    }
     const valueCells: InputCell[] = [];
     valueCells.push({ column: 'A', value: null });
     rows.value.push(new InputRow(1, valueCells));
@@ -46,6 +58,10 @@
       clearRow(i);
     }
   }
+
+  watch(rows.value, (newValue: any, oldValue: any) => {
+    sessionStorage.setItem('panda-royale-sheet-state', JSON.stringify(newValue));
+  })
 </script>
 
 <template>

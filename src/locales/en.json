@@ -3,6 +3,8 @@
     "title": "BG Score Sheets"
   },
    "modal": {
+    "yes": "Yes",
+    "no": "No",
     "close": "Close",
     "qrcode": {
       "title": "Share"
@@ -34,6 +36,7 @@
     }
   },
   "noch-mal": {
-    "title": "Encore!"
+    "title": "Encore!",
+    "clear-sheet": "Clear Sheet"
   }
 }
