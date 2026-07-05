@@ -35,9 +35,3 @@ export async function loadLocale(locale: string) {
   document.title = i18n.global.t('app.title');
   localStorage.setItem('locale', locale);
 }
-
-const savedLocale =
-  localStorage.getItem('locale') ??
-    SUPPORTED_LOCALES.includes(navigator.language.substring(0,2)) ?
-      navigator.language.substring(0,2) : 'en';
-await loadLocale(savedLocale);
