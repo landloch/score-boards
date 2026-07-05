@@ -1,0 +1,1 @@
+var e={title:`BG Hoja de Puntos`},t={app:e,"qrcode-modal":{title:`Compartilhar`,close:`Cerrar`},"panda-royale":{round:`Ronda`,"cheat-sheet":{step1:`Tirare i dadi e calcolare il punteggio`,step2:`Determinare chi ottiene i dadi pietà`,step3:`Scambiare i dadi`,step4:`Scegliere un nuovo dado`}}};export{e as app,t as default};
