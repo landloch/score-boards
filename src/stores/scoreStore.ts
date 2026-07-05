@@ -1,4 +1,4 @@
-import { ref, computed, reactive } from 'vue';
+import { reactive } from 'vue';
 import { defineStore } from 'pinia';
 import { Mark, type CheckedState,
   type MarkedState, type MainGridCheckedState
@@ -7,7 +7,7 @@ import {
   colorScoreingBoxesInitialState, letterHeaderBoxesInitalState,
   letterScoreingBoxesInitialState, jokerBoxesInitialState,
   mainGridInitialState,
-} from '@/hooks/reducerDefs';
+} from '@/constants/noch-mal/InitialStates';
 
 export const useScoreStore = defineStore('score', () => {
   const deepState = reactive({

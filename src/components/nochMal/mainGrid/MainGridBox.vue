@@ -18,7 +18,7 @@
 
   const isChecked = computed(
     () => deepState.mainGridState.find(
-      (el) => el.index === box.index
+      (el: BoxData) => el.index === box.index
     )!.isChecked
   );
 

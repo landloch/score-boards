@@ -15,7 +15,7 @@
 
 <template>
   <div class="backdrop">
-    <!-- <ScalingContainer :height="667" :width="461" > -->
+    <ScalingContainer :height="644" :width="455" >
       <div class="base">
         <Header />
         <div class="row">
@@ -24,7 +24,7 @@
         </div>
         <JokerPane />
       </div>
-    <!-- </ScalingContainer> -->
+    </ScalingContainer>
   </div>
 </template>
 

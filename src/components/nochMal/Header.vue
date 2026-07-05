@@ -1,28 +1,16 @@
 <script setup lang="ts">
-  import HorizontalArrow from '@/components/panda-royale/HorizontalArrow.vue';
-  import SquareButton from '@/components/common/SquareButton.vue';
-  import ReturnIcon from '@/components/icons/ReturnIcon.vue';
-  import { useRoute } from 'vue-router';
-  import router from '@/router/index.ts';
+  import Title from './NochMalTitle.vue';
   import Settings from '../common/Settings.vue';
-  import EraserButton from './sidePane/EraserButton.vue';
-  import Title from './Title.vue';
+  import ReturnButton from '../common/ReturnButton.vue';
 </script>
 
 <template>
   <div class="header">
-    <SquareButton
-      :action="() => router.push(`/`)"
-      :height="34"
-      :width="34"
-    >
-      <ReturnIcon color="#333" :height="40" :width="40" />
-    </SquareButton>
+    <ReturnButton />
     <div class="title-card">
       <Title :text="$t('noch-mal.title')" />
     </div>
     <span class="right-element">
-      <EraserButton />
       <Settings />
     </span>
   </div>
@@ -60,7 +48,4 @@
     color: white;
     margin: 0;
   }
-
-  
-
 </style>

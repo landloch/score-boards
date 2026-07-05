@@ -4,7 +4,7 @@
   const props = defineProps({
     text: {
       type: String,
-      default: 'CHAMPION'
+      default: 'Title'
     },
     width: {
       type: Number,
@@ -16,19 +16,27 @@
     },
     outerStroke: {
       type: String,
+      default: '#fff'
+    },
+    middleStroke: {
+      type: String,
       default: '#000'
     },
     innerStroke: {
       type: String,
-      default: '#fff'
+      default: '#ffa'
     },
     outerStrokeWidth: {
       type: Number,
       default: 12
     },
+    middleStrokeWidth: {
+      type: Number,
+      default: 6
+    },    
     innerStrokeWidth: {
       type: Number,
-      default: 7
+      default: 2
     },
     gradientTop: {
       type: String,
@@ -87,7 +95,15 @@
       :stroke-width="outerStrokeWidth"
     />
 
-    <!-- Inner white outline -->
+    <!-- Middle white outline -->
+    <use
+      :href="`#${textId}`"
+      fill="none"
+      :stroke="middleStroke"
+      :stroke-width="middleStrokeWidth"
+    />
+
+    <!-- Inner yellow outline -->
     <use
       :href="`#${textId}`"
       fill="none"
@@ -107,11 +123,15 @@
   .svg-title {
     font-size: 48px;
     font-weight: 900;
+    transform: scaleX(1.1);
+    transform-origin: center center;
+    font-family: "Bangers", sans-serif;
 
     text-anchor: middle;
     dominant-baseline: middle;
 
     stroke-linejoin: round;
     paint-order: stroke fill;
+    letter-spacing: 3px;
   }
 </style>

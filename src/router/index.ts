@@ -1,3 +1,4 @@
+import HomeView from '@/views/HomeView.vue';
 import NochMalView from '@/views/NochMalView.vue';
 import PandaRoyaleView from '@/views/PandaRoyaleView.vue';
 import { createRouter, createWebHistory } from 'vue-router';
@@ -8,7 +9,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'bg-selection',
-      component: PandaRoyaleView
+      component: HomeView
     },
     {
       path: '/panda-royale',

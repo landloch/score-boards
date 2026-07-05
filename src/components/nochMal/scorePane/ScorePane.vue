@@ -1,14 +1,15 @@
 <script setup lang="ts">
   import { useScoreStore } from '@/stores/scoreStore';
-  import { ref } from 'vue';
   import { Colors } from '@/types/NochMalTypes.ts';
-  import ShareButton from '../sidePane/ShareButton.vue';
   import EraserButton from '../sidePane/EraserButton.vue';
   import ScoreStar from './ScoreStar.vue';
   import ScoreJoker from './ScoreJoker.vue';
   import Bonus from './Bonus.vue';
   import ColorFirstScoringBox from './ColorFirstScoringBox.vue';
   import ColorLaterScoringBox from './ColorLaterScoringBox.vue';
+import { useFontStore } from '@/stores/fontStore.ts';
+
+  const fontStore = useFontStore();
 
   const {
     colorScore, letterScore, jokerScore, starScore
@@ -66,20 +67,20 @@
           <td colspan="2">
             <span class="score-container">
               <span>=</span>
-              <span class="score">{{ colorScore() }}</span>
+              <span :class="`score font-${fontStore.font}`">{{ colorScore() }}</span>
             </span>
           </td>
         </tr>
         <tr>
           <td colspan="2">
-            <span class="score-label letter-score">A-O</span>
+            <span class="score-label">A-O</span>
           </td>
         </tr>
         <tr>
           <td colspan="2">
             <span class="score-container">
               <span class="text-green">+</span>
-              <span class="score">{{ letterScore() }}</span>
+              <span :class="`score font-${fontStore.font}`">{{ letterScore() }}</span>
             </span>
           </td>
         </tr>
@@ -92,7 +93,7 @@
           <td colspan="2">
             <span class="score-container">
               <span class="text-green">+</span>
-              <span class="score">{{ jokerScore() }}</span>
+              <span :class="`score font-${fontStore.font}`">{{ jokerScore() }}</span>
             </span>
           </td>
         </tr>
@@ -105,7 +106,7 @@
           <td colspan="2">
             <span class="score-container">
               <span class="text-red">-</span>
-              <span class="score">{{ starScore() }}</span>
+              <span :class="`score font-${fontStore.font}`">{{ starScore() }}</span>
             </span>
           </td>
         </tr>
@@ -116,16 +117,23 @@
         </tr>
         <tr>
           <td colspan="2">
-            <span class="score-label letter-score">TOTAL</span>
+            <span class="score-label">TOTAL</span>
           </td>
         </tr>
         <tr>
           <td colspan="2">
             <span class="score-container">
               <span>=</span>
-              <span class="score">
+              <span :class="`score font-${fontStore.font}`">
                 {{ colorScore() + jokerScore() + letterScore() + starScore() }}
               </span>
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <span class="score-label">
+              <EraserButton />
             </span>
           </td>
         </tr>
@@ -138,9 +146,11 @@
   table {
     width: fit-content;
     height: fit-content;
+    padding: 0;
+    border: none;
 
     td {
-      text-align: right;
+      padding: 0;
     }
   }
 
@@ -148,12 +158,6 @@
     width: 100%;
     display: flex;
     justify-content: right;
-  }
-
-  .text {
-    font-size: 24px;
-    transform:scaleX(1.2);
-    -webkit-transform: scaleX(1.2);
   }
 
   .score-container {
@@ -181,22 +185,19 @@
     width: 100%;
     align-items: center;
     display: flex;
-    height: 2px;
+    height: fit-content;
     color: #fff;
     box-sizing: border-box;
-    padding: 4px;
+    padding: 1px;
     letter-spacing: 1px;
     justify-content: end;
-  }
-
-  .letter-score {
-    font-size: 24px;
-    transform:scale(1.2,1);
+    font-size: 22px;
+    line-height: 1;
   }
 
   .joker-score {
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    height: 24px;
     display: flex;
     border-radius: 50%;
     position: relative;
@@ -217,28 +218,17 @@
     font-size: 20px;
     padding-right: 2px;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
   }
 
   .spacer {
     align-items: center;
     display: flex;
-    height: 18px;
+    height: 16px;
     color: #fff;
     box-sizing: border-box;
     padding: 4px;
     letter-spacing: 1px;
     font-size: 24px;
-  }
-
-  .resset-button {
-    width: 32px;
-    height: 32px;
-    border-radius: 5px;
-    background: white;
-    align-items: center;
-    box-sizing: border-box;
-    justify-content: space-between;
-    position: relative;
   }
 </style>

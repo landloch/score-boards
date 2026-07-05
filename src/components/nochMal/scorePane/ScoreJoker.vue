@@ -30,7 +30,7 @@
     display: -moz-flex;
     display: -webkit-flex;
     display: flex;
-    height: 32px;
+    height: 28px;
     color: #fff;
     box-sizing: border-box;
     padding: 4px;
@@ -53,8 +53,8 @@
   }
 
   .character {
-    height: 30px;
-    width: 30px;
+    height: 26px;
+    width: 26px;
     background-color: transparent;
     margin: auto;
     display: inline-block;
@@ -67,13 +67,8 @@
   .small-text {
     height: 100%;
     font-size: 14px;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -moz-flex;
-    display: -webkit-flex;
     display: flex;
     align-items: flex-end;
-    padding: 4px;
+    margin-left: 4px;
   }
 </style>
