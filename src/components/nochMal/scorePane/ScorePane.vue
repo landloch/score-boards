@@ -25,7 +25,7 @@ import { useFontStore } from '@/stores/fontStore.ts';
             <ColorFirstScoringBox :color="Colors.Green" index="G1st" />
           </td>
           <td>
-            <ColorLaterScoringBox :color="Colors.Green" index="R2nd" />
+            <ColorLaterScoringBox :color="Colors.Green" index="G2nd" />
           </td>
         </tr>
         <tr>
