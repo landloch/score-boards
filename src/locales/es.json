@@ -33,10 +33,14 @@
       "step2": "Determinar qué jugadores reciben dados piadosos",
       "step3": "Canjear dados",
       "step4": "Elegir un nuevo dado"
+    },
+    "modal": {
+      "confirm-clear-row": "Borrar la linea",
+      "confirm-clear-all": "Borrar todo?"
     }
   },
   "noch-mal": {
     "title": "PLENUS",
-    "clear-sheet": "Borrar la Hoja"
+    "clear-sheet": "Borrar la hoja?"
   }
 }

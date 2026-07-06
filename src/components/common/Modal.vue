@@ -1,10 +1,17 @@
 <script setup lang="ts">
   import { onMounted, onUnmounted, ref } from 'vue';
+  import { useI18n } from 'vue-i18n';
+
+  const { t } = useI18n();
 
   const props = defineProps({
     show: Boolean,
     width: { type: Number, default: 315 },
-    height: { type: Number, default: 400 }
+    height: { type: Number, default: 400 },
+    action: Function,
+    actionLabel: String,
+    closeLabel: String
+
   });
 
   const emit = defineEmits(['close']);
@@ -38,10 +45,17 @@
           <slot></slot>
           <div class="modal-footer">
             <button
-              class="modal-default-button"
+              class="modal-button"
               @click="$emit('close')"
             >
-              {{ $t('modal.close') }}
+              {{ closeLabel ?? $t('modal.close') }}
+            </button>
+            <button
+              v-if="action"
+              class="modal-button"
+              @click="() => action!()"
+            >
+              {{ actionLabel ?? $t('modal.yes') }}
             </button>
           </div>
         </div>
@@ -67,12 +81,13 @@
     padding: 10px;
     background-color: #fff;
     border-radius: 2px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+    box-shadow: 0 2px 8px rgba(0action, 0, 0, 0.33);
     transition: all 0.3s ease;
     top: 50%;
     left: 50%;
     position: absolute;
     transform-origin: center center;
+    -webkit-transform: translate(-50%, -50%) scale(var(--modal-scale, 1));
     transform: translate(-50%, -50%) scale(var(--modal-scale, 1));
     display: flex;
     flex-direction: column;
@@ -87,8 +102,16 @@
   .modal-footer {
     margin-top: auto;
     height: fit-content;
-    align-self: flex-end;
+    display: flex;
+    justify-content: space-around;
   }
+
+  .modal-button {
+    background-color: #fff;
+    border-radius: 5px;
+    width: 70px;
+  }
+
   .modal-enter-from {
     opacity: 0;
   }

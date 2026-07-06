@@ -33,10 +33,14 @@
       "step2": "Determine which players earn pity die",
       "step3": "Trade dice",
       "step4": "Choose a new die"
+    },
+    "modal": {
+      "confirm-clear-row": "Erase row",
+      "confirm-clear-all": "Erase all?"
     }
   },
   "noch-mal": {
     "title": "Encore!",
-    "clear-sheet": "Clear Sheet"
+    "clear-sheet": "Erase all?"
   }
 }

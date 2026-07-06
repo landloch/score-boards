@@ -33,10 +33,14 @@
       "step2": "Determinar quais os jogadores que ganham um dado de consolação",
       "step3": "Trocar dados",
       "step4": "Escolher um novo dado"
+    },
+    "modal": {
+      "confirm-clear-row": "Apagar a linha",
+      "confirm-clear-all": "Apagar tudo?"
     }
   },
   "noch-mal": {
     "title": "PLENUS",
-    "clear-sheet": "Limpar Folha"
+    "clear-sheet": "Apagar tudo?"
   }
 }

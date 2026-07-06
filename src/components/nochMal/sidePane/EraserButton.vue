@@ -1,7 +1,11 @@
 <script setup lang="ts">
-  import EraserIcon from '@/components/icons/EraserIcon.vue';
+  import Modal from '@/components/common/Modal.vue';
+import EraserIcon from '@/components/icons/EraserIcon.vue';
   import { useScoreStore } from '@/stores/scoreStore';
   import { ref } from 'vue';
+  import { useI18n } from 'vue-i18n';
+
+  const { t } = useI18n();
 
   const isModalVisible = ref(false);
   const {
@@ -18,6 +22,7 @@
     resetColorBoxes();
     resetLetterHeaderBoxes();
     resetLetterScoreBoxes();
+    isModalVisible.value = false;
   };
 </script>
 
@@ -28,33 +33,18 @@
   >
     <EraserIcon />
   </button>
-  <div v-if="isModalVisible" class="overlay">
-    <div class="modal" :style="{ width: '225px', height: 'auto' }">
-      <div
-        class="modal-title"
-        :style="{ marginBottom: '20px' }"
-      >
-      <span class="modal-title-text">{{ $t("noch-mal.clear-sheet") }}?</span>
-      </div>
-      <div class="modal-actions">
-        <button
-          class="modal-button"
-          @click="() => isModalVisible = false"
-        >
-          {{ $t("modal.no") }}
-        </button>
-        <button
-          class="modal-button"
-          @click="() => {
-            resset();
-            isModalVisible = false;
-          }"
-        >
-          {{ $t("modal.yes") }}
-        </button>
-      </div>
-    </div>
-  </div>
+  <Modal
+    :show="isModalVisible"
+    @close="() => isModalVisible = false"
+    :action="resset"
+    :action-label="t('modal.yes')"
+    :close-label="t('modal.no')"
+    :width="200"
+    :height="70"
+  >
+    
+    <div>{{ $t("noch-mal.clear-sheet") }}?</div>
+  </Modal>
 </template>
 
 <style scoped>
@@ -69,69 +59,11 @@
     position: relative;
   }
 
-  .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    width: 100%;
-    height: 100%;
-    transition: all;
-    transition-duration: 0.25s;
-    touch-action: none;
-    background: rgba(0,0,0,.3);
-  }
-
-  .modal {
-    height: 400px;
-    width: 450px;
-    background-color: #404040;
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    transform: translate(-50%, -50%);
-    border-radius: 8px;
-    top: 50%;
-    left: 50%;
+  * {
+    font-size: 20px;
+    color: #333;
     box-sizing: border-box;
-    padding: 10px;
-  }
-
-  .modal-title {
-    display: flex;
-    margin-bottom: 10px;
-  }
-
-  .modal-title-text {
-    margin-left: auto;
-    margin-right: auto;
-    font-size: 40px;
-    height: fit-content;
     text-align: center;
-    color: #fff;
-  }
-
-  .modal-close {
-    width: 40px;
-    height: 40px;
-    border-radius: 5px;
-    align-items: center;
-    box-sizing: border-box;
-    justify-content: space-between;
-    position: relative;
-  }
-
-  .modal-actions {
-    display: flex;
-    justify-content: space-around;
-  }
-
-  .modal-button {
-    font-size: 26px;
-    width: 70px;
-    height: 35px;
-    font-family: "Bangers", sans-serif;
-    background-color: #fff;
-    border-radius: 5px;
+    vertical-align: middle;
   }
 </style>

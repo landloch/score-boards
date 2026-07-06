@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { onBeforeMount, ref, watch } from 'vue';
+  import { computed, onBeforeMount, ref, watch } from 'vue';
   import { InputRow, type InputCell } from '@/types/PandaRoyalTypes';
   import SquareButton from '@/components/common/SquareButton.vue';
   import ScalingContainer from '@/components/common/ScalingContainer.vue';
@@ -8,6 +8,10 @@
   import Header from '@/components/panda-royale/Header.vue';
   import EraserIcon from '@/components/icons/EraserIcon.vue';
   import { useFontStore } from '@/stores/fontStore';
+  import Modal from '@/components/common/Modal.vue';
+  import { useI18n } from 'vue-i18n';
+
+  const { t } = useI18n();
 
   const columnNames = ['A','B','C','D','E','F','G'];
 
@@ -47,20 +51,46 @@
     return total;
   }
 
-  function clearRow(rowIndex: number) {
-    rows.value[rowIndex]!.valueCells.forEach((cell) => {
-      cell.value = null;
-    });
+  const showClearModal = ref(false);
+  const rowsToClear = ref<number[]>([]);
+  const clearModalText = computed(() => {
+    if (rowsToClear.value.length == 1) {
+      return `${t('panda-royale.modal.confirm-clear-row')} ${rowsToClear.value[0]! + 1}?`;
+    }
+    else {
+      return t('panda-royale.modal.confirm-clear-all');
+    }
+  });
+
+  function handleClickClear(rowToClear: number | 'all') {
+    if (typeof rowToClear === 'number') {
+      rowsToClear.value = [rowToClear - 1];
+    }
+    else {
+      rowsToClear.value = [0,1,2,3,4,5,6,7,8,9];
+    }
+    showClearModal.value = true;
   }
 
-  function clearSheet() {
-    for (let i = 0; i < 10; i++) {
-      clearRow(i);
-    }
+  function clearRows() {
+    rowsToClear.value.forEach((rowIndex) => {
+      rows.value[rowIndex]!.valueCells.forEach((cell) => {
+        cell.value = null;
+      });
+    });
+    closeClearModeal();
+  }
+
+  function closeClearModeal() {
+    showClearModal.value = false;
+    rowsToClear.value = [];
   }
 
   watch(rows.value, (newValue: any, oldValue: any) => {
-    sessionStorage.setItem('panda-royale-sheet-state', JSON.stringify(newValue));
+    sessionStorage.setItem(
+      'panda-royale-sheet-state',
+       JSON.stringify(newValue)
+    );
   })
 </script>
 
@@ -92,7 +122,7 @@
             <td v-if="row.index == 1" colspan="6"></td>
             <td :class="`font-${fontStore.font}`">{{ row.total }}</td>
             <td class="void">
-              <SquareButton :action="() => clearRow(row.index - 1)">
+              <SquareButton :action="() => handleClickClear(row.index)">
                 <EraserIcon color="#333" />
               </SquareButton>
             </td>
@@ -104,7 +134,7 @@
         <div class="table-footer">
           <div :class="`total font-${fontStore.font}`">{{ getScoreTotal() }}</div>
           <div class="clear-all">
-            <SquareButton :action="() => clearSheet()">
+            <SquareButton :action="() => handleClickClear('all')">
               <EraserIcon color="#333" />
             </SquareButton>
           </div>
@@ -112,6 +142,17 @@
       </div>
     </ScalingContainer>
   </div>
+  <Modal
+    :show="showClearModal"
+    @close="closeClearModeal"
+    :action="clearRows"
+    :action-label="t('modal.yes')"
+    :close-label="t('modal.no')"
+    :width="200"
+    :height="70"
+  >
+    <div>{{ clearModalText }}</div>
+  </Modal>
 </template>
 
 <style scoped>

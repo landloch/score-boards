@@ -12,7 +12,7 @@
   import CaligraphyTab from './CaligraphyTab.vue';
 
   const { t } = useI18n();
-  const shoModal = ref(false);
+  const showModal = ref(false);
   const tabs = computed<Tab[]>(() => [
     { id: 'caligraphy', label: t('modal.caligraphy.title'), icon: CaligraphyIcon },
     { id: 'language', label: t('modal.language.title'), icon: TranslateIcon },
@@ -22,10 +22,10 @@
 </script>
 
 <template>
-  <button @click="() => shoModal = true" class="button">
+  <button @click="() => showModal = true" class="button">
     <SettingsIcon fill="#fff" stroke="#333" strokeWidt="2" :height="36" :width="36" />
   </button>
-  <Modal :show="shoModal" @close="shoModal = false">
+  <Modal :show="showModal" @close="showModal = false">
     <Tabs v-model="currentTab" :tabs="tabs">
       <template #caligraphy>
         <CaligraphyTab />
