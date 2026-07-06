@@ -1,3 +1,4 @@
+import HarmoniesView from '@/views/HarmoniesView.vue';
 import HomeView from '@/views/HomeView.vue';
 import NochMalView from '@/views/NochMalView.vue';
 import PandaRoyaleView from '@/views/PandaRoyaleView.vue';
@@ -20,6 +21,11 @@ const router = createRouter({
       path: '/noch-mal',
       name: 'noch-mal',
       component: NochMalView
+    },
+    {
+      path: '/harmonies',
+      name: 'harmonies',
+      component: HarmoniesView
     },
   ],
 })

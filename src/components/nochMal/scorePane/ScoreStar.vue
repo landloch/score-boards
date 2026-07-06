@@ -10,7 +10,7 @@
       stroke-width=""
       stroke-linecap="round"
       stroke-linejoin="round"
-      view-box="0 0 24 24"
+      viewBox="0 0 24 24"
       height="28px"
       width="28px"
       class="star"

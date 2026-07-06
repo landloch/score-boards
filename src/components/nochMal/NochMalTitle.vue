@@ -60,7 +60,7 @@
 
 <template>
   <svg
-    :view-box="`0 0 ${width} ${height}`"
+    :viewBox="`0 0 ${width} ${height}`"
     :width="width"
     :height="height"
   >

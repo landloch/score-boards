@@ -1,8 +1,6 @@
 <script setup lang="ts">
   defineProps({
-    fill: { type: String, default: 'currentColor' },
-    stroke: { type: String, default: 'currentColor' },
-    strokeWidth: { type: Number, default: 0 },
+    color: { type: String, default: '#000' },
     height: { type: Number, default: 26 },
     width: { type: Number, default: 26 },
   });
@@ -10,9 +8,9 @@
 
 <template>
   <svg
-    :stroke="stroke"
-    :fill="fill"
-    :stroke-width="strokeWidth"
+    :stroke="color"
+    :fill="color"
+    stroke-width="0"
     viewBox="0 0 512 512"
     :height="height"
     :width="width"
