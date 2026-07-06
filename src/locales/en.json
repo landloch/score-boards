@@ -19,12 +19,12 @@
   "panda-royale": {
     "table-header": {
       "round": "Round",
-      "A": "Σ of\nYellow",
-      "B": "Σ of\nPurple\nx2",
-      "C": "Σ of Blue\n(x2 if Glitter)",
-      "D": "Σ of Red\nx\n# of Red",
-      "E": "Σ of\nGreen",
-      "F": "Σ of\nClear",
+      "A": "Σ\nYellow",
+      "B": "Σ\nPurple\nx2",
+      "C": "Σ Blue\n(x2 if Glitter)",
+      "D": "Σ Red\nx\n# Red",
+      "E": "Σ\nGreen",
+      "F": "Σ\nClear",
       "G": "Pink",
       "total": "Row\nTotal"
     },

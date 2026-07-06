@@ -19,12 +19,12 @@
   "panda-royale": {
     "table-header": {
       "round": "Ronda",
-      "A": "Σ de\nAmarillos",
-      "B": "Σ de\nMorados\nx2",
-      "C": "Σ de Azules\n(x2 si Jaspeado)",
-      "D": "Σ de Rjs\nx\n# de Rjs",
-      "E": "Σ de\nVerdes",
-      "F": "Σ de\nTransp.",
+      "A": "Σ\nAmarillos",
+      "B": "Σ\nMorados\nx2",
+      "C": "Σ Azules\n(x2 si Jasp.)",
+      "D": "Σ Rjs\nx\n# Rjs",
+      "E": "Σ\nVerdes",
+      "F": "Σ\nTransp.",
       "G": "Rosa",
       "total": "Total\nde Línea"
     },

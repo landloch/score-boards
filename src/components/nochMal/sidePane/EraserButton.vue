@@ -43,7 +43,7 @@ import EraserIcon from '@/components/icons/EraserIcon.vue';
     :height="70"
   >
     
-    <div>{{ $t("noch-mal.clear-sheet") }}?</div>
+    <div>{{ $t("noch-mal.clear-sheet") }}</div>
   </Modal>
 </template>
 
