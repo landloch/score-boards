@@ -17,19 +17,19 @@
   const emit = defineEmits(['close']);
   const scale = ref(1);
 
-  function updateScale() {
+  function updateModalScale() {
     const sx = window.innerWidth / (props.width * 1.2)
     const sy = window.innerHeight / (props.height * 1.2)
     scale.value = Math.min(sx, sy)
   }
 
   onMounted(() => {
-    updateScale();
-    window.addEventListener('resize', updateScale);
+    updateModalScale();
+    window.addEventListener('resize', updateModalScale);
   });
 
   onUnmounted(() => {
-    window.removeEventListener('resize', updateScale);
+    window.removeEventListener('resize', updateModalScale);
   });
 </script>
 
