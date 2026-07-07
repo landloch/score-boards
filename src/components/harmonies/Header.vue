@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  import Title from './NochMalTitle.vue';
   import Settings from '../common/Settings.vue';
   import ReturnButton from '../common/ReturnButton.vue';
 </script>
@@ -8,7 +7,7 @@
   <div class="header">
     <ReturnButton />
     <div class="title-card">
-      <Title :text="$t('noch-mal.title')" />
+      <h1>Harmonies</h1>
     </div>
     <span class="right-element">
       <Settings />
