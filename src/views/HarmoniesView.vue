@@ -12,7 +12,26 @@ import type { HarmoniesPlayerState } from '@/types/HarmoniesTypes';
 
   const players = ref([0,1,2,3]);
 
-  const state = reactive<HarmoniesPlayerState>();
+  const state = reactive<HarmoniesPlayerState>({
+    name: '',
+    terrainScores: {
+      greenScore: 0,
+      grayScore: 0,
+      yellowScore: 0,
+      redScore: 0,
+      blueScore: 0,
+    },
+    cubeScores: {
+      cubeScore0: 0,
+      cubeScore1: 0,
+      cubeScore2: 0,
+      cubeScore3: 0,
+      cubeScore4: 0,
+      cubeScore5: 0,
+      cubeScore6: 0,
+      cubeScore7: 0,
+    },
+  });
 </script>
 
 <template>

@@ -29,8 +29,8 @@
 
 <template>
   <span
-    id={box.index}
-    key={box.index}
+    :id="box.index"
+    :key="box.index"
     :class="`box ${box.color} ${centerLine ? 'center-column' : ''}`"
     @click="() => handleClick(box.index)"
   >
