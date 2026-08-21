@@ -141,13 +141,14 @@ export const useScoreStore = defineStore('score', () => {
   }
 
   function setMainGridChecked(index: string, isChecked: boolean) {
-    const temp = deepState.mainGridState.map((box: MarkedState) =>
+    deepState.mainGridState = deepState.mainGridState.map((box: MarkedState) =>
       box.index === index ? { ...box, isChecked } : box
     );
-    deepState.mainGridState = temp
+    // if checked all of a color,
+    // check the state of corresponding color score box, and update them
     sessionStorage.setItem(
       'main',
-      JSON.stringify(temp)
+      JSON.stringify(deepState.mainGridState)
     );
   }
 
