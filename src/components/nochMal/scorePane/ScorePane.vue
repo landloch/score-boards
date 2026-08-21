@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import { storeToRefs } from 'pinia';
   import { useScoreStore } from '@/stores/scoreStore';
   import { Colors } from '@/types/NochMalTypes.ts';
   import EraserButton from '../sidePane/EraserButton.vue';
@@ -11,9 +12,7 @@ import { useFontStore } from '@/stores/fontStore.ts';
 
   const fontStore = useFontStore();
 
-  const {
-    colorScore, letterScore, jokerScore, starScore
-  } = useScoreStore();
+  const ss = useScoreStore();
 </script>
 
 <template>
@@ -67,7 +66,7 @@ import { useFontStore } from '@/stores/fontStore.ts';
           <td colspan="2">
             <span class="score-container">
               <span>=</span>
-              <span :class="`score font-${fontStore.font}`">{{ colorScore() }}</span>
+              <span :class="`score font-${fontStore.font}`">{{ ss.colorScore }}</span>
             </span>
           </td>
         </tr>
@@ -80,7 +79,7 @@ import { useFontStore } from '@/stores/fontStore.ts';
           <td colspan="2">
             <span class="score-container">
               <span class="text-green">+</span>
-              <span :class="`score font-${fontStore.font}`">{{ letterScore() }}</span>
+              <span :class="`score font-${fontStore.font}`">{{ ss.letterScore }}</span>
             </span>
           </td>
         </tr>
@@ -93,7 +92,7 @@ import { useFontStore } from '@/stores/fontStore.ts';
           <td colspan="2">
             <span class="score-container">
               <span class="text-green">+</span>
-              <span :class="`score font-${fontStore.font}`">{{ jokerScore() }}</span>
+              <span :class="`score font-${fontStore.font}`">{{ ss.jokerScore }}</span>
             </span>
           </td>
         </tr>
@@ -106,7 +105,7 @@ import { useFontStore } from '@/stores/fontStore.ts';
           <td colspan="2">
             <span class="score-container">
               <span class="text-red">-</span>
-              <span :class="`score font-${fontStore.font}`">{{ starScore() }}</span>
+              <span :class="`score font-${fontStore.font}`">{{ ss.starScore }}</span>
             </span>
           </td>
         </tr>
@@ -125,7 +124,7 @@ import { useFontStore } from '@/stores/fontStore.ts';
             <span class="score-container">
               <span>=</span>
               <span :class="`score font-${fontStore.font}`">
-                {{ colorScore() + jokerScore() + letterScore() + starScore() }}
+                {{ ss.colorScore + ss.jokerScore + ss.letterScore + ss.starScore }}
               </span>
             </span>
           </td>

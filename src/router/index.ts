@@ -1,6 +1,5 @@
 import HarmoniesView from '@/views/HarmoniesView.vue';
 import HomeView from '@/views/HomeView.vue';
-import NochMalTestView from '@/views/NochMalTestView.vue';
 import NochMalView from '@/views/NochMalView.vue';
 import PandaRoyaleView from '@/views/PandaRoyaleView.vue';
 import { createRouter, createWebHistory } from 'vue-router';
@@ -22,11 +21,6 @@ const router = createRouter({
       path: '/noch-mal',
       name: 'noch-mal',
       component: NochMalView
-    },
-    {
-      path: '/noch-mal-test',
-      name: 'noch-mal-test',
-      component: NochMalTestView
     },
     {
       path: '/harmonies',

@@ -1,4 +1,4 @@
-import { reactive } from 'vue';
+import { computed, reactive } from 'vue';
 import { defineStore } from 'pinia';
 import { Mark, type CheckedState,
   type MarkedState, type MainGridCheckedState
@@ -31,28 +31,28 @@ export const useScoreStore = defineStore('score', () => {
       ? JSON.parse(sessionStorage.getItem('main') ?? '[]')
       : structuredClone(mainGridInitialState) as MainGridCheckedState[],
   });
-  function colorScore() {
+  const colorScore = computed(() => {
     return deepState.colorBoxesMarkedState.reduce((sum: number, el: MarkedState) => {
       return el.mark === Mark.Circled ? sum + el.score : sum;
     }, 0);
-  }
+  });
 
-  function letterScore() {
+  const letterScore = computed(() => {
     return deepState.letterScoreingBoxesState.reduce((sum: number, el: MarkedState) => {
       return el.mark === Mark.Circled ? sum + el.score : sum;
     }, 0);
-  }
+  });
 
-  function jokerScore() {
+  const jokerScore = computed(() => {
     return deepState.jokerBoxesState.filter((el: any) => !el.isChecked).length;
-  }
+  });
 
-  function starScore() {
+  const starScore = computed(() => {
     return (
       deepState.mainGridState.filter(
         (el: any) => el.stared && !el.isChecked).length * -2
     );
-  }
+  });
 
   function setColorBoxMark(index: string, mark: Mark) {
     deepState.colorBoxesMarkedState =
