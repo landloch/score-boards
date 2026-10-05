@@ -25,13 +25,19 @@
   function handleClick(boxIndex: string) {
     setMainGridChecked(box.index, !isChecked.value);
   };
+
+  function checkIfDisabled() {
+    const realRowIndex = box.column.charCodeAt(0) - 'A'.charCodeAt(0);
+    const i = realRowIndex * 7 + box.row;
+    return deepState.mainGridState[i].enabled ? "enabled" : "disabled";
+  }
 </script>
 
 <template>
   <span
     :id="box.index"
     :key="box.index"
-    :class="`box ${box.color} ${centerLine ? 'center-column' : ''}`"
+    :class="`box ${box.color} ${checkIfDisabled()} ${centerLine ? 'center-column' : ''}`"
     @click="() => handleClick(box.index)"
   >
     <StarIcon v-if="box.stared" />
@@ -52,6 +58,10 @@
     display: flex;
     border-radius: 5px;
     position: relative;
+  }
+
+  .disabled {
+    opacity: 0.7;
   }
 
   .center-column {

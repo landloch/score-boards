@@ -6,7 +6,7 @@ export const mainGridInitialState: MainGridCheckedState[] = getAllThemCheckedSta
 function getAllThemCheckedStates(): MainGridCheckedState[] {
   const checkedStates: MainGridCheckedState[] = [];
   allThemBoxes.forEach((box: BoxData) => {
-    checkedStates.push({ index: box.index, stared: box.stared, isChecked: false });
+    checkedStates.push({ index: box.index, enabled: box.column == 'H',  isChecked: false });
   });
   return checkedStates;
 }

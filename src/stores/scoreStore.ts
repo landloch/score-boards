@@ -8,6 +8,7 @@ import {
   letterScoreingBoxesInitialState, jokerBoxesInitialState,
   mainGridInitialState,
 } from '@/constants/noch-mal/InitialStates';
+import { allThemBoxes } from '@/constants/noch-mal/MainGridBoxes';
 
 export const useScoreStore = defineStore('score', () => {
   const deepState = reactive({
@@ -47,10 +48,16 @@ export const useScoreStore = defineStore('score', () => {
     return deepState.jokerBoxesState.filter((el: any) => !el.isChecked).length;
   });
 
+  function checkIfStared(el: MainGridCheckedState) {
+    const realRowIndex = el.index.charCodeAt(0) - 'A'.charCodeAt(0);
+    const realIndex = realRowIndex * 7 + Number(el.index[1]);
+    return allThemBoxes[realIndex]?.stared;
+  }
+
   const starScore = computed(() => {
     return (
       deepState.mainGridState.filter(
-        (el: any) => el.stared && !el.isChecked).length * -2
+        (el: any) => checkIfStared(el) && !el.isChecked).length * -2
     );
   });
 
@@ -59,6 +66,7 @@ export const useScoreStore = defineStore('score', () => {
       deepState.colorBoxesMarkedState.map((box: MarkedState) =>
         box.index === index ? { ...box, mark } : box
       );
+    deepState.colorBoxesMarkedState
     sessionStorage.setItem(
       'colorScoring',
       JSON.stringify(deepState.colorBoxesMarkedState
@@ -140,7 +148,58 @@ export const useScoreStore = defineStore('score', () => {
     );
   }
 
+  function chckForCheckedNeighbors(i: number) {
+    if (
+      (i % 7 != 0   && deepState.colorBoxesMarkedState[i - 1].isChecked) ||
+      (i % 7 != 6   && deepState.colorBoxesMarkedState[i + 1].isChecked) ||
+      (i     >= 7   && deepState.colorBoxesMarkedState[i - 7].isChecked) ||
+      (i + 7 <  105 && deepState.colorBoxesMarkedState[i + 7].isChecked)
+    ) {
+      return true;
+    }
+  }
+
   function setMainGridChecked(index: string, isChecked: boolean) {
+    const realRowIndex = index.charCodeAt(0) - 'A'.charCodeAt(0);
+    const i = realRowIndex * 7 + Number(index[1]);
+    deepState.mainGridState[i].isChecked = isChecked;
+    
+    // left
+    if (i % 7 != 0) {
+      if (isChecked)  {
+        deepState.colorBoxesMarkedState[i - 1].enabled = true;
+      } else {
+        chckForCheckedNeighbors(i - 1);
+      }
+    }
+
+    // right
+    if (i % 7 != 6) {
+      if (isChecked)  {
+        deepState.colorBoxesMarkedState[i + 1].enabled = true;
+      } else {
+        chckForCheckedNeighbors(i + 1);
+      }
+    }
+
+    // up
+    if (i >= 7) {
+      if (isChecked)  {
+        deepState.colorBoxesMarkedState[i - 7].enabled = true;
+      } else {
+        chckForCheckedNeighbors(i - 7);
+      }
+    }
+
+    // down
+    if (i + 7 < 105) {
+      if (isChecked)  {
+        deepState.colorBoxesMarkedState[i + 7].enabled = true;
+      } else {
+        chckForCheckedNeighbors(i + 1);
+      }
+    }
+
     deepState.mainGridState = deepState.mainGridState.map((box: MarkedState) =>
       box.index === index ? { ...box, isChecked } : box
     );

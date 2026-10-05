@@ -1,8 +1,8 @@
 export enum Colors {
-  Blue = "blue",
-  Green = "green",
+  Blue   = "blue",
+  Green  = "green",
   Orange = "orange",
-  Red = "red",
+  Red    = "red",
   Yellow = "yellow"
 }
 
@@ -11,52 +11,52 @@ export type ColumnId =
   | "I" | "J" | "K" | "L" | "M" | "N" | "O";
 
 export class BoxData {
-  index: string;
-  column: string;
-  row: number;
-  color: Colors;
-  stared: boolean;
+  readonly index : string;
+  readonly column: string;
+  readonly row   : number;
+  readonly color : Colors;
+  readonly stared: boolean;
 
   constructor(
     column: string,
-    row: number,
-    color: Colors,
+    row   : number,
+    color : Colors,
     stared: boolean
   ) {
-    this.color = color;
+    this.color  = color;
     this.column = column;
-    this.row = row;
+    this.row    = row;
     this.stared = stared;
-    this.index = column + row;
+    this.index  = column + row;
   }
 };
 
 export type ColumnData = {
-  column: ColumnId;
-  boxesData: BoxData[];
-  pointsBase: number;
+  column          : ColumnId;
+  boxesData       : BoxData[];
+  pointsBase      : number;
   pointsFirstBonus: number;
 };
 
 export type CheckedState = {
-  index: string;
+  index    : string;
   isChecked: boolean;
 };
 
 export type MainGridCheckedState = {
-  index: string;
-  stared: boolean;
+  index    : string;
+  enabled  : boolean;
   isChecked: boolean;
 };
 
 export enum Mark {
-  Blank = 0,
-  Circled = 1,
+  Blank     = 0,
+  Circled   = 1,
   Scratched = 2
 };
 
 export type MarkedState = {
   index: string;
   score: number;
-  mark: Mark;
+  mark : Mark;
 };
