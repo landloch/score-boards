@@ -32,6 +32,7 @@ export const useScoreStore = defineStore('score', () => {
       ? JSON.parse(sessionStorage.getItem('main') ?? '[]')
       : structuredClone(mainGridInitialState) as MainGridCheckedState[],
   });
+
   const colorScore = computed(() => {
     return deepState.colorBoxesMarkedState.reduce((sum: number, el: MarkedState) => {
       return el.mark === Mark.Circled ? sum + el.score : sum;
@@ -143,9 +144,9 @@ export const useScoreStore = defineStore('score', () => {
   }
 
   function checkForCheckedNeighbors(i: number) {
-    if (deepState.mainGridState[i].checked) return;
     deepState.mainGridState[i].enabled =
       (i     >= 49  && i <= 55                                 ) ||
+      (                deepState.mainGridState[i].isChecked    ) ||
       (i % 7 != 0   && deepState.mainGridState[i - 1].isChecked) ||
       (i % 7 != 6   && deepState.mainGridState[i + 1].isChecked) ||
       (i     >= 7   && deepState.mainGridState[i - 7].isChecked) ||
@@ -158,7 +159,7 @@ export const useScoreStore = defineStore('score', () => {
     
     // left
     if (i % 7 != 0) {
-      if (isChecked)  {
+      if (isChecked) {
         deepState.mainGridState[i - 1].enabled = true;
       } else {
         checkForCheckedNeighbors(i - 1);
@@ -167,7 +168,7 @@ export const useScoreStore = defineStore('score', () => {
 
     // right
     if (i % 7 != 6) {
-      if (isChecked)  {
+      if (isChecked) {
         deepState.mainGridState[i + 1].enabled = true;
       } else {
         checkForCheckedNeighbors(i + 1);
@@ -176,7 +177,7 @@ export const useScoreStore = defineStore('score', () => {
 
     // up
     if (i >= 7) {
-      if (isChecked)  {
+      if (isChecked) {
         deepState.mainGridState[i - 7].enabled = true;
       } else {
         checkForCheckedNeighbors(i - 7);
@@ -185,16 +186,13 @@ export const useScoreStore = defineStore('score', () => {
 
     // down
     if (i + 7 < 105) {
-      if (isChecked)  {
+      if (isChecked) {
         deepState.mainGridState[i + 7].enabled = true;
       } else {
         checkForCheckedNeighbors(i + 7);
       }
     }
 
-    deepState.mainGridState = deepState.mainGridState.map((box: MainGridCheckedState) =>
-      box.index === i ? { ...box, isChecked } : box
-    );
     // if checked all of a color,
     // check the state of corresponding color score box, and update them
     sessionStorage.setItem(

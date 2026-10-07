@@ -1,5 +1,3 @@
-import { getRealIndex } from "@/utils/nochMal/RealIndex";
-
 export enum Colors {
   Blue   = "blue",
   Green  = "green",
