@@ -63,3 +63,12 @@ export type MarkedState = {
   score: number;
   mark : Mark;
 };
+
+export type DeepState = {
+  colorBoxesMarkedState: MarkedState[];
+  letterScoreingBoxesState: MarkedState[];
+  jokerBoxesState: CheckedState[];
+  mainGridState: MainGridCheckedState[];
+  markedColorsMap: Map<Colors, number>;
+  markedLetterMap: Map<RowId, number>;
+};

@@ -1,5 +1,5 @@
 import { allThemBoxes } from "@/constants/noch-mal/MainGridBoxes";
-import { Mark, type BoxData, type CheckedState, type MainGridCheckedState, type MarkedState } from "@/types/NochMalTypes";
+import { Colors, Mark, type BoxData, type CheckedState, type MainGridCheckedState, type MarkedState, type RowId } from "@/types/NochMalTypes";
 
 export const mainGridInitialState: MainGridCheckedState[] = getAllThemCheckedStates();
 
@@ -11,23 +11,15 @@ function getAllThemCheckedStates(): MainGridCheckedState[] {
   return checkedStates;
 }
 
-export const letterHeaderBoxesInitalState: CheckedState[] = [
-  { index: "A", isChecked: false },
-  { index: "B", isChecked: false },
-  { index: "C", isChecked: false },
-  { index: "D", isChecked: false },
-  { index: "E", isChecked: false },
-  { index: "F", isChecked: false },
-  { index: "G", isChecked: false },
-  { index: "H", isChecked: false },
-  { index: "I", isChecked: false },
-  { index: "J", isChecked: false },
-  { index: "K", isChecked: false },
-  { index: "L", isChecked: false },
-  { index: "M", isChecked: false },
-  { index: "N", isChecked: false },
-  { index: "O", isChecked: false }
-];
+export const markedColorsMapInitialState = new Map<Colors, number>([
+  [Colors.Green, 0], [Colors.Yellow, 0], [Colors.Blue, 0], [Colors.Red, 0], [Colors.Orange, 0],
+]);
+
+export const markedLetterMapInitialState = new Map<RowId, number>([
+  ['A', 0], ['B', 0], ['C', 0], ['D', 0], ['E', 0],
+  ['F', 0], ['G', 0], ['H', 0], ['I', 0], ['J', 0],
+  ['K', 0], ['L', 0], ['M', 0], ['N', 0], ['O', 0],
+]);
 
 export const letterScoreingBoxesInitialState: MarkedState[] = [
   { index: "A1st", score: 5, mark: Mark.Blank },

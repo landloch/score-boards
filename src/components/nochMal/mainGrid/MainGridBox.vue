@@ -29,9 +29,7 @@
   };
 
   const checkIfDisabled = computed(() => {
-    const realRowIndex = box.rowId.charCodeAt(0) - 'A'.charCodeAt(0);
-    const i = realRowIndex * 7 + box.column;
-    return deepState.mainGridState[i]!.enabled ? "" : "trans-";
+    return deepState.mainGridState[box.index]!.enabled ? "" : "trans-";
   });
 </script>
 

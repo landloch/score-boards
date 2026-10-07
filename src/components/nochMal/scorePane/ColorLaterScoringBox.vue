@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import CircledIcon from '@/components/icons/CircledIcon.vue';
-  import CrossIcon from '@/components/icons/CrossIcon.vue';
   import { ColorMap } from '@/constants/noch-mal/ColorMap';
   import { useScoreStore } from '@/stores/scoreStore';
   import { Mark, type Colors, type MarkedState } from '@/types/NochMalTypes';
@@ -18,13 +17,20 @@
       el.index === index)!.mark === Mark.Circled
   );
 
+  const checkIfDisabled = computed(() => {
+    console.log(deepState.markedColorsMap);
+    return /*(deepState.markedColorsMap.get(color) ?? 0)*/0 < 21 ? "trans-" : "";
+  });
+
   function handleClick() {
-    setColorBoxMark(index, !isCircled.value ? Mark.Circled : Mark.Blank);
-  };
+    if (/*(deepState.markedColorsMap.get(color) ?? 0)*/0 < 21) {
+      setColorBoxMark(index, !isCircled.value ? Mark.Circled : Mark.Blank);
+    }
+  }
 </script>
   
 <template>
-  <span :class="`box ${color}`" @click="handleClick">
+  <span :class="`box ${checkIfDisabled}${color}`" @click="handleClick">
     <span class="light" />
     <svg
       :fill="ColorMap.get(color)"
@@ -99,5 +105,30 @@
 
   .yellow {
     background-color: var(--yellow);
+  }
+
+  .trans-blue {
+    background-color: var(--trans-blue);
+    opacity: 0.8;
+  }
+
+  .trans-green {
+    background-color: var(--trans-green);
+    opacity: 0.8;
+  }
+
+  .trans-orange {
+    background-color: var(--trans-orange);
+    opacity: 0.8;
+  }
+
+  .trans-red {
+    background-color: var(--trans-red);
+    opacity: 0.8;
+  }
+
+  .trans-yellow {
+    background-color: var(--trans-yellow);
+    opacity: 0.8;
   }
 </style>

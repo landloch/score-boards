@@ -1,48 +1,49 @@
 import { computed, reactive } from 'vue';
 import { defineStore } from 'pinia';
-import { Mark, type CheckedState,
-  type MarkedState, type MainGridCheckedState,
+import {
+  Mark,
+  type CheckedState,
+  type MarkedState,
+  type MainGridCheckedState,
   type RowId,
-  Colors
+  Colors,
+  type DeepState
 } from '@/types/NochMalTypes';
 import {
-  colorScoreingBoxesInitialState, letterHeaderBoxesInitalState,
-  letterScoreingBoxesInitialState, jokerBoxesInitialState,
+  colorScoreingBoxesInitialState,
+  letterScoreingBoxesInitialState,
+  jokerBoxesInitialState,
   mainGridInitialState,
+  markedColorsMapInitialState,
+  markedLetterMapInitialState,
 } from '@/constants/noch-mal/InitialStates';
 import { allThemBoxes } from '@/constants/noch-mal/MainGridBoxes';
 
 export const useScoreStore = defineStore('score', () => {
-  const deepState = reactive({
+  const deepState = reactive<DeepState>({
     colorBoxesMarkedState: sessionStorage.getItem('colorScoring')
-      ? JSON.parse(sessionStorage.getItem('colorScoring') ?? '[]') as MarkedState[]
+      ? JSON.parse(sessionStorage.getItem('colorScoring')!) as MarkedState[]
       : structuredClone(colorScoreingBoxesInitialState) as MarkedState[],
     
-    letterHeaderBoxesState: sessionStorage.getItem('headers')
-      ? JSON.parse(sessionStorage.getItem('headers') ?? '[]') as CheckedState[]
-      : structuredClone(letterHeaderBoxesInitalState) as CheckedState[],
-    
     letterScoreingBoxesState: sessionStorage.getItem('columnScoring')
-      ? JSON.parse(sessionStorage.getItem('columnScoring') ?? '[]') as MarkedState[]
+      ? JSON.parse(sessionStorage.getItem('columnScoring')!) as MarkedState[]
       : structuredClone(letterScoreingBoxesInitialState) as MarkedState[],
   
     jokerBoxesState: sessionStorage.getItem('jokers')
-      ? JSON.parse(sessionStorage.getItem('jokers') ?? '[]') as CheckedState[]
+      ? JSON.parse(sessionStorage.getItem('jokers')!) as CheckedState[]
       : structuredClone(jokerBoxesInitialState) as CheckedState[],
     
     mainGridState: sessionStorage.getItem('main')
-      ? JSON.parse(sessionStorage.getItem('main') ?? '[]') as MainGridCheckedState[]
+      ? JSON.parse(sessionStorage.getItem('main')!) as MainGridCheckedState[]
       : structuredClone(mainGridInitialState) as MainGridCheckedState[],
 
-    markedColorsMap: new Map<Colors, number>([
-      [Colors.Green, 0], [Colors.Yellow, 0], [Colors.Blue, 0], [Colors.Red, 0], [Colors.Orange, 0],
-    ]),
+    markedColorsMap: sessionStorage.getItem('marked-color-counts')
+      ? JSON.parse(sessionStorage.getItem('marked-color-counts')!) as Map<Colors, number>
+      : structuredClone(markedColorsMapInitialState) as Map<Colors, number>,
 
-    markedLetterMap: new Map<RowId, number>([
-      ['A', 0], ['B', 0], ['C', 0], ['D', 0], ['E', 0],
-      ['F', 0], ['G', 0], ['H', 0], ['I', 0], ['J', 0],
-      ['K', 0], ['L', 0], ['M', 0], ['N', 0], ['O', 0],
-    ]),
+    markedLetterMap: sessionStorage.getItem('marked-letter-counts')
+      ? JSON.parse(sessionStorage.getItem('marked-letter-counts')!) as Map<RowId, number>
+      : structuredClone(markedLetterMapInitialState) as Map<RowId, number>,
   });
 
   const colorScore = computed(() => {
@@ -88,28 +89,6 @@ export const useScoreStore = defineStore('score', () => {
     sessionStorage.setItem(
       'colorScoring',
       JSON.stringify(deepState.colorBoxesMarkedState)
-    );
-  }
-
-  function setLetterHeaderChecked(index: string, isChecked: boolean) {
-    deepState.letterHeaderBoxesState =
-      deepState.letterHeaderBoxesState.map((box: CheckedState) =>
-        box.index === index ? { ...box, isChecked } : box
-      );
-    sessionStorage.setItem(
-      'headers',
-      JSON.stringify(deepState.letterHeaderBoxesState)
-    );
-  }
-
-  function resetLetterHeaderBoxes() {
-    deepState.letterHeaderBoxesState =
-      deepState.letterHeaderBoxesState.map((box: CheckedState) =>
-        ({ ...box, isChecked: false })
-      );
-    sessionStorage.setItem(
-      'headers',
-      JSON.stringify(deepState.letterHeaderBoxesState)
     );
   }
 
@@ -209,6 +188,14 @@ export const useScoreStore = defineStore('score', () => {
     // if checked all of a color,
     // check the state of corresponding color score box, and update them
     sessionStorage.setItem(
+      'marked-color-counts',
+      JSON.stringify(deepState.markedColorsMap)
+    );
+    sessionStorage.setItem(
+      'marked-letter-counts',
+      JSON.stringify(deepState.markedLetterMap)
+    );
+    sessionStorage.setItem(
       'main',
       JSON.stringify(deepState.mainGridState)
     );
@@ -216,6 +203,21 @@ export const useScoreStore = defineStore('score', () => {
 
   function resetMainGrid() {
     deepState.mainGridState = mainGridInitialState;
+    deepState.markedColorsMap.forEach((value: number, key: Colors) => {
+      deepState.markedColorsMap.set(key, 0);
+    });
+    deepState.markedLetterMap.forEach((value: number, key: RowId) => {
+      deepState.markedLetterMap.set(key, 0);
+    });
+
+    sessionStorage.setItem(
+      'marked-color-counts',
+      JSON.stringify(deepState.markedColorsMap)
+    );
+    sessionStorage.setItem(
+      'marked-letter-counts',
+      JSON.stringify(deepState.markedLetterMap)
+    );
     sessionStorage.setItem(
       'main',
       JSON.stringify(deepState.mainGridState)
@@ -228,9 +230,6 @@ export const useScoreStore = defineStore('score', () => {
     colorScore,
     setColorBoxMark,
     resetColorBoxes,
-
-    setLetterHeaderChecked,
-    resetLetterHeaderBoxes,
 
     letterScore,
     setLetterScoreBoxMark,

@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import JokerPane from '@/components/nochMal/JokerPane/JokerPane.vue';
   import ScorePane from '@/components/nochMal/scorePane/ScorePane.vue';
-  import MainGrid from '@/components/nochMal/newMainGrid/MainGrid.vue';
+  import MainGrid from '@/components/nochMal/mainGrid/MainGrid.vue';
   import ScalingContainer from '@/components/common/ScalingContainer.vue';
   import Header from '@/components/nochMal/Header.vue';
 </script>

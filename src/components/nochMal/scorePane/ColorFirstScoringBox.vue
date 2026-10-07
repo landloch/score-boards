@@ -13,13 +13,18 @@ import { ColorMap } from '@/constants/noch-mal/ColorMap';
   const stateArray: Mark[] = [Mark.Blank, Mark.Circled, Mark.Scratched];
   const { deepState, setColorBoxMark } = useScoreStore();
 
-  const getState = () =>
-    deepState.colorBoxesMarkedState.find((el: MarkedState) => el.index === index)!.mark;
+  function getState() {
+    return deepState.colorBoxesMarkedState.find((el: MarkedState) => el.index === index)!.mark;
+  }
 
-  const handleClick = () => {
-    const nextMark = stateArray[(getState() + 1) % 3];
-    setColorBoxMark(index, nextMark!);
-  };
+  function handleClick() {
+    if ((deepState.markedColorsMap.get(color) ?? 0) < 21) {
+      const nextMark = stateArray[(getState() + 1) % 3];
+      setColorBoxMark(index, nextMark!);
+    } else {
+      setColorBoxMark(index, getState() == Mark.Blank ? Mark.Scratched : Mark.Blank);
+    }
+  }
 </script>
   
 <template>

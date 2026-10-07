@@ -25,8 +25,14 @@
       el.index === index)!.mark === Mark.Circled
   );
 
+  const checkIfDisabled = computed(() => {
+    return /*(deepState.markedLetterMap.get(rowId) ?? 0)*/ 0 < 21 ? "disabled" : "";
+  });
+
   function handleClick() {
-    setLetterScoreBoxMark(index, !isCircled.value ? Mark.Circled : Mark.Blank,);
+    if (/*(deepState.markedLetterMap.get(rowId) ?? 0)*/0 < 21) {
+      setLetterScoreBoxMark(index, !isCircled.value ? Mark.Circled : Mark.Blank);
+    }
   }
 </script>
 
@@ -34,7 +40,7 @@
   <span
     :id="rowId"
     :key="rowId"
-    :class="`main-grid-scoring-boxes ${marginAdjust ? marginAdjust + '-margin' : ''}`"
+    :class="`main-grid-scoring-boxes ${checkIfDisabled} ${marginAdjust ? marginAdjust + '-margin' : ''}`"
     @click="handleClick"
   >
     <svg
@@ -73,6 +79,10 @@
     border-radius: 5px;
     position: relative;
     background-color: white;
+  }
+  
+  .disabled {
+    opacity: 0.8;
   }
 
   .top-margin{

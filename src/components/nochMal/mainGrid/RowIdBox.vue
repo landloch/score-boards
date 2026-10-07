@@ -8,20 +8,6 @@
     rowId: RowId;
     redText?: boolean;
   }>();
-
-  const {
-    deepState,
-    setLetterHeaderChecked
-  } = useScoreStore();
-
-  const isChecked = computed(
-    () => deepState.letterHeaderBoxesState.find(
-      (el: CheckedState) => el.index === rowId)!.isChecked
-  );
-
-  const handleClick = () => {
-    setLetterHeaderChecked(rowId, !isChecked.value);
-  };
 </script>
 
 <template>
@@ -29,7 +15,6 @@
     :id="rowId"
     :key="rowId"
     class="main-grid-scoring-boxes"
-    @click="handleClick"
   >
     <svg
       :fill="redText ? 'red' : 'black'"
@@ -49,7 +34,6 @@
         {{ rowId }}
       </text>
     </svg>
-    <CrossIcon v-if="isChecked" />
   </span>
 </template>
 
@@ -61,17 +45,5 @@
     border-radius: 5px;
     position: relative;
     background-color: white;
-  }
-
-  .character {
-    height: 30px;
-    width: 30px;
-    background-color: transparent;
-    margin: auto;
-    display: inline-block;
-    position: absolute;
-    transform: translate(-50%, -50%);
-    top: 50%;
-    left: 50%;
   }
 </style>

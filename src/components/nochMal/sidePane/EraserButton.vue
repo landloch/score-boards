@@ -12,7 +12,6 @@ import EraserIcon from '@/components/icons/EraserIcon.vue';
     resetMainGrid,
     resetJokers,
     resetColorBoxes,
-    resetLetterHeaderBoxes,
     resetLetterScoreBoxes,
   } = useScoreStore();
 
@@ -20,7 +19,6 @@ import EraserIcon from '@/components/icons/EraserIcon.vue';
     resetMainGrid();
     resetJokers();
     resetColorBoxes();
-    resetLetterHeaderBoxes();
     resetLetterScoreBoxes();
     isModalVisible.value = false;
   };

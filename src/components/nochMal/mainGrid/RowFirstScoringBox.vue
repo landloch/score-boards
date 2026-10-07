@@ -15,18 +15,19 @@
   }>();
 
   const stateArray: Mark[] = [Mark.Blank, Mark.Circled, Mark.Scratched];
-  const {
-    deepState,
-    setLetterScoreBoxMark
-  } = useScoreStore();
+  const { deepState, setLetterScoreBoxMark } = useScoreStore();
 
   function getState() {
     return deepState.letterScoreingBoxesState.find((el: MarkedState) => el.index === index)!.mark;
   } 
 
   function handleClick() {
-    const nextMark = stateArray[(getState() + 1) % 3];
-    setLetterScoreBoxMark(index, nextMark!);
+    if ((deepState.markedLetterMap.get(rowId) ?? 0) < 21) {
+      const nextMark = stateArray[(getState() + 1) % 3];
+      setLetterScoreBoxMark(index, nextMark!);
+    } else {
+      setLetterScoreBoxMark(index, getState() == Mark.Blank ? Mark.Scratched : Mark.Blank);
+    }
   }
 </script>
 
