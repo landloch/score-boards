@@ -3,7 +3,7 @@
   import CircleIcon from '@/components/icons/nochMal/CircleIcon.vue';
   import StarIcon from '@/components/icons/nochMal/StarIcon.vue';
   import { useScoreStore } from '@/stores/scoreStore';
-  import { BoxData } from '@/types/NochMalTypes';
+  import { BoxData, type MainGridCheckedState } from '@/types/NochMalTypes';
   import { computed } from 'vue';
 
   const { box, centerLine } = defineProps({
@@ -18,12 +18,12 @@
 
   const isChecked = computed(
     () => deepState.mainGridState.find(
-      (el: BoxData) => el.index === box.index
-    )!.isChecked
+      (el: MainGridCheckedState) => el.index === box.index
+    )!.checked
   );
 
   function handleClick(boxIndex: number) {
-    if (deepState.mainGridState[boxIndex].enabled) {
+    if (deepState.mainGridState[boxIndex]!.enabled) {
       setMainGridChecked(boxIndex, !isChecked.value);
     }
   };
@@ -31,7 +31,7 @@
   const checkIfDisabled = computed(() => {
     const realRowIndex = box.rowId.charCodeAt(0) - 'A'.charCodeAt(0);
     const i = realRowIndex * 7 + box.column;
-    return deepState.mainGridState[i].enabled ? "enabled" : "disabled";
+    return deepState.mainGridState[i]!.enabled ? "enabled" : "disabled";
   });
 </script>
 

@@ -13,23 +13,23 @@ import { allThemBoxes } from '@/constants/noch-mal/MainGridBoxes';
 export const useScoreStore = defineStore('score', () => {
   const deepState = reactive({
     colorBoxesMarkedState: sessionStorage.getItem('colorScoring')
-      ? JSON.parse(sessionStorage.getItem('colorScoring') ?? '[]')
+      ? JSON.parse(sessionStorage.getItem('colorScoring') ?? '[]') as MarkedState[]
       : structuredClone(colorScoreingBoxesInitialState) as MarkedState[],
     
     letterHeaderBoxesState: sessionStorage.getItem('headers')
-      ? JSON.parse(sessionStorage.getItem('headers') ?? '[]')
+      ? JSON.parse(sessionStorage.getItem('headers') ?? '[]') as CheckedState[]
       : structuredClone(letterHeaderBoxesInitalState) as CheckedState[],
     
     letterScoreingBoxesState: sessionStorage.getItem('columnScoring')
-      ? JSON.parse(sessionStorage.getItem('columnScoring') ?? '[]')
+      ? JSON.parse(sessionStorage.getItem('columnScoring') ?? '[]') as MarkedState[]
       : structuredClone(letterScoreingBoxesInitialState) as MarkedState[],
   
     jokerBoxesState: sessionStorage.getItem('jokers')
-      ? JSON.parse(sessionStorage.getItem('jokers') ?? '[]')
+      ? JSON.parse(sessionStorage.getItem('jokers') ?? '[]') as CheckedState[]
       : structuredClone(jokerBoxesInitialState) as CheckedState[],
     
     mainGridState: sessionStorage.getItem('main')
-      ? JSON.parse(sessionStorage.getItem('main') ?? '[]')
+      ? JSON.parse(sessionStorage.getItem('main') ?? '[]') as MainGridCheckedState[]
       : structuredClone(mainGridInitialState) as MainGridCheckedState[],
   });
 
@@ -81,7 +81,7 @@ export const useScoreStore = defineStore('score', () => {
 
   function setLetterHeaderChecked(index: string, isChecked: boolean) {
     deepState.letterHeaderBoxesState =
-      deepState.letterHeaderBoxesState.map((box: MarkedState) =>
+      deepState.letterHeaderBoxesState.map((box: CheckedState) =>
         box.index === index ? { ...box, isChecked } : box
       );
     sessionStorage.setItem(
@@ -92,7 +92,7 @@ export const useScoreStore = defineStore('score', () => {
 
   function resetLetterHeaderBoxes() {
     deepState.letterHeaderBoxesState =
-      deepState.letterHeaderBoxesState.map((box: MarkedState) =>
+      deepState.letterHeaderBoxesState.map((box: CheckedState) =>
         ({ ...box, isChecked: false })
       );
     sessionStorage.setItem(
@@ -124,7 +124,7 @@ export const useScoreStore = defineStore('score', () => {
   }
 
   function setJokerChecked(index: string, isChecked: boolean) {
-    deepState.jokerBoxesState = deepState.jokerBoxesState.map((box: MarkedState) =>
+    deepState.jokerBoxesState = deepState.jokerBoxesState.map((box: CheckedState) =>
       box.index === index ? { ...box, isChecked } : box
     );
     sessionStorage.setItem(
@@ -134,7 +134,7 @@ export const useScoreStore = defineStore('score', () => {
   }
 
   function resetJokers() {
-    deepState.jokerBoxesState = deepState.jokerBoxesState.map((box: MarkedState) =>
+    deepState.jokerBoxesState = deepState.jokerBoxesState.map((box: CheckedState) =>
       ({ ...box, isChecked: false })
     );
     sessionStorage.setItem(
@@ -144,53 +144,51 @@ export const useScoreStore = defineStore('score', () => {
   }
 
   function checkForCheckedNeighbors(i: number) {
-    deepState.mainGridState[i].enabled =
-      (i     >= 49  && i <= 55                                 ) ||
-      (                deepState.mainGridState[i].isChecked    ) ||
-      (i % 7 != 0   && deepState.mainGridState[i - 1].isChecked) ||
-      (i % 7 != 6   && deepState.mainGridState[i + 1].isChecked) ||
-      (i     >= 7   && deepState.mainGridState[i - 7].isChecked) ||
-      (i + 7 <  105 && deepState.mainGridState[i + 7].isChecked)
+    deepState.mainGridState[i]!.enabled =
+      (i     >= 49  && i <= 55                                ) ||
+      (                deepState.mainGridState[i]!.checked    ) ||
+      (i % 7 != 0   && deepState.mainGridState[i - 1]!.checked) ||
+      (i % 7 != 6   && deepState.mainGridState[i + 1]!.checked) ||
+      (i     >= 7   && deepState.mainGridState[i - 7]!.checked) ||
+      (i + 7 <  105 && deepState.mainGridState[i + 7]!.checked)
     ;
   }
 
-  function setMainGridChecked(i: number, isChecked: boolean) {
-    deepState.mainGridState[i].isChecked = isChecked;
-    
-    // left
-    if (i % 7 != 0) {
-      if (isChecked) {
-        deepState.mainGridState[i - 1].enabled = true;
-      } else {
-        checkForCheckedNeighbors(i - 1);
+  function setMainGridChecked(i: number, checked: boolean) {
+    deepState.mainGridState[i]!.checked = checked;
+    if (checked) {
+      if (i % 7 != 0) { // left
+        deepState.mainGridState[i - 1]!.enabled = true;
       }
-    }
-
-    // right
-    if (i % 7 != 6) {
-      if (isChecked) {
-        deepState.mainGridState[i + 1].enabled = true;
-      } else {
-        checkForCheckedNeighbors(i + 1);
+      if (i % 7 != 6) { // right
+        deepState.mainGridState[i + 1]!.enabled = true;
       }
-    }
-
-    // up
-    if (i >= 7) {
-      if (isChecked) {
-        deepState.mainGridState[i - 7].enabled = true;
-      } else {
-        checkForCheckedNeighbors(i - 7);
+      if (i >= 7) { // up
+        deepState.mainGridState[i - 7]!.enabled = true;
       }
-    }
-
-    // down
-    if (i + 7 < 105) {
-      if (isChecked) {
-        deepState.mainGridState[i + 7].enabled = true;
-      } else {
+      if (i + 7 < 105) { // down
         checkForCheckedNeighbors(i + 7);
       }
+    } else {
+      if (i % 7 != 0) { // left
+        checkForCheckedNeighbors(i - 1);
+      }
+      if (i % 7 != 0) { // right
+        checkForCheckedNeighbors(i + 1);
+      }
+      if (i >= 7) { // up
+        checkForCheckedNeighbors(i - 7);
+      }
+      if (i + 7 < 105) { // down
+        checkForCheckedNeighbors(i + 7);
+      }
+      deepState.mainGridState[i]!.enabled =
+        (i     >= 49  && i <= 55                                ) ||
+        (i % 7 != 0   && deepState.mainGridState[i - 1]!.checked) ||
+        (i % 7 != 6   && deepState.mainGridState[i + 1]!.checked) ||
+        (i     >= 7   && deepState.mainGridState[i - 7]!.checked) ||
+        (i + 7 <  105 && deepState.mainGridState[i + 7]!.checked)
+      ;
     }
 
     // if checked all of a color,
@@ -202,13 +200,7 @@ export const useScoreStore = defineStore('score', () => {
   }
 
   function resetMainGrid() {
-    deepState.mainGridState = deepState.mainGridState.map((box: MainGridCheckedState) => {
-      return {
-        index: box.index,
-        enabled: (box.index >= 49 && box.index <= 55),
-        isChecked: false
-      };
-    });
+    deepState.mainGridState = mainGridInitialState;
     sessionStorage.setItem(
       'main',
       JSON.stringify(deepState.mainGridState)

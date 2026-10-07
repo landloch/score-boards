@@ -49,7 +49,7 @@ export type CheckedState = {
 export type MainGridCheckedState = {
   index    : number;
   enabled  : boolean;
-  isChecked: boolean;
+  checked: boolean;
 };
 
 export enum Mark {

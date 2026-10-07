@@ -1,7 +1,7 @@
 <script setup lang="tsx">
   import CrossIcon from '@/components/icons/CrossIcon.vue';
   import { useScoreStore } from '@/stores/scoreStore';
-  import type { RowId, MarkedState } from '@/types/NochMalTypes';
+  import type { RowId, MarkedState, CheckedState } from '@/types/NochMalTypes';
   import { computed } from 'vue';
 
   const { rowId, redText, marginAdjust } = defineProps<{
@@ -17,7 +17,7 @@
 
   const isChecked = computed(
     () => deepState.letterHeaderBoxesState.find(
-      (el: MarkedState) => el.index === rowId)!.isChecked
+      (el: CheckedState) => el.index === rowId)!.isChecked
   );
 
   const handleClick = () => {
