@@ -9,7 +9,6 @@ import {
   mainGridInitialState,
 } from '@/constants/noch-mal/InitialStates';
 import { allThemBoxes } from '@/constants/noch-mal/MainGridBoxes';
-import { getRealIndex } from '@/utils/nochMal/RealIndex';
 
 export const useScoreStore = defineStore('score', () => {
   const deepState = reactive({
@@ -49,15 +48,10 @@ export const useScoreStore = defineStore('score', () => {
     return deepState.jokerBoxesState.filter((el: any) => !el.isChecked).length;
   });
 
-  function checkIfStared(el: MainGridCheckedState) {
-    const i = getRealIndex(el.index);
-    return allThemBoxes[i]?.stared;
-  }
-
   const starScore = computed(() => {
     return (
       deepState.mainGridState.filter(
-        (el: any) => checkIfStared(el) && !el.isChecked).length * -2
+        (el: any) => allThemBoxes[el.index]?.stared && !el.isChecked).length * -2
     );
   });
 
@@ -149,6 +143,7 @@ export const useScoreStore = defineStore('score', () => {
   }
 
   function checkForCheckedNeighbors(i: number) {
+    if (deepState.mainGridState[i].checked) return;
     deepState.mainGridState[i].enabled =
       (i     >= 49  && i <= 55                                 ) ||
       (i % 7 != 0   && deepState.mainGridState[i - 1].isChecked) ||
@@ -158,9 +153,7 @@ export const useScoreStore = defineStore('score', () => {
     ;
   }
 
-  function setMainGridChecked(index: string, isChecked: boolean) {
-    const realRowIndex = index.charCodeAt(0) - 'A'.charCodeAt(0);
-    const i = realRowIndex * 7 + Number(index[1]);
+  function setMainGridChecked(i: number, isChecked: boolean) {
     deepState.mainGridState[i].isChecked = isChecked;
     
     // left
@@ -199,8 +192,8 @@ export const useScoreStore = defineStore('score', () => {
       }
     }
 
-    deepState.mainGridState = deepState.mainGridState.map((box: MarkedState) =>
-      box.index === index ? { ...box, isChecked } : box
+    deepState.mainGridState = deepState.mainGridState.map((box: MainGridCheckedState) =>
+      box.index === i ? { ...box, isChecked } : box
     );
     // if checked all of a color,
     // check the state of corresponding color score box, and update them
@@ -212,8 +205,11 @@ export const useScoreStore = defineStore('score', () => {
 
   function resetMainGrid() {
     deepState.mainGridState = deepState.mainGridState.map((box: MainGridCheckedState) => {
-      const i = getRealIndex(box.index);
-      return  { index: box.index, enabled: (i >= 49  && i <= 55),  isChecked: false } ;
+      return {
+        index: box.index,
+        enabled: (box.index >= 49 && box.index <= 55),
+        isChecked: false
+      };
     });
     sessionStorage.setItem(
       'main',

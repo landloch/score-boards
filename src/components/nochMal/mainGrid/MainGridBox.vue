@@ -4,7 +4,6 @@
   import StarIcon from '@/components/icons/nochMal/StarIcon.vue';
   import { useScoreStore } from '@/stores/scoreStore';
   import { BoxData } from '@/types/NochMalTypes';
-import { getRealIndex } from '@/utils/nochMal/RealIndex';
   import { computed } from 'vue';
 
   const { box, centerLine } = defineProps({
@@ -23,22 +22,22 @@ import { getRealIndex } from '@/utils/nochMal/RealIndex';
     )!.isChecked
   );
 
-  function handleClick(boxIndex: string) {
-    if (deepState.mainGridState[getRealIndex(boxIndex)].enabled) {
+  function handleClick(boxIndex: number) {
+    if (deepState.mainGridState[boxIndex].enabled) {
       setMainGridChecked(boxIndex, !isChecked.value);
     }
   };
 
   const checkIfDisabled = computed(() => {
-    const realRowIndex = box.column.charCodeAt(0) - 'A'.charCodeAt(0);
-    const i = realRowIndex * 7 + box.row;
+    const realRowIndex = box.rowId.charCodeAt(0) - 'A'.charCodeAt(0);
+    const i = realRowIndex * 7 + box.column;
     return deepState.mainGridState[i].enabled ? "enabled" : "disabled";
   });
 </script>
 
 <template>
   <span
-    :id="box.index"
+    :id="box.index.toString()"
     :key="box.index"
     :class="`box ${box.color} ${checkIfDisabled} ${centerLine ? 'center-column' : ''}`"
     @click="() => handleClick(box.index)"

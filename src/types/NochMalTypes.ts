@@ -1,3 +1,5 @@
+import { getRealIndex } from "@/utils/nochMal/RealIndex";
+
 export enum Colors {
   Blue   = "blue",
   Green  = "green",
@@ -6,33 +8,36 @@ export enum Colors {
   Yellow = "yellow"
 }
 
-export type ColumnId =
+export type RowId =
   | "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H"
   | "I" | "J" | "K" | "L" | "M" | "N" | "O";
 
 export class BoxData {
-  readonly index : string;
-  readonly column: string;
+  readonly index : number;
+  readonly rowId : RowId;
   readonly row   : number;
+  readonly column: number;
   readonly color : Colors;
   readonly stared: boolean;
 
   constructor(
-    column: string,
-    row   : number,
+    rowId : RowId,
+    column: number,
     color : Colors,
     stared: boolean
   ) {
+    const row   = rowId.charCodeAt(0) - 'A'.charCodeAt(0);
     this.color  = color;
-    this.column = column;
+    this.rowId  = rowId;
     this.row    = row;
+    this.column = column;
     this.stared = stared;
-    this.index  = column + row;
+    this.index  = row * 7 + column;
   }
 };
 
-export type ColumnData = {
-  column          : ColumnId;
+export type RowData = {
+  row             : RowId;
   boxesData       : BoxData[];
   pointsBase      : number;
   pointsFirstBonus: number;
@@ -44,7 +49,7 @@ export type CheckedState = {
 };
 
 export type MainGridCheckedState = {
-  index    : string;
+  index    : number;
   enabled  : boolean;
   isChecked: boolean;
 };

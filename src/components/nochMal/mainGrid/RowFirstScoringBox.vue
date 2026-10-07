@@ -2,13 +2,13 @@
   import CircledIcon from '@/components/icons/CircledIcon.vue';
   import CrossIcon from '@/components/icons/CrossIcon.vue';
   import { useScoreStore } from '@/stores/scoreStore';
-  import type { ColumnId, MarkedState } from '@/types/NochMalTypes';
+  import type { RowId, MarkedState } from '@/types/NochMalTypes';
   import { Mark } from '@/types/NochMalTypes';
 
   const {
-    columnId, score, redText, index
+    rowId, score, redText, index
   } = defineProps<{
-    columnId: ColumnId;
+    rowId: RowId;
     score: number;
     redText?: boolean;
     index: string;
@@ -32,8 +32,8 @@
 
 <template>
   <span
-    :id="columnId"
-    :key="columnId"
+    :id="rowId"
+    :key="rowId"
     class="main-grid-scoring-boxes"
     @click="handleClick"
   >

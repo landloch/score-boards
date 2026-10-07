@@ -1,4 +1,4 @@
-import type { BoxData, ColumnData } from "@/types/NochMalTypes";
+import type { BoxData, RowData } from "@/types/NochMalTypes";
 import {
   boxA0, boxA1, boxA2, boxA3, boxA4, boxA5, boxA6,
   boxB0, boxB1, boxB2, boxB3, boxB4, boxB5, boxB6,
@@ -17,144 +17,144 @@ import {
   boxO0, boxO1, boxO2, boxO3, boxO4, boxO5, boxO6
 } from "./BoxesData";
 
-const columnA: BoxData[] =
+const rowA: BoxData[] =
   [boxA0, boxA1, boxA2, boxA3, boxA4, boxA5, boxA6];
-export const columnAdata: ColumnData = {
-  column: "A",
-  boxesData: columnA,
+export const rowAdata: RowData = {
+  row: "A",
+  boxesData: rowA,
   pointsBase: 3,
   pointsFirstBonus: 2
 };
 
-const columnB: BoxData[] =
+const rowB: BoxData[] =
   [boxB0, boxB1, boxB2, boxB3, boxB4, boxB5, boxB6];
-export const columnBdata: ColumnData = {
-  column: "B",
-  boxesData: columnB,
+export const rowBdata: RowData = {
+  row: "B",
+  boxesData: rowB,
   pointsBase: 2,
   pointsFirstBonus: 1
 };
 
-const columnC: BoxData[] =
+const rowC: BoxData[] =
   [boxC0, boxC1, boxC2, boxC3, boxC4, boxC5, boxC6];
-export const columnCdata: ColumnData = {
-  column: "C",
-  boxesData: columnC,
+export const rowCdata: RowData = {
+  row: "C",
+  boxesData: rowC,
   pointsBase: 2,
   pointsFirstBonus: 1
 };
 
-const columnD: BoxData[] =
+const rowD: BoxData[] =
   [boxD0, boxD1, boxD2, boxD3, boxD4, boxD5, boxD6];
-export const columnDdata: ColumnData = {
-  column: "D",
-  boxesData: columnD,
+export const rowDdata: RowData = {
+  row: "D",
+  boxesData: rowD,
   pointsBase: 2,
   pointsFirstBonus: 1
 };
 
-const columnE: BoxData[] =
+const rowE: BoxData[] =
   [boxE0, boxE1, boxE2, boxE3, boxE4, boxE5, boxE6];
-export const columnEdata: ColumnData = {
-  column: "E",
-  boxesData: columnE,
+export const rowEdata: RowData = {
+  row: "E",
+  boxesData: rowE,
   pointsBase: 1,
   pointsFirstBonus: 1
 };
 
-const columnF: BoxData[] =
+const rowF: BoxData[] =
   [boxF0, boxF1, boxF2, boxF3, boxF4, boxF5, boxF6];
-export const columnFdata: ColumnData = {
-  column: "F",
-  boxesData: columnF,
+export const rowFdata: RowData = {
+  row: "F",
+  boxesData: rowF,
   pointsBase: 1,
   pointsFirstBonus: 1
 };
 
-const columnG: BoxData[] =
+const rowG: BoxData[] =
   [boxG0, boxG1, boxG2, boxG3, boxG4, boxG5, boxG6];
-export const columnGdata: ColumnData = {
-  column: "G",
-  boxesData: columnG,
+export const rowGdata: RowData = {
+  row: "G",
+  boxesData: rowG,
   pointsBase: 1,
   pointsFirstBonus: 1
 };
 
-const columnH: BoxData[] =
+const rowH: BoxData[] =
   [boxH0, boxH1, boxH2, boxH3, boxH4, boxH5, boxH6];
-export const columnHdata: ColumnData = {
-  column: "H",
-  boxesData: columnH,
+export const rowHdata: RowData = {
+  row: "H",
+  boxesData: rowH,
   pointsBase: 0,
   pointsFirstBonus: 1
 };
 
-const columnI: BoxData[] =
+const rowI: BoxData[] =
   [boxI0, boxI1, boxI2, boxI3, boxI4, boxI5, boxI6];
-export const columnIdata: ColumnData = {
-  column: "I",
-  boxesData: columnI,
+export const rowIdata: RowData = {
+  row: "I",
+  boxesData: rowI,
   pointsBase: 1,
   pointsFirstBonus: 1
 };
 
-const columnJ: BoxData[] =
+const rowJ: BoxData[] =
   [boxJ0, boxJ1, boxJ2, boxJ3, boxJ4, boxJ5, boxJ6];
-export const columnJdata: ColumnData = {
-  column: "J",
-  boxesData: columnJ,
+export const rowJdata: RowData = {
+  row: "J",
+  boxesData: rowJ,
   pointsBase: 1,
   pointsFirstBonus: 1
 };
 
-const columnK: BoxData[] =
+const rowK: BoxData[] =
   [boxK0, boxK1, boxK2, boxK3, boxK4, boxK5, boxK6];
-export const columnKdata: ColumnData = {
-  column: "K",
-  boxesData: columnK,
+export const rowKdata: RowData = {
+  row: "K",
+  boxesData: rowK,
   pointsBase: 1,
   pointsFirstBonus: 1
 };
 
-const columnL: BoxData[] =
+const rowL: BoxData[] =
   [boxL0, boxL1, boxL2, boxL3, boxL4, boxL5, boxL6];
-export const columnLdata: ColumnData = {
-  column: "L",
-  boxesData: columnL,
+export const rowLdata: RowData = {
+  row: "L",
+  boxesData: rowL,
   pointsBase: 2,
   pointsFirstBonus: 1
 };
 
-const columnM: BoxData[] =
+const rowM: BoxData[] =
   [boxM0, boxM1, boxM2, boxM3, boxM4, boxM5, boxM6];
-export const columnMdata: ColumnData = {
-  column: "M",
-  boxesData: columnM,
+export const rowMdata: RowData = {
+  row: "M",
+  boxesData: rowM,
   pointsBase: 2,
   pointsFirstBonus: 1
 };
 
-const columnN: BoxData[] =
+const rowN: BoxData[] =
   [boxN0, boxN1, boxN2, boxN3, boxN4, boxN5, boxN6];
-export const columnNdata: ColumnData = {
-  column: "N",
-  boxesData: columnN,
+export const rowNdata: RowData = {
+  row: "N",
+  boxesData: rowN,
   pointsBase: 2,
   pointsFirstBonus: 1
 };
 
-const columnO: BoxData[] =
+const rowO: BoxData[] =
   [boxO0, boxO1, boxO2, boxO3, boxO4, boxO5, boxO6];
-export const columnOdata: ColumnData = {
-  column: "O",
-  boxesData: columnO,
+export const rowOdata: RowData = {
+  row: "O",
+  boxesData: rowO,
   pointsBase: 3,
   pointsFirstBonus: 2
 };
 
 export const allThemBoxes: BoxData[] = [
-  ...columnA, ...columnB, ...columnC, ...columnD,
-  ...columnE, ...columnF, ...columnG, ...columnH,
-  ...columnI, ...columnJ, ...columnK, ...columnL,
-  ...columnM, ...columnN, ...columnO
+  ...rowA, ...rowB, ...rowC, ...rowD,
+  ...rowE, ...rowF, ...rowG, ...rowH,
+  ...rowI, ...rowJ, ...rowK, ...rowL,
+  ...rowM, ...rowN, ...rowO
 ];

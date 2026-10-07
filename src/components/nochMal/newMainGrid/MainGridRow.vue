@@ -1,12 +1,12 @@
 <script setup lang="ts">
-  import type { ColumnData } from '@/types/NochMalTypes';
-import ColumnIdBox from '../mainGrid/ColumnIdBox.vue';
+  import type { RowData } from '@/types/NochMalTypes';
+import RowIdBox from '../mainGrid/RowIdBox.vue';
 import MainGridBox from '../mainGrid/MainGridBox.vue';
-import ColumnFirstScoringBox from '../mainGrid/ColumnFirstScoringBox.vue';
-import ColumnLaterScoringBox from '../mainGrid/ColumnLaterScoringBox.vue';
+import RowFirstScoringBox from '../mainGrid/RowFirstScoringBox.vue';
+import RowLaterScoringBox from '../mainGrid/RowLaterScoringBox.vue';
 
   defineProps<{
-    column: ColumnData;
+    row: RowData;
     centerLine?: boolean;
   }>();
 </script>
@@ -14,14 +14,14 @@ import ColumnLaterScoringBox from '../mainGrid/ColumnLaterScoringBox.vue';
 <template>
   <tr>
     <td>
-      <ColumnIdBox
-        :columnId="column.column"
+      <RowIdBox
+        :rowId="row.row"
         :redText="centerLine"
         marginAdjust="bottom"
       />
     </td>
     <td><span class="spacer"></span></td>
-    <td v-for="box in column.boxesData">
+    <td v-for="box in row.boxesData">
       <MainGridBox
         :key="box.index"
         :box="box"
@@ -30,20 +30,20 @@ import ColumnLaterScoringBox from '../mainGrid/ColumnLaterScoringBox.vue';
     </td>
     <td><span class="spacer"></span></td>
     <td>
-      <ColumnFirstScoringBox
-        :columnId="column.column"
+      <RowFirstScoringBox
+        :rowId="row.row"
         :redText="centerLine" 
-        :score="column.pointsFirstBonus + column.pointsBase"
+        :score="row.pointsFirstBonus + row.pointsBase"
         marginAdjust="top"
-        :index="`${column.column}1st`"
+        :index="`${row.row}1st`"
       />
     </td>
     <td>
-      <ColumnLaterScoringBox
-        :columnId="column.column"
+      <RowLaterScoringBox
+        :rowId="row.row"
         :redText="centerLine" 
-        :score="column.pointsBase"
-        :index="`${column.column}2nd`"
+        :score="row.pointsBase"
+        :index="`${row.row}2nd`"
       />
     </td>
   </tr>

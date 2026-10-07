@@ -1,11 +1,11 @@
 <script setup lang="tsx">
   import CrossIcon from '@/components/icons/CrossIcon.vue';
   import { useScoreStore } from '@/stores/scoreStore';
-  import type { ColumnId, MarkedState } from '@/types/NochMalTypes';
+  import type { RowId, MarkedState } from '@/types/NochMalTypes';
   import { computed } from 'vue';
 
-  const { columnId, redText, marginAdjust } = defineProps<{
-    columnId: ColumnId;
+  const { rowId, redText, marginAdjust } = defineProps<{
+    rowId: RowId;
     redText?: boolean;
     marginAdjust?: "top" | "bottom";
   }>();
@@ -17,18 +17,18 @@
 
   const isChecked = computed(
     () => deepState.letterHeaderBoxesState.find(
-      (el: MarkedState) => el.index === columnId)!.isChecked
+      (el: MarkedState) => el.index === rowId)!.isChecked
   );
 
   const handleClick = () => {
-    setLetterHeaderChecked(columnId, !isChecked.value);
+    setLetterHeaderChecked(rowId, !isChecked.value);
   };
 </script>
 
 <template>
   <span
-    :id="columnId"
-    :key="columnId"
+    :id="rowId"
+    :key="rowId"
     class="main-grid-scoring-boxes"
     @click="handleClick"
   >
@@ -47,7 +47,7 @@
         text-anchor="middle"
         dominant-baseline="central"
       >
-        {{ columnId }}
+        {{ rowId }}
       </text>
     </svg>
     <CrossIcon v-if="isChecked" />

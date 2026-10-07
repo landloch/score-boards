@@ -1,14 +1,14 @@
 <script setup lang="ts">
   import CircledIcon from '@/components/icons/CircledIcon.vue';
   import { useScoreStore } from '@/stores/scoreStore';
-  import type { ColumnId, MarkedState } from '@/types/NochMalTypes';
+  import type { RowId, MarkedState } from '@/types/NochMalTypes';
   import { Mark } from '@/types/NochMalTypes';
   import { computed } from 'vue';
 
   const {
-    columnId, score, redText, marginAdjust, index
+    rowId, score, redText, marginAdjust, index
   } = defineProps<{
-    columnId: ColumnId;
+    rowId: RowId;
     score: number;
     redText?: boolean;
     marginAdjust?: "top" | "bottom";
@@ -32,8 +32,8 @@
 
 <template>
   <span
-    :id="columnId"
-    :key="columnId"
+    :id="rowId"
+    :key="rowId"
     :class="`main-grid-scoring-boxes ${marginAdjust ? marginAdjust + '-margin' : ''}`"
     @click="handleClick"
   >
