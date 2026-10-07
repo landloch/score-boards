@@ -89,21 +89,26 @@
 
   .trans-blue {
     background-color: var(--trans-blue);
+    opacity: 0.8;
   }
 
   .trans-green {
     background-color: var(--trans-green);
+    opacity: 0.8;
   }
 
   .trans-orange {
     background-color: var(--trans-orange);
+    opacity: 0.8;
   }
 
   .trans-red {
     background-color: var(--trans-red);
+    opacity: 0.8;
   }
 
   .trans-yellow {
     background-color: var(--trans-yellow);
+    opacity: 0.8;
   }
 </style>
