@@ -173,7 +173,7 @@ export const useScoreStore = defineStore('score', () => {
       if (i % 7 != 0) { // left
         checkForCheckedNeighbors(i - 1);
       }
-      if (i % 7 != 0) { // right
+      if (i % 7 != 6) { // right
         checkForCheckedNeighbors(i + 1);
       }
       if (i >= 7) { // up
