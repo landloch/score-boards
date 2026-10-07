@@ -1,7 +1,9 @@
 import { computed, reactive } from 'vue';
 import { defineStore } from 'pinia';
 import { Mark, type CheckedState,
-  type MarkedState, type MainGridCheckedState
+  type MarkedState, type MainGridCheckedState,
+  type RowId,
+  Colors
 } from '@/types/NochMalTypes';
 import {
   colorScoreingBoxesInitialState, letterHeaderBoxesInitalState,
@@ -31,6 +33,16 @@ export const useScoreStore = defineStore('score', () => {
     mainGridState: sessionStorage.getItem('main')
       ? JSON.parse(sessionStorage.getItem('main') ?? '[]') as MainGridCheckedState[]
       : structuredClone(mainGridInitialState) as MainGridCheckedState[],
+
+    markedColorsMap: new Map<Colors, number>([
+      [Colors.Green, 0], [Colors.Yellow, 0], [Colors.Blue, 0], [Colors.Red, 0], [Colors.Orange, 0],
+    ]),
+
+    markedLetterMap: new Map<RowId, number>([
+      ['A', 0], ['B', 0], ['C', 0], ['D', 0], ['E', 0],
+      ['F', 0], ['G', 0], ['H', 0], ['I', 0], ['J', 0],
+      ['K', 0], ['L', 0], ['M', 0], ['N', 0], ['O', 0],
+    ]),
   });
 
   const colorScore = computed(() => {
@@ -184,6 +196,15 @@ export const useScoreStore = defineStore('score', () => {
       }
       checkForCheckedNeighbors(i);
     }
+
+    deepState.markedColorsMap.set(
+      allThemBoxes[i]!.color,
+      (deepState.markedColorsMap.get(allThemBoxes[i]!.color) ?? 0) + (2*Number(checked) - 1)
+    );
+    deepState.markedLetterMap.set(
+      allThemBoxes[i]!.rowId,
+      (deepState.markedLetterMap.get(allThemBoxes[i]!.rowId) ?? 0) + (2*Number(checked) - 1)
+    );
 
     // if checked all of a color,
     // check the state of corresponding color score box, and update them

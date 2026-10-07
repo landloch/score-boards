@@ -31,7 +31,7 @@
   const checkIfDisabled = computed(() => {
     const realRowIndex = box.rowId.charCodeAt(0) - 'A'.charCodeAt(0);
     const i = realRowIndex * 7 + box.column;
-    return deepState.mainGridState[i]!.enabled ? "enabled" : "disabled";
+    return deepState.mainGridState[i]!.enabled ? "" : "trans-";
   });
 </script>
 
@@ -39,7 +39,7 @@
   <span
     :id="box.index.toString()"
     :key="box.index"
-    :class="`box ${box.color} ${checkIfDisabled} ${centerLine ? 'center-column' : ''}`"
+    :class="`box ${checkIfDisabled}${box.color} ${centerLine ? 'center-column' : ''}`"
     @click="() => handleClick(box.index)"
   >
     <StarIcon v-if="box.stared" />
@@ -60,10 +60,6 @@
     display: flex;
     border-radius: 5px;
     position: relative;
-  }
-
-  .disabled {
-    opacity: 0.5;
   }
 
   .center-column {
@@ -89,5 +85,25 @@
 
   .yellow {
     background-color: var(--yellow);
+  }
+
+  .trans-blue {
+    background-color: var(--trans-blue);
+  }
+
+  .trans-green {
+    background-color: var(--trans-green);
+  }
+
+  .trans-orange {
+    background-color: var(--trans-orange);
+  }
+
+  .trans-red {
+    background-color: var(--trans-red);
+  }
+
+  .trans-yellow {
+    background-color: var(--trans-yellow);
   }
 </style>

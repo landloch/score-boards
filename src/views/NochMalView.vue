@@ -26,10 +26,15 @@
     font-family: "Bangers", sans-serif;
     paint-order: stroke fill;
     --blue: #6699ff;
+    --trans-blue: #6699ff9a;
     --green: #99cc33;
+    --trans-green: #99cc339a;
     --orange: #ff6600;
+    --trans-orange: #ff66009a;
     --red: #cc0f4f;
+    --trans-red: #cc0f4f9a;
     --yellow: #ffcc00;
+    --trans-yellow: #ffcc009a;
     --semi-clear: #fff8;
     user-select: none;
   }
