@@ -167,7 +167,7 @@ export const useScoreStore = defineStore('score', () => {
         deepState.mainGridState[i - 7]!.enabled = true;
       }
       if (i + 7 < 105) { // down
-        checkForCheckedNeighbors(i + 7);
+        deepState.mainGridState[i + 7]!.enabled = true;
       }
     } else {
       if (i % 7 != 0) { // left
@@ -182,13 +182,7 @@ export const useScoreStore = defineStore('score', () => {
       if (i + 7 < 105) { // down
         checkForCheckedNeighbors(i + 7);
       }
-      deepState.mainGridState[i]!.enabled =
-        (i     >= 49  && i <= 55                                ) ||
-        (i % 7 != 0   && deepState.mainGridState[i - 1]!.checked) ||
-        (i % 7 != 6   && deepState.mainGridState[i + 1]!.checked) ||
-        (i     >= 7   && deepState.mainGridState[i - 7]!.checked) ||
-        (i + 7 <  105 && deepState.mainGridState[i + 7]!.checked)
-      ;
+      checkForCheckedNeighbors(i);
     }
 
     // if checked all of a color,
