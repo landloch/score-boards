@@ -1,4 +1,4 @@
-import { computed, reactive } from 'vue';
+import { computed, reactive, toRaw } from 'vue';
 import { defineStore } from 'pinia';
 import { Mark, type CheckedState,
   type MarkedState, type MainGridCheckedState
@@ -9,6 +9,7 @@ import {
   mainGridInitialState,
 } from '@/constants/noch-mal/InitialStates';
 import { allThemBoxes } from '@/constants/noch-mal/MainGridBoxes';
+import { getRealIndex } from '@/utils/nochMal/RealIndex';
 
 export const useScoreStore = defineStore('score', () => {
   const deepState = reactive({
@@ -49,9 +50,8 @@ export const useScoreStore = defineStore('score', () => {
   });
 
   function checkIfStared(el: MainGridCheckedState) {
-    const realRowIndex = el.index.charCodeAt(0) - 'A'.charCodeAt(0);
-    const realIndex = realRowIndex * 7 + Number(el.index[1]);
-    return allThemBoxes[realIndex]?.stared;
+    const i = getRealIndex(el.index);
+    return allThemBoxes[i]?.stared;
   }
 
   const starScore = computed(() => {
@@ -148,15 +148,14 @@ export const useScoreStore = defineStore('score', () => {
     );
   }
 
-  function chckForCheckedNeighbors(i: number) {
-    if (
-      (i % 7 != 0   && deepState.colorBoxesMarkedState[i - 1].isChecked) ||
-      (i % 7 != 6   && deepState.colorBoxesMarkedState[i + 1].isChecked) ||
-      (i     >= 7   && deepState.colorBoxesMarkedState[i - 7].isChecked) ||
-      (i + 7 <  105 && deepState.colorBoxesMarkedState[i + 7].isChecked)
-    ) {
-      return true;
-    }
+  function checkForCheckedNeighbors(i: number) {
+    deepState.mainGridState[i].enabled =
+      (i     >= 49  && i <= 55                                 ) ||
+      (i % 7 != 0   && deepState.mainGridState[i - 1].isChecked) ||
+      (i % 7 != 6   && deepState.mainGridState[i + 1].isChecked) ||
+      (i     >= 7   && deepState.mainGridState[i - 7].isChecked) ||
+      (i + 7 <  105 && deepState.mainGridState[i + 7].isChecked)
+    ;
   }
 
   function setMainGridChecked(index: string, isChecked: boolean) {
@@ -167,36 +166,36 @@ export const useScoreStore = defineStore('score', () => {
     // left
     if (i % 7 != 0) {
       if (isChecked)  {
-        deepState.colorBoxesMarkedState[i - 1].enabled = true;
+        deepState.mainGridState[i - 1].enabled = true;
       } else {
-        chckForCheckedNeighbors(i - 1);
+        checkForCheckedNeighbors(i - 1);
       }
     }
 
     // right
     if (i % 7 != 6) {
       if (isChecked)  {
-        deepState.colorBoxesMarkedState[i + 1].enabled = true;
+        deepState.mainGridState[i + 1].enabled = true;
       } else {
-        chckForCheckedNeighbors(i + 1);
+        checkForCheckedNeighbors(i + 1);
       }
     }
 
     // up
     if (i >= 7) {
       if (isChecked)  {
-        deepState.colorBoxesMarkedState[i - 7].enabled = true;
+        deepState.mainGridState[i - 7].enabled = true;
       } else {
-        chckForCheckedNeighbors(i - 7);
+        checkForCheckedNeighbors(i - 7);
       }
     }
 
     // down
     if (i + 7 < 105) {
       if (isChecked)  {
-        deepState.colorBoxesMarkedState[i + 7].enabled = true;
+        deepState.mainGridState[i + 7].enabled = true;
       } else {
-        chckForCheckedNeighbors(i + 1);
+        checkForCheckedNeighbors(i + 7);
       }
     }
 
@@ -212,9 +211,10 @@ export const useScoreStore = defineStore('score', () => {
   }
 
   function resetMainGrid() {
-    deepState.mainGridState = deepState.mainGridState.map((box: MarkedState) =>
-      ({ ...box, isChecked: false })
-    );
+    deepState.mainGridState = deepState.mainGridState.map((box: MainGridCheckedState) => {
+      const i = getRealIndex(box.index);
+      return  { index: box.index, enabled: (i >= 49  && i <= 55),  isChecked: false } ;
+    });
     sessionStorage.setItem(
       'main',
       JSON.stringify(deepState.mainGridState)
