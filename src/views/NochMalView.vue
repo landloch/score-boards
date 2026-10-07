@@ -4,13 +4,6 @@
   import MainGrid from '@/components/nochMal/newMainGrid/MainGrid.vue';
   import ScalingContainer from '@/components/common/ScalingContainer.vue';
   import Header from '@/components/nochMal/Header.vue';
-  /*
-  Auto borad rules:
-  every column and row has every color
-  every column has exactly one star, nor very row has stars
-  for each color, there are 6 regimes, each with a different number of boxes.
-  there is never more than one regime of the same color in the same column
-  */
 </script>
 
 <template>

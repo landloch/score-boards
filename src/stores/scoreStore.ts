@@ -1,4 +1,4 @@
-import { computed, reactive, toRaw } from 'vue';
+import { computed, reactive } from 'vue';
 import { defineStore } from 'pinia';
 import { Mark, type CheckedState,
   type MarkedState, type MainGridCheckedState

@@ -1,13 +1,12 @@
 <script setup lang="tsx">
   import CrossIcon from '@/components/icons/CrossIcon.vue';
   import { useScoreStore } from '@/stores/scoreStore';
-  import type { RowId, MarkedState, CheckedState } from '@/types/NochMalTypes';
+  import type { RowId, CheckedState } from '@/types/NochMalTypes';
   import { computed } from 'vue';
 
-  const { rowId, redText, marginAdjust } = defineProps<{
+  const { rowId, redText } = defineProps<{
     rowId: RowId;
     redText?: boolean;
-    marginAdjust?: "top" | "bottom";
   }>();
 
   const {
