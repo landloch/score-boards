@@ -30,7 +30,7 @@
   });
 
   function handleClick() {
-    if (/*(deepState.markedLetterMap.get(rowId) ?? 0)*/0 < 21) {
+    if ((deepState.markedLetterMap.get(rowId) ?? 0) == 21) {
       setLetterScoreBoxMark(index, !isCircled.value ? Mark.Circled : Mark.Blank);
     }
   }

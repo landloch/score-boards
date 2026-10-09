@@ -18,7 +18,7 @@ import { ColorMap } from '@/constants/noch-mal/ColorMap';
   }
 
   function handleClick() {
-    if ((deepState.markedColorsMap.get(color) ?? 0) < 21) {
+    if ((deepState.markedColorsMap.get(color) ?? 0) == 21) {
       const nextMark = stateArray[(getState() + 1) % 3];
       setColorBoxMark(index, nextMark!);
     } else {

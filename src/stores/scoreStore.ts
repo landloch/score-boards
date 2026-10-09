@@ -19,7 +19,35 @@ import {
 } from '@/constants/noch-mal/InitialStates';
 import { allThemBoxes } from '@/constants/noch-mal/MainGridBoxes';
 
+function loadCountMap<Key>(
+  storageKey: string,
+  initialState: Map<Key, number>,
+  mainGridState: MainGridCheckedState[],
+  getKey: (index: number) => Key,
+): Map<Key, number> {
+  const serialized = sessionStorage.getItem(storageKey);
+  if (serialized) {
+    try {
+      const entries: unknown = JSON.parse(serialized);
+      if (Array.isArray(entries)) return new Map(entries as [Key, number][]);
+    } catch {
+    }
+  }
+
+  const counts = structuredClone(initialState);
+  mainGridState.forEach((cell, index) => {
+    if (!cell.checked) return;
+    const key = getKey(index);
+    counts.set(key, (counts.get(key) ?? 0) + 1);
+  });
+  return counts;
+}
+
 export const useScoreStore = defineStore('score', () => {
+  const mainGridState = sessionStorage.getItem('main')
+    ? JSON.parse(sessionStorage.getItem('main')!) as MainGridCheckedState[]
+    : structuredClone(mainGridInitialState) as MainGridCheckedState[];
+
   const deepState = reactive<DeepState>({
     colorBoxesMarkedState: sessionStorage.getItem('colorScoring')
       ? JSON.parse(sessionStorage.getItem('colorScoring')!) as MarkedState[]
@@ -33,17 +61,16 @@ export const useScoreStore = defineStore('score', () => {
       ? JSON.parse(sessionStorage.getItem('jokers')!) as CheckedState[]
       : structuredClone(jokerBoxesInitialState) as CheckedState[],
     
-    mainGridState: sessionStorage.getItem('main')
-      ? JSON.parse(sessionStorage.getItem('main')!) as MainGridCheckedState[]
-      : structuredClone(mainGridInitialState) as MainGridCheckedState[],
+    mainGridState,
 
-    markedColorsMap: sessionStorage.getItem('marked-color-counts')
-      ? JSON.parse(sessionStorage.getItem('marked-color-counts')!) as Map<Colors, number>
-      : structuredClone(markedColorsMapInitialState) as Map<Colors, number>,
-
-    markedLetterMap: sessionStorage.getItem('marked-letter-counts')
-      ? JSON.parse(sessionStorage.getItem('marked-letter-counts')!) as Map<RowId, number>
-      : structuredClone(markedLetterMapInitialState) as Map<RowId, number>,
+    markedColorsMap: loadCountMap(
+      'marked-color-counts', markedColorsMapInitialState, mainGridState,
+      (index) => allThemBoxes[index]!.color,
+    ),
+    markedLetterMap: loadCountMap(
+      'marked-letter-counts', markedLetterMapInitialState, mainGridState,
+      (index) => allThemBoxes[index]!.rowId,
+    ),
   });
 
   const colorScore = computed(() => {
@@ -189,11 +216,11 @@ export const useScoreStore = defineStore('score', () => {
     // check the state of corresponding color score box, and update them
     sessionStorage.setItem(
       'marked-color-counts',
-      JSON.stringify(deepState.markedColorsMap)
+      JSON.stringify([...deepState.markedColorsMap])
     );
     sessionStorage.setItem(
       'marked-letter-counts',
-      JSON.stringify(deepState.markedLetterMap)
+      JSON.stringify([...deepState.markedLetterMap])
     );
     sessionStorage.setItem(
       'main',
@@ -212,11 +239,11 @@ export const useScoreStore = defineStore('score', () => {
 
     sessionStorage.setItem(
       'marked-color-counts',
-      JSON.stringify(deepState.markedColorsMap)
+      JSON.stringify([...deepState.markedColorsMap])
     );
     sessionStorage.setItem(
       'marked-letter-counts',
-      JSON.stringify(deepState.markedLetterMap)
+      JSON.stringify([...deepState.markedLetterMap])
     );
     sessionStorage.setItem(
       'main',

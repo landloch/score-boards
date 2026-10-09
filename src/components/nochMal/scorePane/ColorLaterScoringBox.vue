@@ -23,7 +23,7 @@
   });
 
   function handleClick() {
-    if (/*(deepState.markedColorsMap.get(color) ?? 0)*/0 < 21) {
+    if ((deepState.markedColorsMap.get(color) ?? 0) == 21) {
       setColorBoxMark(index, !isCircled.value ? Mark.Circled : Mark.Blank);
     }
   }
