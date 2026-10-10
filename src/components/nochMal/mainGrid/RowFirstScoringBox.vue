@@ -22,7 +22,8 @@
   } 
 
   function handleClick() {
-    if ((deepState.markedLetterMap.get(rowId) ?? 0) == 21) {
+    console.log(deepState.markedLetterMap.get(rowId));
+    if ((deepState.markedLetterMap.get(rowId) ?? 0) == 7) {
       const nextMark = stateArray[(getState() + 1) % 3];
       setLetterScoreBoxMark(index, nextMark!);
     } else {

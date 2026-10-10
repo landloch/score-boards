@@ -18,8 +18,7 @@
   );
 
   const checkIfDisabled = computed(() => {
-    console.log(deepState.markedColorsMap);
-    return /*(deepState.markedColorsMap.get(color) ?? 0)*/0 < 21 ? "trans-" : "";
+    return (deepState.markedColorsMap.get(color) ?? 0) != 21 ? "trans-" : "";
   });
 
   function handleClick() {
