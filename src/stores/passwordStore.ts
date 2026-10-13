@@ -57,7 +57,7 @@ export const usePasswordStore = defineStore('password', () => {
 
     attempt.forEach((value, index) => {
       const temp = password.value.indexOf(value);
-      if (temp) {
+      if (temp != -1) {
         (temp == index ?
           correctPlacements : prensentColors
         ).set(value, true);
