@@ -3,6 +3,7 @@
     action: Function,
     height: { type: Number, default: 32 },
     width: { type: Number, default: 32 },
+    color: { type: String, default: "white" }
   });
 </script>
 
@@ -10,7 +11,11 @@
   <button
     @click="(event) => action!(event)"
     class="button"
-    :style="{ '--width': width + 'px', '--height': height + 'px' }"
+    :style="{
+      '--width': width + 'px',
+      '--height': height + 'px',
+      'background-color': color
+    }"
   >
     <slot></slot>
   </button>
@@ -21,7 +26,6 @@
     width: var(--width, 32px);
     height: var(--height, 32px);
     border-radius: 5px;
-    background: white;
     align-items: center;
     box-sizing: border-box;
     justify-content: space-between;
