@@ -75,55 +75,64 @@
   <div class="backdrop">
     <ScalingContainer :height="644" :width="455">
       <Header />
-      <div
-        v-for="(prevAttempt, i) in passwordStore.attempts"
-        class="attempt-container"
-      >
-        <SquareButton v-for="colorIndex in prevAttempt">
-          <TackIcon
-            :color="passwordStore.colorOptions[colorIndex]"
-          />
-        </SquareButton>
-        <div class="reply-grid">
-          <span
-            v-for="replyColorIndex in passwordStore.replies[i]"
-            :style="{ color: replyTackColors[replyColorIndex] }"
-          >
-            ●
-          </span>
-        </div>
-      </div>
-      <div> <!-- current attempt -->
-        <PegHole
-          v-for="(colorIndex, index) in attempt"
-          :index="index"
-          :action="() => placeTack(index)"
-          :color="colorIndex != null ? passwordStore.colorOptions[colorIndex] : undefined"
-        />
-        <SquareButton :action="submitAttempt">
-          Submit Attempt
-        </SquareButton>
-      </div>
-      <div> <!-- color options -->
-        <SquareButton
-          v-for="(option, index) in passwordStore.colorOptions"
-          :action="() => handleSelect(option)"
-          :color="passwordStore.activeColor == option ? 'black' : 'white'"
-        >
-          <TackIcon :color="option" />
-        </SquareButton>
-        <SquareButton :action="passwordStore.resset">
-          Resset
-        </SquareButton>
-      </div>
-      <div>
-        <SquareButton
-          v-for="(colorIndex) in passwordStore.password"
-          color="black"
-        >
-          <TackIcon :color="passwordStore.colorOptions[colorIndex]" />
-        </SquareButton>
-      </div>
+      <table>
+        <tr v-for="(prevAttempt, i) in passwordStore.attempts">
+          <td v-for="colorIndex in prevAttempt">
+            <SquareButton>
+              <TackIcon
+                :color="passwordStore.colorOptions[colorIndex]"
+              />
+            </SquareButton>
+          </td>
+          <td>
+            <div class="reply-grid">
+              <span
+                v-for="replyColorIndex in passwordStore.replies[i]"
+                :style="{ backgroundColor: replyTackColors[replyColorIndex] }"
+                class="dot"
+              >
+              </span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td v-for="(colorIndex, index) in attempt">
+            <PegHole
+              :index="index"
+              :action="() => placeTack(index)"
+              :color="colorIndex != null ? passwordStore.colorOptions[colorIndex] : undefined"
+            />
+          </td>
+          <td>
+            <SquareButton :action="submitAttempt">
+              Submit Attempt
+            </SquareButton>
+          </td>
+        </tr>
+        <tr>
+          <td v-for="(option, index) in passwordStore.colorOptions">
+            <SquareButton
+              :action="() => handleSelect(option)"
+              :color="passwordStore.activeColor == option ? 'black' : 'white'"
+            >
+              <TackIcon :color="option" />
+            </SquareButton>
+          </td>
+          <td>
+            <SquareButton :action="passwordStore.resset">
+              Resset
+            </SquareButton>
+          </td>
+        </tr>
+        <!-- <tr>
+          <td v-for="(colorIndex) in passwordStore.password">
+            <SquareButton color="black">
+              <TackIcon :color="passwordStore.colorOptions[colorIndex]" />
+            </SquareButton>
+          </td>
+          <td></td>
+        </tr> -->
+      </table>
     </ScalingContainer>
   </div>
   <TackIcon
@@ -170,6 +179,14 @@
     display: grid;
     grid-template-columns: auto auto auto;
     background-color: #2196F3;
-    padding: 3px;
+    padding: 2px;
+    font-size: 10px;
+    gap: 3px;
+  }
+
+  .dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
   }
 </style>
