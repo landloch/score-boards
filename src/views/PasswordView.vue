@@ -24,7 +24,11 @@
   );
 
   function handleSelect(option: string) {
-    passwordStore.setActiveColor(option);
+    if (passwordStore.activeColor != option) {
+      passwordStore.setActiveColor(option);
+    } else {
+      passwordStore.setActiveColor(null);
+    }
   }
 
   const cursorX = ref(0);
@@ -38,7 +42,7 @@
   function handleRightClick(event: MouseEvent) {
     if (passwordStore.activeColor != null) {
       event.preventDefault();
-      passwordStore.activeColor = null;
+      passwordStore.setActiveColor(null);
     }
   }
 

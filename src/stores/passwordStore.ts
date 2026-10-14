@@ -1,7 +1,8 @@
 import { computed, ref, toValue } from 'vue';
 import { defineStore } from 'pinia';
-import { GenerateColors } from '@/utils/ColorGenerator';
+import { GenerateColors } from '@/utils/ColorGenerator2';
 import { shuffle } from '@/utils/Shuffler';
+import { generateDistinctColors } from '@/utils/ColorGenerator3';
 
 export const usePasswordStore = defineStore('password', () => {
   const colorOptions = ref<string[]>(GenerateColors(6));
