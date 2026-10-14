@@ -12,14 +12,14 @@ import ColorJoker from './ColorJoker.vue';
     <span class="text">/</span>
     <ColorJoker />
     <span class="text">=</span>
-    <JokerMarker index="Joker0" />
-    <JokerMarker index="Joker1" />
-    <JokerMarker index="Joker2" />
-    <JokerMarker index="Joker3" />
-    <JokerMarker index="Joker4" />
-    <JokerMarker index="Joker5" />
-    <JokerMarker index="Joker6" />
-    <JokerMarker index="Joker7" />
+    <JokerMarker :index="0" />
+    <JokerMarker :index="1" />
+    <JokerMarker :index="2" />
+    <JokerMarker :index="3" />
+    <JokerMarker :index="4" />
+    <JokerMarker :index="5" />
+    <JokerMarker :index="6" />
+    <JokerMarker :index="7" />
   </div>
 </template>
 

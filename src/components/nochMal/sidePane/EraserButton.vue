@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import Modal from '@/components/common/Modal.vue';
 import EraserIcon from '@/components/icons/EraserIcon.vue';
-  import { useScoreStore } from '@/stores/scoreStore';
+  import { useNochMalStore } from '@/stores/nochMalStore';
   import { ref } from 'vue';
   import { useI18n } from 'vue-i18n';
 
@@ -12,8 +12,8 @@ import EraserIcon from '@/components/icons/EraserIcon.vue';
     resetMainGrid,
     resetJokers,
     resetColorBoxes,
-    resetLetterScoreBoxes,
-  } = useScoreStore();
+    resetRowsScoreBoxes: resetLetterScoreBoxes,
+  } = useNochMalStore();
 
   function resset() {
     resetMainGrid();

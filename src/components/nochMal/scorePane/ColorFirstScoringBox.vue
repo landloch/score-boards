@@ -2,29 +2,27 @@
   import CircledIcon from '@/components/icons/CircledIcon.vue';
 import CrossIcon from '@/components/icons/CrossIcon.vue';
 import { ColorMap } from '@/constants/noch-mal/ColorMap';
-  import { useScoreStore } from '@/stores/scoreStore';
+  import { useNochMalStore } from '@/stores/nochMalStore';
   import { Mark, type Colors, type MarkedState } from '@/types/NochMalTypes';
+import { computed } from 'vue';
 
-  const { color, index } = defineProps<{
-    color: Colors;
-    index: string;
-  }>();
+  const { color } = defineProps<{ color: Colors }>();
   
-  const stateArray: Mark[] = [Mark.Blank, Mark.Circled, Mark.Scratched];
-  const { deepState, setColorBoxMark } = useScoreStore();
-
-  function getState() {
-    return deepState.colorBoxesMarkedState.find((el: MarkedState) => el.index === index)!.mark;
-  }
+  const { deepState, flipColorBoxMark } = useNochMalStore();
 
   function handleClick() {
-    if ((deepState.markedColorsMap.get(color) ?? 0) == 21) {
-      const nextMark = stateArray[(getState() + 1) % 3];
-      setColorBoxMark(index, nextMark!);
-    } else {
-      setColorBoxMark(index, getState() == Mark.Blank ? Mark.Scratched : Mark.Blank);
-    }
+    flipColorBoxMark(color);
   }
+
+  const mark = computed<Mark>(() => {
+    if (deepState.markedColorsMap.get(color)! != 21) {
+      return Mark.Blank;
+    }
+    if (deepState.colorsState.get(color)) {
+      return Mark.Scratched;
+    }
+    return Mark.Circled;
+  });
 </script>
   
 <template>
@@ -48,8 +46,8 @@ import { ColorMap } from '@/constants/noch-mal/ColorMap';
         5
       </text>
     </svg>
-    <CrossIcon v-if="getState() === Mark.Scratched" />
-    <CircledIcon v-else-if="getState() === Mark.Circled" />
+    <CrossIcon v-if="mark === Mark.Scratched" />
+    <CircledIcon v-else-if="mark === Mark.Circled" />
   </span>
 </template>
 

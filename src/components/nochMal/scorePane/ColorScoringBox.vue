@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import CircledIcon from '@/components/icons/CircledIcon.vue';
 import CrossIcon from '@/components/icons/CrossIcon.vue';
-import { useScoreStore } from '@/stores/scoreStore';
+import { useNochMalStore } from '@/stores/nochMalStore';
 import { type Colors, Mark, type MarkedState } from '@/types/NochMalTypes';
 
 
@@ -9,7 +9,7 @@ const { score, color, index } = defineProps<{
   score: number; color: Colors; index: string;
 }>();
   const stateArray: Mark[] = [Mark.Blank, Mark.Circled, Mark.Scratched];
-  const { deepState, setColorBoxMark } = useScoreStore();
+  const { deepState, flipColorBoxMark: setColorBoxMark } = useNochMalStore();
 
   const getState = () =>
     deepState.colorBoxesMarkedState.find((el: MarkedState) => el.index === index)!.mark;

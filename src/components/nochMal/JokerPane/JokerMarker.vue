@@ -1,22 +1,18 @@
 <script setup lang="ts">
   import CrossIcon from '@/components/icons/CrossIcon.vue';
-  import { useScoreStore } from '@/stores/scoreStore';
-import type { CheckedState } from '@/types/NochMalTypes';
+  import { useNochMalStore } from '@/stores/nochMalStore';
   import { computed } from 'vue';
 
-  const { index } = defineProps<{ index: string }>();
+  const { index } = defineProps<{ index: number }>();
 
-  const {
-    deepState,
-    setJokerChecked,
-  } = useScoreStore();
+  const { deepState, flipJokerChecked } = useNochMalStore();
 
-  const isChecked = computed(
-    () => deepState.jokerBoxesState.find((el: CheckedState) => el.index === index)!.isChecked
+  const isChecked = computed(() =>
+    deepState.jokersState[index]
   );
 
-  const handleClick = () => {
-    setJokerChecked(index, !isChecked.value);
+  function handleClick() {
+    flipJokerChecked(index);
   };
 </script>
 

@@ -6,9 +6,13 @@ export enum Colors {
   Yellow = "yellow"
 }
 
+export type MultiScore = { high: number, low: number };
+
 export type RowId =
-  | "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H"
-  | "I" | "J" | "K" | "L" | "M" | "N" | "O";
+  | "A" | "B" | "C" | "D" | "E"
+  | "F" | "G" | "H" | "I" | "J"
+  | "K" | "L" | "M" | "N" | "O"
+;
 
 export class BoxData {
   readonly index : number;
@@ -65,10 +69,10 @@ export type MarkedState = {
 };
 
 export type DeepState = {
-  colorBoxesMarkedState: MarkedState[];
-  letterScoreingBoxesState: MarkedState[];
-  jokerBoxesState: CheckedState[];
+  colorsState: Map<Colors, boolean>;
+  rowsState: Map<RowId, boolean>;
+  jokersState: boolean[];
   mainGridState: MainGridCheckedState[];
   markedColorsMap: Map<Colors, number>;
-  markedLetterMap: Map<RowId, number>;
+  markedRowMap: Map<RowId, number>;
 };

@@ -2,7 +2,7 @@
   import CrossIcon from '@/components/icons/CrossIcon.vue';
   import CircleIcon from '@/components/icons/nochMal/CircleIcon.vue';
   import StarIcon from '@/components/icons/nochMal/StarIcon.vue';
-  import { useScoreStore } from '@/stores/scoreStore';
+  import { useNochMalStore } from '@/stores/nochMalStore';
   import { BoxData, type MainGridCheckedState } from '@/types/NochMalTypes';
   import { computed } from 'vue';
 
@@ -14,7 +14,7 @@
     centerLine: Boolean
   });
   const { deepState, setMainGridChecked } =
-    useScoreStore();
+    useNochMalStore();
 
   const isChecked = computed(
     () => deepState.mainGridState.find(

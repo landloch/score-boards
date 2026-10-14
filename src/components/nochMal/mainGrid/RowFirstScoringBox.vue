@@ -1,35 +1,31 @@
 <script setup lang="ts">
   import CircledIcon from '@/components/icons/CircledIcon.vue';
   import CrossIcon from '@/components/icons/CrossIcon.vue';
-  import { useScoreStore } from '@/stores/scoreStore';
-  import type { RowId, MarkedState } from '@/types/NochMalTypes';
+  import { useNochMalStore } from '@/stores/nochMalStore';
+  import type { RowId } from '@/types/NochMalTypes';
   import { Mark } from '@/types/NochMalTypes';
+import { computed } from 'vue';
 
-  const {
-    rowId, score, redText, index
-  } = defineProps<{
-    rowId: RowId;
-    score: number;
-    redText?: boolean;
-    index: string;
-  }>();
+  const { rowId, score, redText } =
+    defineProps<{
+      rowId: RowId; score: number; redText?: boolean;
+    }>();
 
-  const stateArray: Mark[] = [Mark.Blank, Mark.Circled, Mark.Scratched];
-  const { deepState, setLetterScoreBoxMark } = useScoreStore();
-
-  function getState() {
-    return deepState.letterScoreingBoxesState.find((el: MarkedState) => el.index === index)!.mark;
-  } 
+  const { deepState, flipRowScoreBoxMark } = useNochMalStore();
 
   function handleClick() {
-    console.log(deepState.markedLetterMap.get(rowId));
-    if ((deepState.markedLetterMap.get(rowId) ?? 0) == 7) {
-      const nextMark = stateArray[(getState() + 1) % 3];
-      setLetterScoreBoxMark(index, nextMark!);
-    } else {
-      setLetterScoreBoxMark(index, getState() == Mark.Blank ? Mark.Scratched : Mark.Blank);
-    }
+    flipRowScoreBoxMark(rowId);
   }
+
+  const mark = computed<Mark>(() => {
+    if (deepState.markedRowMap.get(rowId)! != 7) {
+      return Mark.Blank;
+    }
+    if (deepState.rowsState.get(rowId)) {
+      return Mark.Scratched;
+    }
+    return Mark.Circled;
+  });
 </script>
 
 <template>
@@ -57,8 +53,8 @@
         {{ score }}
       </text>
     </svg>
-    <CrossIcon v-if="getState() === Mark.Scratched" />
-    <CircledIcon v-else-if="getState() === Mark.Circled" />
+    <CrossIcon v-if="mark === Mark.Scratched" />
+    <CircledIcon v-else-if="mark === Mark.Circled" />
   </span>
 </template>
 

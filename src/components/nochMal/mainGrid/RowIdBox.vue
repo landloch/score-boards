@@ -1,6 +1,6 @@
 <script setup lang="tsx">
   import CrossIcon from '@/components/icons/CrossIcon.vue';
-  import { useScoreStore } from '@/stores/scoreStore';
+  import { useNochMalStore } from '@/stores/nochMalStore';
   import type { RowId, CheckedState } from '@/types/NochMalTypes';
   import { computed } from 'vue';
 

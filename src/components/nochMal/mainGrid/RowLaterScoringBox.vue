@@ -1,47 +1,26 @@
 <script setup lang="ts">
   import CircledIcon from '@/components/icons/CircledIcon.vue';
-  import { useScoreStore } from '@/stores/scoreStore';
-  import type { RowId, MarkedState } from '@/types/NochMalTypes';
-  import { Mark } from '@/types/NochMalTypes';
+  import { useNochMalStore } from '@/stores/nochMalStore';
+  import type { RowId } from '@/types/NochMalTypes';
   import { computed } from 'vue';
 
-  const {
-    rowId, score, redText, marginAdjust, index
-  } = defineProps<{
-    rowId: RowId;
-    score: number;
-    redText?: boolean;
-    marginAdjust?: "top" | "bottom";
-    index: string;
+  const { rowId } = defineProps<{
+    rowId: RowId; score: number; redText?: boolean;
   }>();
 
-  const {
-    deepState,
-    setLetterScoreBoxMark
-  } = useScoreStore();
+  const { deepState } = useNochMalStore();
 
-  const isCircled = computed(
-    () => deepState.letterScoreingBoxesState.find((el: MarkedState) =>
-      el.index === index)!.mark === Mark.Circled
+  const isCircled = computed<boolean>(() =>
+    deepState.markedRowMap.get(rowId)! == 7
+    && deepState.rowsState.get(rowId)!
   );
-
-  const checkIfDisabled = computed(() => {
-    return (deepState.markedLetterMap.get(rowId) ?? 0) != 7 ? "disabled" : "";
-  });
-
-  function handleClick() {
-    if ((deepState.markedLetterMap.get(rowId) ?? 0) == 7) {
-      setLetterScoreBoxMark(index, !isCircled.value ? Mark.Circled : Mark.Blank);
-    }
-  }
 </script>
 
 <template>
   <span
     :id="rowId"
     :key="rowId"
-    :class="`main-grid-scoring-boxes ${checkIfDisabled} ${marginAdjust ? marginAdjust + '-margin' : ''}`"
-    @click="handleClick"
+    class="main-grid-scoring-boxes"
   >
     <svg
       :fill="redText ? 'red' : 'black'"
@@ -83,13 +62,5 @@
   
   .disabled {
     opacity: 0.8;
-  }
-
-  .top-margin{
-    margin-top: 10px;
-  }
-
-  .bottom-margin{
-    margin-bottom: 10px;
   }
 </style>

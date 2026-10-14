@@ -1,14 +1,11 @@
 <script setup lang="ts">
   import type { RowData } from '@/types/NochMalTypes';
-import RowIdBox from '../mainGrid/RowIdBox.vue';
-import MainGridBox from '../mainGrid/MainGridBox.vue';
-import RowFirstScoringBox from '../mainGrid/RowFirstScoringBox.vue';
-import RowLaterScoringBox from '../mainGrid/RowLaterScoringBox.vue';
+  import RowIdBox from '../mainGrid/RowIdBox.vue';
+  import MainGridBox from '../mainGrid/MainGridBox.vue';
+  import RowFirstScoringBox from '../mainGrid/RowFirstScoringBox.vue';
+  import RowLaterScoringBox from '../mainGrid/RowLaterScoringBox.vue';
 
-  defineProps<{
-    row: RowData;
-    centerLine?: boolean;
-  }>();
+  defineProps<{ row: RowData; centerLine?: boolean; }>();
 </script>
 
 <template>
@@ -34,8 +31,6 @@ import RowLaterScoringBox from '../mainGrid/RowLaterScoringBox.vue';
         :rowId="row.row"
         :redText="centerLine" 
         :score="row.pointsFirstBonus + row.pointsBase"
-        marginAdjust="top"
-        :index="`${row.row}1st`"
       />
     </td>
     <td>
@@ -43,7 +38,6 @@ import RowLaterScoringBox from '../mainGrid/RowLaterScoringBox.vue';
         :rowId="row.row"
         :redText="centerLine" 
         :score="row.pointsBase"
-        :index="`${row.row}2nd`"
       />
     </td>
   </tr>

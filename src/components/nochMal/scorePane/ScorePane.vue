@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { storeToRefs } from 'pinia';
-  import { useScoreStore } from '@/stores/scoreStore';
+  import { useNochMalStore } from '@/stores/nochMalStore.ts';
   import { Colors } from '@/types/NochMalTypes.ts';
   import EraserButton from '../sidePane/EraserButton.vue';
   import ScoreStar from './ScoreStar.vue';
@@ -12,7 +12,7 @@ import { useFontStore } from '@/stores/fontStore.ts';
 
   const fontStore = useFontStore();
 
-  const ss = useScoreStore();
+  const ss = useNochMalStore();
 </script>
 
 <template>
@@ -21,42 +21,42 @@ import { useFontStore } from '@/stores/fontStore.ts';
       <tbody>
         <tr>
           <td>
-            <ColorFirstScoringBox :color="Colors.Green" index="G1st" />
+            <ColorFirstScoringBox :color="Colors.Green" />
           </td>
           <td>
-            <ColorLaterScoringBox :color="Colors.Green" index="G2nd" />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <ColorFirstScoringBox :color="Colors.Yellow" index="Y1st" />
-          </td>
-          <td>
-            <ColorLaterScoringBox :color="Colors.Yellow" index="Y2nd" />
+            <ColorLaterScoringBox :color="Colors.Green"/>
           </td>
         </tr>
         <tr>
           <td>
-            <ColorFirstScoringBox :color="Colors.Blue" index="B1st" />
+            <ColorFirstScoringBox :color="Colors.Yellow" />
           </td>
           <td>
-            <ColorLaterScoringBox :color="Colors.Blue" index="B2nd" />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <ColorFirstScoringBox :color="Colors.Red" index="R1st" />
-          </td>
-          <td>
-            <ColorLaterScoringBox :color="Colors.Red" index="R2nd" />
+            <ColorLaterScoringBox :color="Colors.Yellow" />
           </td>
         </tr>
         <tr>
           <td>
-            <ColorFirstScoringBox :color="Colors.Orange" index="O1st" />
+            <ColorFirstScoringBox :color="Colors.Blue" />
           </td>
           <td>
-            <ColorLaterScoringBox :color="Colors.Orange" index="O2nd" />
+            <ColorLaterScoringBox :color="Colors.Blue" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <ColorFirstScoringBox :color="Colors.Red" />
+          </td>
+          <td>
+            <ColorLaterScoringBox :color="Colors.Red" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <ColorFirstScoringBox :color="Colors.Orange" />
+          </td>
+          <td>
+            <ColorLaterScoringBox :color="Colors.Orange" />
           </td>
         </tr>
         <tr>
@@ -79,7 +79,7 @@ import { useFontStore } from '@/stores/fontStore.ts';
           <td colspan="2">
             <span class="score-container">
               <span class="text-green">+</span>
-              <span :class="`score font-${fontStore.font}`">{{ ss.letterScore }}</span>
+              <span :class="`score font-${fontStore.font}`">{{ ss.rowScore }}</span>
             </span>
           </td>
         </tr>
@@ -124,7 +124,7 @@ import { useFontStore } from '@/stores/fontStore.ts';
             <span class="score-container">
               <span>=</span>
               <span :class="`score font-${fontStore.font}`">
-                {{ ss.colorScore + ss.jokerScore + ss.letterScore + ss.starScore }}
+                {{ ss.colorScore + ss.jokerScore + ss.rowScore + ss.starScore }}
               </span>
             </span>
           </td>

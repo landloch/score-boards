@@ -1,35 +1,22 @@
 <script setup lang="ts">
   import CircledIcon from '@/components/icons/CircledIcon.vue';
   import { ColorMap } from '@/constants/noch-mal/ColorMap';
-  import { useScoreStore } from '@/stores/scoreStore';
-  import { Mark, type Colors, type MarkedState } from '@/types/NochMalTypes';
+  import { useNochMalStore } from '@/stores/nochMalStore';
+  import { type Colors } from '@/types/NochMalTypes';
   import { computed } from 'vue';
 
-  const { color, index } = defineProps<{
-    color: Colors;
-    index: string;
-  }>();
+  const { color } = defineProps<{ color: Colors }>();
 
-  const { deepState, setColorBoxMark } = useScoreStore();
+  const { deepState } = useNochMalStore();
 
-  const isCircled = computed(
-    () => deepState.colorBoxesMarkedState.find((el: MarkedState) =>
-      el.index === index)!.mark === Mark.Circled
+  const isCircled = computed<boolean>(() =>
+    deepState.markedColorsMap.get(color)! == 21
+    && deepState.colorsState.get(color)!
   );
-
-  const checkIfDisabled = computed(() => {
-    return (deepState.markedColorsMap.get(color) ?? 0) != 21 ? "trans-" : "";
-  });
-
-  function handleClick() {
-    if ((deepState.markedColorsMap.get(color) ?? 0) == 21) {
-      setColorBoxMark(index, !isCircled.value ? Mark.Circled : Mark.Blank);
-    }
-  }
 </script>
   
 <template>
-  <span :class="`box ${checkIfDisabled}${color}`" @click="handleClick">
+  <span :class="`box ${color}`">
     <span class="light" />
     <svg
       :fill="ColorMap.get(color)"

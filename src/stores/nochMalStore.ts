@@ -1,23 +1,21 @@
 import { computed, reactive } from 'vue';
 import { defineStore } from 'pinia';
 import {
-  Mark,
-  type CheckedState,
-  type MarkedState,
   type MainGridCheckedState,
   type RowId,
   Colors,
   type DeepState
 } from '@/types/NochMalTypes';
 import {
-  colorScoreingBoxesInitialState,
-  letterScoreingBoxesInitialState,
-  jokerBoxesInitialState,
+  colorsInitialState,
+  jokersInitialState,
+  rowsInitialState,
   mainGridInitialState,
   markedColorsMapInitialState,
-  markedLetterMapInitialState,
+  markedRowMapInitialState,
 } from '@/constants/noch-mal/InitialStates';
 import { allThemBoxes } from '@/constants/noch-mal/MainGridBoxes';
+import { colorScores, rowScores } from '@/constants/noch-mal/ScoreData';
 
 function loadCountMap<Key>(
   storageKey: string,
@@ -43,23 +41,23 @@ function loadCountMap<Key>(
   return counts;
 }
 
-export const useScoreStore = defineStore('score', () => {
+export const useNochMalStore = defineStore('score', () => {
   const mainGridState = sessionStorage.getItem('main')
     ? JSON.parse(sessionStorage.getItem('main')!) as MainGridCheckedState[]
-    : structuredClone(mainGridInitialState) as MainGridCheckedState[];
+    : structuredClone(mainGridInitialState);
 
   const deepState = reactive<DeepState>({
-    colorBoxesMarkedState: sessionStorage.getItem('colorScoring')
-      ? JSON.parse(sessionStorage.getItem('colorScoring')!) as MarkedState[]
-      : structuredClone(colorScoreingBoxesInitialState) as MarkedState[],
+    colorsState: sessionStorage.getItem('colorScoring')
+      ? JSON.parse(sessionStorage.getItem('colorScoring')!) as Map<Colors, boolean>
+      : structuredClone(colorsInitialState),
     
-    letterScoreingBoxesState: sessionStorage.getItem('columnScoring')
-      ? JSON.parse(sessionStorage.getItem('columnScoring')!) as MarkedState[]
-      : structuredClone(letterScoreingBoxesInitialState) as MarkedState[],
+    rowsState: sessionStorage.getItem('rowScoring')
+      ? JSON.parse(sessionStorage.getItem('rowScoring')!) as Map<RowId, boolean>
+      : structuredClone(rowsInitialState),
   
-    jokerBoxesState: sessionStorage.getItem('jokers')
-      ? JSON.parse(sessionStorage.getItem('jokers')!) as CheckedState[]
-      : structuredClone(jokerBoxesInitialState) as CheckedState[],
+    jokersState: sessionStorage.getItem('jokers')
+      ? JSON.parse(sessionStorage.getItem('jokers')!) as boolean[]
+      : structuredClone(jokersInitialState),
     
     mainGridState,
 
@@ -67,26 +65,42 @@ export const useScoreStore = defineStore('score', () => {
       'marked-color-counts', markedColorsMapInitialState, mainGridState,
       (index) => allThemBoxes[index]!.color,
     ),
-    markedLetterMap: loadCountMap(
-      'marked-letter-counts', markedLetterMapInitialState, mainGridState,
+    markedRowMap: loadCountMap(
+      'marked-letter-counts', markedRowMapInitialState, mainGridState,
       (index) => allThemBoxes[index]!.rowId,
     ),
   });
 
   const colorScore = computed(() => {
-    return deepState.colorBoxesMarkedState.reduce((sum: number, el: MarkedState) => {
-      return el.mark === Mark.Circled ? sum + el.score : sum;
-    }, 0);
+    let colorScore = 0;
+    deepState.markedRowMap.forEach((value, key) => {
+      if (value == 7) {
+        if (deepState.rowsState.get(key)!) {
+          colorScore += rowScores.get(key)!.low;
+        } else {
+          colorScore += rowScores.get(key)!.high;
+        }
+      }
+    });
+    return colorScore;
   });
 
-  const letterScore = computed(() => {
-    return deepState.letterScoreingBoxesState.reduce((sum: number, el: MarkedState) => {
-      return el.mark === Mark.Circled ? sum + el.score : sum;
-    }, 0);
+  const rowScore = computed(() => {
+    let rowScore = 0;
+    deepState.markedColorsMap.forEach((value, key) => {
+      if (value == 21) {
+        if (deepState.colorsState.get(key)) {
+          rowScore += colorScores.low;
+        } else {
+          rowScore += colorScores.high;
+        }
+      }
+    });
+    return rowScore;
   });
 
   const jokerScore = computed(() => {
-    return deepState.jokerBoxesState.filter((el: any) => !el.isChecked).length;
+    return deepState.jokersState.filter((el: boolean) => !el).length;
   });
 
   const starScore = computed(() => {
@@ -96,68 +110,51 @@ export const useScoreStore = defineStore('score', () => {
     );
   });
 
-  function setColorBoxMark(index: string, mark: Mark) {
-    deepState.colorBoxesMarkedState =
-      deepState.colorBoxesMarkedState.map((box: MarkedState) =>
-        box.index === index ? { ...box, mark } : box
-      );
-    deepState.colorBoxesMarkedState
+  function flipColorBoxMark(index: Colors) {
+    deepState.colorsState.set(index, !deepState.colorsState.get(index)!);
     sessionStorage.setItem(
       'colorScoring',
-      JSON.stringify(deepState.colorBoxesMarkedState
+      JSON.stringify(deepState.colorsState
     ));
   }
 
   function resetColorBoxes() {
-    deepState.colorBoxesMarkedState =
-      deepState.colorBoxesMarkedState.map((box: MarkedState) =>
-        ({ ...box, mark: Mark.Blank })
-      );
+    deepState.colorsState = colorsInitialState;
     sessionStorage.setItem(
       'colorScoring',
-      JSON.stringify(deepState.colorBoxesMarkedState)
+      JSON.stringify(colorsInitialState)
     );
   }
 
-  function setLetterScoreBoxMark(index: string, mark: Mark) {
-    deepState.letterScoreingBoxesState =
-      deepState.letterScoreingBoxesState.map((box: MarkedState) =>
-        box.index === index ? { ...box, mark } : box
-      );
+  function flipRowScoreBoxMark(index: RowId) {
+    deepState.rowsState.set(index, !deepState.rowsState.get(index)!);
     sessionStorage.setItem(
-      'columnScoring',
-      JSON.stringify(deepState.letterScoreingBoxesState)
+      'rowScoring',
+      JSON.stringify(deepState.rowsState)
     );
   }
 
-  function resetLetterScoreBoxes() {
-    deepState.letterScoreingBoxesState =
-      deepState.letterScoreingBoxesState.map((box: MarkedState) =>
-        ({ ...box, mark: Mark.Blank })
-      );
+  function resetRowsScoreBoxes() {
+    deepState.rowsState = rowsInitialState;
     sessionStorage.setItem(
-      'columnScoring',
-      JSON.stringify(deepState.letterScoreingBoxesState)
+      'rowScoring',
+      JSON.stringify(rowsInitialState)
     );
   }
 
-  function setJokerChecked(index: string, isChecked: boolean) {
-    deepState.jokerBoxesState = deepState.jokerBoxesState.map((box: CheckedState) =>
-      box.index === index ? { ...box, isChecked } : box
-    );
+  function flipJokerChecked(index: number) {
+    deepState.jokersState[index] = !deepState.jokersState[index];
     sessionStorage.setItem(
       'jokers',
-      JSON.stringify(deepState.jokerBoxesState)
+      JSON.stringify(deepState.jokersState)
     );
   }
 
   function resetJokers() {
-    deepState.jokerBoxesState = deepState.jokerBoxesState.map((box: CheckedState) =>
-      ({ ...box, isChecked: false })
-    );
+    deepState.jokersState = jokersInitialState;
     sessionStorage.setItem(
       'jokers',
-      JSON.stringify(deepState.jokerBoxesState)
+      JSON.stringify(jokersInitialState)
     );
   }
 
@@ -203,13 +200,13 @@ export const useScoreStore = defineStore('score', () => {
       checkForCheckedNeighbors(i);
     }
 
+    const color = allThemBoxes[i]!.color;
+    const rowId = allThemBoxes[i]!.rowId;
     deepState.markedColorsMap.set(
-      allThemBoxes[i]!.color,
-      (deepState.markedColorsMap.get(allThemBoxes[i]!.color) ?? 0) + (2*Number(checked) - 1)
+      color, (deepState.markedColorsMap.get(color) ?? 0) + (2*Number(checked) - 1)
     );
-    deepState.markedLetterMap.set(
-      allThemBoxes[i]!.rowId,
-      (deepState.markedLetterMap.get(allThemBoxes[i]!.rowId) ?? 0) + (2*Number(checked) - 1)
+    deepState.markedRowMap.set(
+      rowId, (deepState.markedRowMap.get(rowId) ?? 0) + (2*Number(checked) - 1)
     );
 
     // if checked all of a color,
@@ -220,7 +217,7 @@ export const useScoreStore = defineStore('score', () => {
     );
     sessionStorage.setItem(
       'marked-letter-counts',
-      JSON.stringify([...deepState.markedLetterMap])
+      JSON.stringify([...deepState.markedRowMap])
     );
     sessionStorage.setItem(
       'main',
@@ -230,11 +227,11 @@ export const useScoreStore = defineStore('score', () => {
 
   function resetMainGrid() {
     deepState.mainGridState = mainGridInitialState;
-    deepState.markedColorsMap.forEach((value: number, key: Colors) => {
+    deepState.markedColorsMap.forEach((_: number, key: Colors) => {
       deepState.markedColorsMap.set(key, 0);
     });
-    deepState.markedLetterMap.forEach((value: number, key: RowId) => {
-      deepState.markedLetterMap.set(key, 0);
+    deepState.markedRowMap.forEach((_: number, key: RowId) => {
+      deepState.markedRowMap.set(key, 0);
     });
 
     sessionStorage.setItem(
@@ -243,7 +240,7 @@ export const useScoreStore = defineStore('score', () => {
     );
     sessionStorage.setItem(
       'marked-letter-counts',
-      JSON.stringify([...deepState.markedLetterMap])
+      JSON.stringify([...deepState.markedRowMap])
     );
     sessionStorage.setItem(
       'main',
@@ -255,12 +252,12 @@ export const useScoreStore = defineStore('score', () => {
     deepState,
 
     colorScore,
-    setColorBoxMark,
+    flipColorBoxMark,
     resetColorBoxes,
 
-    letterScore,
-    setLetterScoreBoxMark,
-    resetLetterScoreBoxes,
+    rowScore,
+    flipRowScoreBoxMark,
+    resetRowsScoreBoxes,
 
     starScore,
 
@@ -268,7 +265,7 @@ export const useScoreStore = defineStore('score', () => {
     resetMainGrid,
 
     jokerScore,
-    setJokerChecked,
+    flipJokerChecked,
     resetJokers,
   };
 });
