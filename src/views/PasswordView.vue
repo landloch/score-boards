@@ -124,14 +124,14 @@
             </SquareButton>
           </td>
         </tr>
-        <!-- <tr>
+        <tr>
           <td v-for="(colorIndex) in passwordStore.password">
             <SquareButton color="black">
               <TackIcon :color="passwordStore.colorOptions[colorIndex]" />
             </SquareButton>
           </td>
           <td></td>
-        </tr> -->
+        </tr>
       </table>
     </ScalingContainer>
   </div>

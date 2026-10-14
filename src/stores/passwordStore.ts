@@ -33,7 +33,7 @@ export const usePasswordStore = defineStore('password', () => {
   }
 
   function resset(){
-      generatePassword(6);
+      password.value = generatePassword(6);
       setActiveColor(null);
       attempts.value = [];
   }
@@ -81,7 +81,7 @@ export const usePasswordStore = defineStore('password', () => {
   return {
     colorOptions, generateColorOptions,
     activeColor, setActiveColor,
-    password, generatePassword,
+    password,
     attempts, replies, makeAttempt,
     attemptLimit, setAttemptLimit,
     resset,
