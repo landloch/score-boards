@@ -32,7 +32,7 @@ export const colorsInitialState = new Map<Colors, boolean>([
 export const rowsInitialState= new Map<RowId, boolean>([
   ["A", false], ["B", false], ["C", false],
   ["D", false], ["E", false], ["F", false],
-  ["F", false], ["H", false], ["I", false],
+  ["G", false], ["H", false], ["I", false],
   ["J", false], ["K", false], ["L", false],
   ["M", false], ["N", false], ["O", false],
 ]);

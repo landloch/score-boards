@@ -41,19 +41,49 @@ function loadCountMap<Key>(
   return counts;
 }
 
+function loadBooleanMap<Key>(
+  storageKey: string,
+  initialState: Map<Key, boolean>,
+): Map<Key, boolean> {
+  const serialized = sessionStorage.getItem(storageKey);
+  if (serialized) {
+    try {
+      const entries: unknown = JSON.parse(serialized);
+      if (
+        Array.isArray(entries)
+        && entries.every(
+          (entry) =>
+            Array.isArray(entry)
+            && entry.length === 2
+            && typeof entry[1] === 'boolean'
+            && initialState.has(entry[0] as Key),
+        )
+      ) {
+        const loadedState = new Map(entries as [Key, boolean][]);
+        if (
+          loadedState.size === initialState.size
+          && [...initialState.keys()].every((key) => loadedState.has(key))
+        ) {
+          return loadedState;
+        }
+      }
+    } catch {
+      // Invalid stored data falls back to the initial state.
+    }
+  }
+
+  return structuredClone(initialState);
+}
+
 export const useNochMalStore = defineStore('score', () => {
   const mainGridState = sessionStorage.getItem('main')
     ? JSON.parse(sessionStorage.getItem('main')!) as MainGridCheckedState[]
     : structuredClone(mainGridInitialState);
 
   const deepState = reactive<DeepState>({
-    colorsState: sessionStorage.getItem('colorScoring')
-      ? JSON.parse(sessionStorage.getItem('colorScoring')!) as Map<Colors, boolean>
-      : structuredClone(colorsInitialState),
+    colorsState: loadBooleanMap('colorScoring', colorsInitialState),
     
-    rowsState: sessionStorage.getItem('rowScoring')
-      ? JSON.parse(sessionStorage.getItem('rowScoring')!) as Map<RowId, boolean>
-      : structuredClone(rowsInitialState),
+    rowsState: loadBooleanMap('rowScoring', rowsInitialState),
   
     jokersState: sessionStorage.getItem('jokers')
       ? JSON.parse(sessionStorage.getItem('jokers')!) as boolean[]
@@ -71,32 +101,32 @@ export const useNochMalStore = defineStore('score', () => {
     ),
   });
 
-  const colorScore = computed(() => {
-    let colorScore = 0;
+  const rowScore = computed(() => {
+    let rowScore = 0;
     deepState.markedRowMap.forEach((value, key) => {
       if (value == 7) {
         if (deepState.rowsState.get(key)!) {
-          colorScore += rowScores.get(key)!.low;
+          rowScore += rowScores.get(key)!.low;
         } else {
-          colorScore += rowScores.get(key)!.high;
-        }
-      }
-    });
-    return colorScore;
-  });
-
-  const rowScore = computed(() => {
-    let rowScore = 0;
-    deepState.markedColorsMap.forEach((value, key) => {
-      if (value == 21) {
-        if (deepState.colorsState.get(key)) {
-          rowScore += colorScores.low;
-        } else {
-          rowScore += colorScores.high;
+          rowScore += rowScores.get(key)!.high;
         }
       }
     });
     return rowScore;
+  });
+
+  const colorScore = computed(() => {
+    let colorScore = 0;
+    deepState.markedColorsMap.forEach((value, key) => {
+      if (value == 21) {
+        if (deepState.colorsState.get(key)) {
+          colorScore += colorScores.low;
+        } else {
+          colorScore += colorScores.high;
+        }
+      }
+    });
+    return colorScore;
   });
 
   const jokerScore = computed(() => {
@@ -106,7 +136,7 @@ export const useNochMalStore = defineStore('score', () => {
   const starScore = computed(() => {
     return (
       deepState.mainGridState.filter(
-        (el: any) => allThemBoxes[el.index]?.stared && !el.isChecked).length * -2
+        (el: any) => allThemBoxes[el.index]?.stared && !el.checked).length * -2
     );
   });
 
@@ -114,15 +144,15 @@ export const useNochMalStore = defineStore('score', () => {
     deepState.colorsState.set(index, !deepState.colorsState.get(index)!);
     sessionStorage.setItem(
       'colorScoring',
-      JSON.stringify(deepState.colorsState
-    ));
+      JSON.stringify([...deepState.colorsState])
+    );
   }
 
   function resetColorBoxes() {
-    deepState.colorsState = colorsInitialState;
+    deepState.colorsState = structuredClone(colorsInitialState);
     sessionStorage.setItem(
       'colorScoring',
-      JSON.stringify(colorsInitialState)
+      JSON.stringify([...deepState.colorsState])
     );
   }
 
@@ -130,15 +160,15 @@ export const useNochMalStore = defineStore('score', () => {
     deepState.rowsState.set(index, !deepState.rowsState.get(index)!);
     sessionStorage.setItem(
       'rowScoring',
-      JSON.stringify(deepState.rowsState)
+      JSON.stringify([...deepState.rowsState])
     );
   }
 
   function resetRowsScoreBoxes() {
-    deepState.rowsState = rowsInitialState;
+    deepState.rowsState = structuredClone(rowsInitialState);
     sessionStorage.setItem(
       'rowScoring',
-      JSON.stringify(rowsInitialState)
+      JSON.stringify([...deepState.rowsState])
     );
   }
 

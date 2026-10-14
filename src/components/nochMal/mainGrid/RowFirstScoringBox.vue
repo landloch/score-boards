@@ -18,13 +18,13 @@ import { computed } from 'vue';
   }
 
   const mark = computed<Mark>(() => {
-    if (deepState.markedRowMap.get(rowId)! != 7) {
-      return Mark.Blank;
-    }
     if (deepState.rowsState.get(rowId)) {
       return Mark.Scratched;
     }
-    return Mark.Circled;
+    if (deepState.markedRowMap.get(rowId)! == 7) {
+      return Mark.Circled;
+    }
+    return Mark.Blank;
   });
 </script>
 

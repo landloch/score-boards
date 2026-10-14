@@ -12,7 +12,7 @@ import { useFontStore } from '@/stores/fontStore.ts';
 
   const fontStore = useFontStore();
 
-  const ss = useNochMalStore();
+  const nochMalStore = useNochMalStore();
 </script>
 
 <template>
@@ -24,7 +24,7 @@ import { useFontStore } from '@/stores/fontStore.ts';
             <ColorFirstScoringBox :color="Colors.Green" />
           </td>
           <td>
-            <ColorLaterScoringBox :color="Colors.Green"/>
+            <ColorLaterScoringBox :color="Colors.Green" />
           </td>
         </tr>
         <tr>
@@ -66,7 +66,9 @@ import { useFontStore } from '@/stores/fontStore.ts';
           <td colspan="2">
             <span class="score-container">
               <span>=</span>
-              <span :class="`score font-${fontStore.font}`">{{ ss.colorScore }}</span>
+              <span :class="`score font-${fontStore.font}`">
+                {{ nochMalStore.colorScore }}
+              </span>
             </span>
           </td>
         </tr>
@@ -79,7 +81,9 @@ import { useFontStore } from '@/stores/fontStore.ts';
           <td colspan="2">
             <span class="score-container">
               <span class="text-green">+</span>
-              <span :class="`score font-${fontStore.font}`">{{ ss.rowScore }}</span>
+              <span :class="`score font-${fontStore.font}`">
+                {{ nochMalStore.rowScore }}
+              </span>
             </span>
           </td>
         </tr>
@@ -92,7 +96,9 @@ import { useFontStore } from '@/stores/fontStore.ts';
           <td colspan="2">
             <span class="score-container">
               <span class="text-green">+</span>
-              <span :class="`score font-${fontStore.font}`">{{ ss.jokerScore }}</span>
+              <span :class="`score font-${fontStore.font}`">
+                {{ nochMalStore.jokerScore }}
+              </span>
             </span>
           </td>
         </tr>
@@ -105,7 +111,9 @@ import { useFontStore } from '@/stores/fontStore.ts';
           <td colspan="2">
             <span class="score-container">
               <span class="text-red">-</span>
-              <span :class="`score font-${fontStore.font}`">{{ ss.starScore }}</span>
+              <span :class="`score font-${fontStore.font}`">
+                {{ nochMalStore.starScore }}
+              </span>
             </span>
           </td>
         </tr>
@@ -124,7 +132,7 @@ import { useFontStore } from '@/stores/fontStore.ts';
             <span class="score-container">
               <span>=</span>
               <span :class="`score font-${fontStore.font}`">
-                {{ ss.colorScore + ss.jokerScore + ss.rowScore + ss.starScore }}
+                {{ nochMalStore.colorScore + nochMalStore.jokerScore + nochMalStore.rowScore + nochMalStore.starScore }}
               </span>
             </span>
           </td>

@@ -15,13 +15,13 @@ import { computed } from 'vue';
   }
 
   const mark = computed<Mark>(() => {
-    if (deepState.markedColorsMap.get(color)! != 21) {
-      return Mark.Blank;
-    }
     if (deepState.colorsState.get(color)) {
       return Mark.Scratched;
     }
-    return Mark.Circled;
+    if (deepState.markedColorsMap.get(color)! == 21) {
+      return Mark.Circled;
+    }
+    return Mark.Blank;
   });
 </script>
   
