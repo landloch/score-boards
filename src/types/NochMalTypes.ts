@@ -51,8 +51,8 @@ export type CheckedState = {
 };
 
 export type MainGridCheckedState = {
-  index    : number;
-  enabled  : boolean;
+  index  : number;
+  enabled: boolean;
   checked: boolean;
 };
 
@@ -69,10 +69,10 @@ export type MarkedState = {
 };
 
 export type DeepState = {
-  colorsState: Map<Colors, boolean>;
-  rowsState: Map<RowId, boolean>;
-  jokersState: boolean[];
-  mainGridState: MainGridCheckedState[];
+  colorsState    : Map<Colors, boolean>;
+  rowsState      : Map<RowId, boolean>;
+  jokersState    : boolean[];
+  mainGridState  : MainGridCheckedState[];
   markedColorsMap: Map<Colors, number>;
-  markedRowMap: Map<RowId, number>;
+  markedRowMap   : Map<RowId, number>;
 };

@@ -13,23 +13,22 @@
     },
     centerLine: Boolean
   });
-  const { deepState, setMainGridChecked } =
-    useNochMalStore();
+  const nochMalStore = useNochMalStore();
 
   const isChecked = computed(
-    () => deepState.mainGridState.find(
+    () => nochMalStore.mainGridState.find(
       (el: MainGridCheckedState) => el.index === box.index
     )!.checked
   );
 
   function handleClick(boxIndex: number) {
-    if (deepState.mainGridState[boxIndex]!.enabled) {
-      setMainGridChecked(boxIndex, !isChecked.value);
+    if (nochMalStore.mainGridState[boxIndex]!.enabled) {
+      nochMalStore.setMainGridChecked(boxIndex, !isChecked.value);
     }
   };
 
   const checkIfDisabled = computed(() => {
-    return deepState.mainGridState[box.index]!.enabled ? "" : "trans-";
+    return nochMalStore.mainGridState[box.index]!.enabled ? "" : "trans-";
   });
 </script>
 

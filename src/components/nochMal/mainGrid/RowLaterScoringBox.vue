@@ -8,11 +8,11 @@
     rowId: RowId; score: number; redText?: boolean;
   }>();
 
-  const { deepState } = useNochMalStore();
+  const nochMalStore = useNochMalStore();
 
   const isCircled = computed<boolean>(() =>
-    deepState.markedRowMap.get(rowId)! == 7
-    && deepState.rowsState.get(rowId)!
+    nochMalStore.markedRowMap.get(rowId)! == 7
+    && nochMalStore.rowsState.get(rowId)!
   );
 </script>
 

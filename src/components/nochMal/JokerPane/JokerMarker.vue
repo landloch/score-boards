@@ -5,14 +5,14 @@
 
   const { index } = defineProps<{ index: number }>();
 
-  const { deepState, flipJokerChecked } = useNochMalStore();
+  const nochMalStore = useNochMalStore();
 
   const isChecked = computed(() =>
-    deepState.jokersState[index]
+    nochMalStore.jokersState[index]
   );
 
   function handleClick() {
-    flipJokerChecked(index);
+    nochMalStore.flipJokerChecked(index);
   };
 </script>
 

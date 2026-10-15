@@ -8,17 +8,17 @@ import { computed } from 'vue';
 
   const { color } = defineProps<{ color: Colors }>();
   
-  const { deepState, flipColorBoxMark } = useNochMalStore();
+  const nochMalStore = useNochMalStore();
 
   function handleClick() {
-    flipColorBoxMark(color);
+    nochMalStore.flipColorBoxMark(color);
   }
 
   const mark = computed<Mark>(() => {
-    if (deepState.colorsState.get(color)) {
+    if (nochMalStore.colorsState.get(color)) {
       return Mark.Scratched;
     }
-    if (deepState.markedColorsMap.get(color)! == 21) {
+    if (nochMalStore.markedColorsMap.get(color)! == 21) {
       return Mark.Circled;
     }
     return Mark.Blank;

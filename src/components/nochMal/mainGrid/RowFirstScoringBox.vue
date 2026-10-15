@@ -11,17 +11,17 @@ import { computed } from 'vue';
       rowId: RowId; score: number; redText?: boolean;
     }>();
 
-  const { deepState, flipRowScoreBoxMark } = useNochMalStore();
+  const nochMalState = useNochMalStore();
 
   function handleClick() {
-    flipRowScoreBoxMark(rowId);
+    nochMalState.flipRowScoreBoxMark(rowId);
   }
 
   const mark = computed<Mark>(() => {
-    if (deepState.rowsState.get(rowId)) {
+    if (nochMalState.rowsState.get(rowId)) {
       return Mark.Scratched;
     }
-    if (deepState.markedRowMap.get(rowId)! == 7) {
+    if (nochMalState.markedRowMap.get(rowId)! == 7) {
       return Mark.Circled;
     }
     return Mark.Blank;

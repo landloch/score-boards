@@ -7,11 +7,11 @@
 
   const { color } = defineProps<{ color: Colors }>();
 
-  const { deepState } = useNochMalStore();
+  const nochMalStore = useNochMalStore();
 
   const isCircled = computed<boolean>(() =>
-    deepState.markedColorsMap.get(color)! == 21
-    && deepState.colorsState.get(color)!
+    nochMalStore.markedColorsMap.get(color)! == 21
+    && nochMalStore.colorsState.get(color)!
   );
 </script>
   
