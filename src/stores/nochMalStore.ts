@@ -4,7 +4,6 @@ import {
   type MainGridCheckedState,
   type RowId,
   Colors,
-  type DeepState
 } from '@/types/NochMalTypes';
 import {
   colorsInitialState,
@@ -60,6 +59,44 @@ function loadBooleanMap<Key>(
         )
       ) {
         const loadedState = new Map(entries as [Key, boolean][]);
+        if (
+          loadedState.size === initialState.size
+          && [...initialState.keys()].every((key) => loadedState.has(key))
+        ) {
+          return loadedState;
+        }
+      }
+    } catch {
+      // Invalid stored data falls back to the initial state.
+    }
+  }
+
+  return structuredClone(initialState);
+}
+
+function loadMap<Key, Value>(
+  storageKey: string,
+  initialState: Map<Key, Value>,
+  isValue: (value: unknown) => value is Value,
+): Map<Key, Value> {
+  const serialized = sessionStorage.getItem(storageKey);
+
+  if (serialized) {
+    try {
+      const entries: unknown = JSON.parse(serialized);
+
+      if (
+        Array.isArray(entries)
+        && entries.every(
+          (entry) =>
+            Array.isArray(entry)
+            && entry.length === 2
+            && isValue(entry[1])
+            && initialState.has(entry[0] as Key),
+        )
+      ) {
+        const loadedState = new Map(entries as [Key, Value][]);
+
         if (
           loadedState.size === initialState.size
           && [...initialState.keys()].every((key) => loadedState.has(key))

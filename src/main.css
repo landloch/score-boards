@@ -7,6 +7,10 @@ body {
     "wdth" 100;
 }
 
+* {
+  touch-action: manipulation;
+}
+
 .font-shadows-into-light {
   font-family: "Shadows Into Light", cursive !important;
   line-height: 1.2;

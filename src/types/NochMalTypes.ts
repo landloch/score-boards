@@ -67,12 +67,3 @@ export type MarkedState = {
   score: number;
   mark : Mark;
 };
-
-export type DeepState = {
-  colorsState    : Map<Colors, boolean>;
-  rowsState      : Map<RowId, boolean>;
-  jokersState    : boolean[];
-  mainGridState  : MainGridCheckedState[];
-  markedColorsMap: Map<Colors, number>;
-  markedRowMap   : Map<RowId, number>;
-};
