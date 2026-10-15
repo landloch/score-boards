@@ -13,6 +13,8 @@
   import { usePasswordStore } from '@/stores/passwordStore';
   import TackIcon from '@/components/icons/password/TackIcon.vue';
   import PegHole from '@/components/password/PegHole.vue';
+import ResetIcon from '@/components/icons/password/ResetIcon.vue';
+import SendIcon from '@/components/icons/password/SendIcon.vue';
 
   const { t } = useI18n();
 
@@ -109,7 +111,7 @@
           </td>
           <td>
             <SquareButton :action="submitAttempt">
-              Submit Attempt
+              <SendIcon />
             </SquareButton>
           </td>
         </tr>
@@ -117,14 +119,14 @@
           <td v-for="(option, index) in passwordStore.colorOptions">
             <SquareButton
               :action="() => handleSelect(option)"
-              :color="passwordStore.activeColor == option ? 'black' : 'white'"
+              :color="passwordStore.activeColor == option ? '#333' : '#ccc'"
             >
               <TackIcon :color="option" />
             </SquareButton>
           </td>
           <td>
             <SquareButton :action="passwordStore.resset">
-              Resset
+              <ResetIcon />
             </SquareButton>
           </td>
         </tr>
@@ -192,5 +194,13 @@
     width: 11px;
     height: 11px;
     border-radius: 50%;
+  }
+
+  table {
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 2px;
+    background: transparent;
+    outline: 2px solid transparent;
   }
 </style>

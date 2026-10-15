@@ -1,0 +1,37 @@
+<script setup lang="ts">
+  import { type CSSProperties, type PropType } from 'vue'
+
+  defineProps({
+    color: { type: String, default: 'currentColor' },
+    height: { type: Number, default: 26 },
+    width: { type: Number, default: 26 },
+    class: { type: String, default: "" },
+    style: { type: Object, default: null },
+  });
+</script>
+
+<template>
+  <svg
+    :stroke="color"
+    :fill="color"
+    stroke-width="0"
+    viewBox="0 0 24 24"
+    :height="height"
+    :width="width"
+    :style="style"
+  >
+    <path d="M22 12C22 17.5228 17.5229 22 12 22C6.4772 22 2 17.5228 2 12C2 6.47715 6.4772 2 12 2V4C7.5817 4 4 7.58172 4 12C4 16.4183 7.5817 20 12 20C16.4183 20 20 16.4183 20 12C20 9.53614 18.8862 7.33243 17.1346 5.86492L15 8V2L21 2L18.5535 4.44656C20.6649 6.28002 22 8.9841 22 12Z" />
+  </svg>
+</template>
+
+<style scoped>
+  svg {
+    background-color: transparent;
+    margin: auto;
+    display: inline-block;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+  }
+</style>

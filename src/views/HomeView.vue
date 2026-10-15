@@ -3,6 +3,7 @@
   import PandaRoyaleTitle from '@/components/panda-royale/PandaRoyaleTitle.vue';
   import NochMalTitle from '@/components/nochMal/NochMalTitle.vue';
   import Settings from '@/components/common/Settings.vue';
+  import PasswrodTitle from '@/components/password/PasswrodTitle.vue';
 </script>
 
 <template>
@@ -21,6 +22,9 @@
         </RouterLink>
         <RouterLink to="/noch-mal" >
           <NochMalTitle :text="$t('noch-mal.title')" fo />
+        </RouterLink>
+        <RouterLink to="/password" >
+          <PasswrodTitle />
         </RouterLink>
       </div>
     </ScalingContainer>
