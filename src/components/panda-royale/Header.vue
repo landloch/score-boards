@@ -1,14 +1,13 @@
 <script setup lang="ts">
   import Settings from '../common/Settings.vue';
   import ReturnButton from '../common/ReturnButton.vue';
-  import Title from './PandaRoyaleTitle.vue';
-import PasswrodTitle from '../password/PasswrodTitle.vue';
+  import PandaRoyaleTitle from './PandaRoyaleTitle.vue';
 </script>
 
 <template>
   <div class="header">
     <ReturnButton />
-    <PasswrodTitle />
+    <PandaRoyaleTitle />
     <span class="right-element">
       <Settings />
     </span>
