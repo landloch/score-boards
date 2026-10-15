@@ -1,4 +1,4 @@
-import { computed, reactive, ref, shallowRef } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { defineStore } from 'pinia';
 import {
   type MainGridCheckedState,
@@ -76,25 +76,25 @@ function loadBooleanMap<Key>(
 }
 
 export const useNochMalStore = defineStore('score', () => {
-  const colorsState = shallowRef<Map<Colors, boolean>>(
+  const colorsState = ref<Map<Colors, boolean>>(
     loadBooleanMap('colorScoring', colorsInitialState));
-  const rowsState = shallowRef<Map<RowId, boolean>>(
+  const rowsState = ref<Map<RowId, boolean>>(
     loadBooleanMap('rowScoring', rowsInitialState));
-  const jokersState = shallowRef<boolean[]>(
+  const jokersState = ref<boolean[]>(
     sessionStorage.getItem('jokers')
       ? JSON.parse(sessionStorage.getItem('jokers')!) as boolean[]
       : structuredClone(jokersInitialState)
   );
-  const mainGridState = shallowRef<MainGridCheckedState[]>(
+  const mainGridState = ref<MainGridCheckedState[]>(
     sessionStorage.getItem('main')
       ? JSON.parse(sessionStorage.getItem('main')!) as MainGridCheckedState[]
       : structuredClone(mainGridInitialState)
   );
-  const markedColorsMap = shallowRef<Map<Colors, number>>(loadCountMap(
+  const markedColorsMap = ref<Map<Colors, number>>(loadCountMap(
     'marked-color-counts', markedColorsMapInitialState, mainGridState.value,
     (index) => allThemBoxes[index]!.color,
   ));
-  const markedRowMap = shallowRef<Map<RowId, number>>(loadCountMap(
+  const markedRowMap = ref<Map<RowId, number>>(loadCountMap(
     'marked-letter-counts', markedRowMapInitialState, mainGridState.value,
     (index) => allThemBoxes[index]!.rowId,
   ));
