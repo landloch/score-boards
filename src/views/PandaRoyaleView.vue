@@ -116,7 +116,7 @@
               <IntegerInput
                 v-model="cell.value"
                 :class="`font-${fontStore.font}`"
-                :allow-negastive="cell.column === 'D'"
+                :allow-negative="cell.column === 'D'"
               />
             </td>
             <td v-if="row.index == 1" colspan="6"></td>

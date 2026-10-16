@@ -5,22 +5,40 @@ import { shuffle } from '@/utils/Shuffler';
 import { generateDistinctColors } from '@/utils/ColorGenerator3';
 
 export const usePasswordStore = defineStore('password', () => {
-  const colorOptions = ref<string[]>(GenerateColors(6));
-  function generateColorOptions(number: number) {
-    colorOptions.value = GenerateColors(number);
-  }
+  const colorOptionsCount = ref<number>(6);
+  const passwordLength = ref<number>(6);
+  const allowRepeats = ref(false);
+
+  const colorOptions = ref<string[]>(GenerateColors(colorOptionsCount.value));
 
   const activeColor = ref<string | null>(null);
   function setActiveColor(color: string | null) {
     activeColor.value = color;
   }
   
-  const password = ref<number[]>(generatePassword(6));
-  function generatePassword(length: number) {
-    const range = new Array(length).fill(null).map((_, i) => i);
-    shuffle(range);
-    return range;
+  const password = ref<number[]>(generatePassword());
+
+  function generatePassword(): number[] {
+    const count = allowRepeats.value
+      ? passwordLength.value
+      : Math.min(passwordLength.value, colorOptionsCount.value);
+
+    if (colorOptionsCount.value == 0 || count == 0) {
+      return [];
+    }
+
+    if (allowRepeats.value) {
+      return Array.from(
+        { length: count },
+        () => Math.floor(Math.random() * colorOptionsCount.value)
+      );
+    }
+
+    const options = Array.from({ length: colorOptionsCount.value }, (_, i) => i);
+    shuffle(options);
+    return options.slice(0, count);
   }
+
 
   const attempts = ref<number[][]>([]);
   
@@ -33,10 +51,11 @@ export const usePasswordStore = defineStore('password', () => {
     attemptLimit.value = limit;
   }
 
-  function resset(){
-      password.value = generatePassword(6);
-      setActiveColor(null);
-      attempts.value = [];
+  function reset(){
+    password.value = generatePassword();
+    colorOptions.value = GenerateColors(colorOptionsCount.value);
+    setActiveColor(null);
+    attempts.value = [];
   }
 
   const replies = computed<number[][]>(() => {
@@ -80,11 +99,10 @@ export const usePasswordStore = defineStore('password', () => {
   }
 
   return {
-    colorOptions, generateColorOptions,
+    colorOptionsCount, passwordLength, allowRepeats, attemptLimit,
+    colorOptions, password,
     activeColor, setActiveColor,
-    password,
-    attempts, replies, makeAttempt,
-    attemptLimit, setAttemptLimit,
-    resset,
+    attempts, makeAttempt, replies,
+    reset,
   };
 })

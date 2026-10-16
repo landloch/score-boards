@@ -5,7 +5,6 @@
   import ScalingContainer from '@/components/common/ScalingContainer.vue';
   import IntegerInput from '@/components/common/IntegerInput.vue';
   import CheatSheet from '@/components/panda-royale/CheatSheet.vue';
-  import Header from '@/components/panda-royale/Header.vue';
   import EraserIcon from '@/components/icons/EraserIcon.vue';
   import { useFontStore } from '@/stores/fontStore';
   import Modal from '@/components/common/Modal.vue';
@@ -13,8 +12,9 @@
   import { usePasswordStore } from '@/stores/passwordStore';
   import TackIcon from '@/components/icons/password/TackIcon.vue';
   import PegHole from '@/components/password/PegHole.vue';
-import ResetIcon from '@/components/icons/password/ResetIcon.vue';
-import SendIcon from '@/components/icons/password/SendIcon.vue';
+  import ResetIcon from '@/components/icons/password/ResetIcon.vue';
+  import SendIcon from '@/components/icons/password/SendIcon.vue';
+import Header from '@/components/password/Header.vue';
 
   const { t } = useI18n();
 
@@ -65,15 +65,22 @@ import SendIcon from '@/components/icons/password/SendIcon.vue';
     attempt.value = new Array(passwordStore.password.length).fill(null).map(() => null);
   }
 
+  function handleReset() {
+    passwordStore.reset();
+    console.log("passwordStore.password.length:", passwordStore.password.length);
+    attempt.value = new Array(passwordStore.password.length).fill(null).map(() => null);
+    console.log("attempt.value:", attempt.value);
+  }
+
   onMounted(() => {
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('contextmenu', handleRightClick);
-  })
+  });
 
   onUnmounted(() => {
     window.removeEventListener('mousemove', handleMouseMove);
     window.removeEventListener('contextmenu', handleRightClick);
-  })
+  });
 
 </script>
 
@@ -81,6 +88,35 @@ import SendIcon from '@/components/icons/password/SendIcon.vue';
   <div class="backdrop">
     <ScalingContainer :height="644" :width="455">
       <Header />
+      <table>
+        <thead>
+          <th>Cores:</th>
+          <th>Tamanho:</th>
+          <th>Repetições:</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <input
+                type="number"
+                v-model="passwordStore.colorOptionsCount"
+              />
+            </td>
+            <td>
+              <input
+                type="number"
+                v-model="passwordStore.passwordLength"
+              />
+            </td>
+            <td>
+              <input
+                type="checkbox"
+                v-model="passwordStore.allowRepeats"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
       <table>
         <tr v-for="(prevAttempt, i) in passwordStore.attempts">
           <td v-for="colorIndex in prevAttempt">
@@ -125,19 +161,19 @@ import SendIcon from '@/components/icons/password/SendIcon.vue';
             </SquareButton>
           </td>
           <td>
-            <SquareButton :action="passwordStore.resset">
+            <SquareButton :action="handleReset">
               <ResetIcon />
             </SquareButton>
           </td>
         </tr>
-        <!-- <tr>
+        <tr>
           <td v-for="(colorIndex) in passwordStore.password">
             <SquareButton color="black">
               <TackIcon :color="passwordStore.colorOptions[colorIndex]" />
             </SquareButton>
           </td>
           <td></td>
-        </tr> -->
+        </tr>
       </table>
     </ScalingContainer>
   </div>
@@ -168,6 +204,18 @@ import SendIcon from '@/components/icons/password/SendIcon.vue';
     box-sizing: border-box;
     text-align: center;
     vertical-align: middle;
+  }
+
+  th {
+    color: white;
+  }
+
+  input[type="number"] {
+    width: 90px;
+  }
+
+  input[type="checkbox"] {
+    transform: scale(1.5);
   }
 
   .cursor-svg {

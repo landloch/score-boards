@@ -4,7 +4,7 @@
   const props = defineProps<{
     modelValue: number | null;
     placeholder?: string;
-    allowNegastive?: boolean;
+    allowNegative?: boolean;
   }>();
 
   const emit = defineEmits<{
@@ -21,7 +21,7 @@
     const rawValue = target.value;
     const hasNegativeSign = rawValue.startsWith('-');
     const digitsOnly = rawValue.replace(/-/g, '').replace(/\D/g, '').slice(0, hasNegativeSign ? 2 : 3);
-    const sanitized = props.allowNegastive && hasNegativeSign ? `-${digitsOnly}` : digitsOnly;
+    const sanitized = props.allowNegative && hasNegativeSign ? `-${digitsOnly}` : digitsOnly;
     if (sanitized === '-') {
       target.value = sanitized;
       return;
