@@ -90,9 +90,11 @@ import Header from '@/components/password/Header.vue';
       <Header />
       <table>
         <thead>
-          <th>Cores:</th>
-          <th>Tamanho:</th>
-          <th>Repetições:</th>
+          <tr>
+            <th>Cores:</th>
+            <th>Tamanho:</th>
+            <th>Repetições:</th>
+          </tr>
         </thead>
         <tbody>
           <tr>
@@ -233,7 +235,9 @@ import Header from '@/components/password/Header.vue';
 
   .reply-grid {
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-rows: repeat(2, 1fr);
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
     background-color: #2196F3;
     padding: 2px;
     font-size: 10px;
