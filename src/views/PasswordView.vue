@@ -86,7 +86,7 @@ import Header from '@/components/password/Header.vue';
 
 <template>
   <div class="backdrop">
-    <ScalingContainer :height="644" :width="455">
+    <ScalingContainer :height="900" :width="360">
       <Header />
       <table>
         <thead>
@@ -118,62 +118,64 @@ import Header from '@/components/password/Header.vue';
         </tbody>
       </table>
       <table>
-        <tr v-for="(prevAttempt, i) in passwordStore.attempts">
-          <td v-for="colorIndex in prevAttempt">
-            <SquareButton>
-              <TackIcon
-                :color="passwordStore.colorOptions[colorIndex]"
+        <tbody>
+          <tr v-for="(prevAttempt, i) in passwordStore.attempts">
+            <td v-for="colorIndex in prevAttempt">
+              <SquareButton>
+                <TackIcon
+                  :color="passwordStore.colorOptions[colorIndex]"
+                />
+              </SquareButton>
+            </td>
+            <td>
+              <div class="reply-grid">
+                <span
+                  v-for="replyColorIndex in passwordStore.replies[i]"
+                  :style="{ backgroundColor: replyTackColors[replyColorIndex] }"
+                  class="dot"
+                >
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td v-for="(colorIndex, index) in attempt">
+              <PegHole
+                :index="index"
+                :action="() => placeTack(index)"
+                :color="colorIndex != null ? passwordStore.colorOptions[colorIndex] : undefined"
               />
-            </SquareButton>
-          </td>
-          <td>
-            <div class="reply-grid">
-              <span
-                v-for="replyColorIndex in passwordStore.replies[i]"
-                :style="{ backgroundColor: replyTackColors[replyColorIndex] }"
-                class="dot"
+            </td>
+            <td>
+              <SquareButton :action="submitAttempt">
+                <SendIcon />
+              </SquareButton>
+            </td>
+          </tr>
+          <tr>
+            <td v-for="(option, index) in passwordStore.colorOptions">
+              <SquareButton
+                :action="() => handleSelect(option)"
+                :color="passwordStore.activeColor == option ? '#333' : '#ccc'"
               >
-              </span>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td v-for="(colorIndex, index) in attempt">
-            <PegHole
-              :index="index"
-              :action="() => placeTack(index)"
-              :color="colorIndex != null ? passwordStore.colorOptions[colorIndex] : undefined"
-            />
-          </td>
-          <td>
-            <SquareButton :action="submitAttempt">
-              <SendIcon />
-            </SquareButton>
-          </td>
-        </tr>
-        <tr>
-          <td v-for="(option, index) in passwordStore.colorOptions">
-            <SquareButton
-              :action="() => handleSelect(option)"
-              :color="passwordStore.activeColor == option ? '#333' : '#ccc'"
-            >
-              <TackIcon :color="option" />
-            </SquareButton>
-          </td>
-          <td>
-            <SquareButton :action="handleReset">
-              <ResetIcon />
-            </SquareButton>
-          </td>
-        </tr>
-        <tr>
-          <td v-for="(colorIndex) in passwordStore.password">
-            <SquareButton color="black">
-              <TackIcon :color="passwordStore.colorOptions[colorIndex]" />
-            </SquareButton>
-          </td>
-          <td></td>
-        </tr>
+                <TackIcon :color="option" />
+              </SquareButton>
+            </td>
+            <td>
+              <SquareButton :action="handleReset">
+                <ResetIcon />
+              </SquareButton>
+            </td>
+          </tr>
+          <!-- <tr>
+            <td v-for="(colorIndex) in passwordStore.password">
+              <SquareButton color="black">
+                <TackIcon :color="passwordStore.colorOptions[colorIndex]" />
+              </SquareButton>
+            </td>
+            <td></td>
+          </tr> -->
+        </tbody>
       </table>
     </ScalingContainer>
   </div>
