@@ -81,15 +81,15 @@ export const usePasswordStore = defineStore('password', () => {
         (temp == index ?
           correctPlacements : prensentColors
         ).set(value, true);
-      } 
-    });
-    for (let i = 0; i < reply.length; i++) {
-      if (correctPlacements.get(i)?.valueOf()) {
-        reply[i] = 2;
-      } else if (prensentColors.get(i)?.valueOf()) {
-        reply[i] = 1;
       }
-    }
+    });
+    attempt.forEach((value, index) => {
+      if (correctPlacements.get(value)?.valueOf()) {
+        reply[index] = 2;
+      } else if (prensentColors.get(value)?.valueOf()) {
+        reply[index] = 1;
+      }
+    });
     reply = reply.sort((a: number, b: number): number => {
       if (a > b) return -1;
       if (a < b) return 1;
@@ -105,4 +105,4 @@ export const usePasswordStore = defineStore('password', () => {
     attempts, makeAttempt, replies,
     reset,
   };
-})
+});

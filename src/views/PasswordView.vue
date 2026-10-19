@@ -58,18 +58,14 @@ import Header from '@/components/password/Header.vue';
   }
 
   function submitAttempt() {
-    console.log("Validating...");
     if (attempt.value.includes(null)) return;
-    console.log("Submiting...");
     passwordStore.makeAttempt(attempt.value as number[]);
     attempt.value = new Array(passwordStore.password.length).fill(null).map(() => null);
   }
 
   function handleReset() {
     passwordStore.reset();
-    console.log("passwordStore.password.length:", passwordStore.password.length);
     attempt.value = new Array(passwordStore.password.length).fill(null).map(() => null);
-    console.log("attempt.value:", attempt.value);
   }
 
   onMounted(() => {
@@ -169,14 +165,13 @@ import Header from '@/components/password/Header.vue';
               </SquareButton>
             </td>
           </tr>
-          <!-- <tr>
+          <tr>
             <td v-for="(colorIndex) in passwordStore.password">
               <SquareButton color="black">
                 <TackIcon :color="passwordStore.colorOptions[colorIndex]" />
               </SquareButton>
             </td>
-            <td></td>
-          </tr> -->
+          </tr>
         </tbody>
       </table>
     </ScalingContainer>
