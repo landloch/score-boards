@@ -67,34 +67,29 @@ export const usePasswordStore = defineStore('password', () => {
   });
 
   function evaluateAttempt(attempt: number[]) {
-    let reply = new Array(attempt.length).fill(null).map(() => 0);
-    const correctPlacements = new Map<number, boolean>();
-    const prensentColors = new Map<number, boolean>();
-    colorOptions.value.forEach((_, index) => {
-      correctPlacements.set(index, false);
-      prensentColors.set(index, false);
+    // index: color, value: count in password
+    const passwordColorCount = Array.from({ length: password.value.length }, () => 0);
+    // index: attemp index, value: 2-black, 1-white, 0-gray; all start at 0
+    const reply = Array.from({ length: attempt.length }, () => 0);
+
+    password.value.forEach((value, index) => {
+      passwordColorCount[value]!++;
     });
 
     attempt.forEach((value, index) => {
-      const temp = password.value.indexOf(value);
-      if (temp != -1) {
-        (temp == index ?
-          correctPlacements : prensentColors
-        ).set(value, true);
-      }
-    });
-    attempt.forEach((value, index) => {
-      if (correctPlacements.get(value)?.valueOf()) {
+      if (value == password.value[index]) {
         reply[index] = 2;
-      } else if (prensentColors.get(value)?.valueOf()) {
-        reply[index] = 1;
+        passwordColorCount[value]!--;
       }
     });
-    reply = reply.sort((a: number, b: number): number => {
-      if (a > b) return -1;
-      if (a < b) return 1;
-      return 0;
+
+    attempt.forEach((value, index) => {
+      if (passwordColorCount[value]! > 0) {
+        reply[index] = 1;
+        passwordColorCount[value]!--;
+      }
     });
+    reply.sort((a, b) => b - a);
     return reply;
   }
 
