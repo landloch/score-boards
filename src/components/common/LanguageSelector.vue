@@ -5,7 +5,7 @@
   import Es from '../icons/flags/Es.vue';
   import SquareButton from './SquareButton.vue';
   import { type Language } from '@/types/CommonTypes';
-  import { i18n, loadLocale } from '@/i18n.ts';
+  import { i18n, loadLocale } from '@/i18n';
 
   // https://nucleoapp.com/svg-flag-icons
 

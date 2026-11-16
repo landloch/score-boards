@@ -12,14 +12,15 @@ import EraserIcon from '@/components/icons/EraserIcon.vue';
     resetMainGrid,
     resetJokers,
     resetColorBoxes,
-    resetRowsScoreBoxes: resetLetterScoreBoxes,
+    resetRowsScoreBoxes,
   } = useNochMalStore();
 
   function resset() {
+    console.log('resseting?');
     resetMainGrid();
     resetJokers();
     resetColorBoxes();
-    resetLetterScoreBoxes();
+    resetRowsScoreBoxes();
     isModalVisible.value = false;
   };
 </script>

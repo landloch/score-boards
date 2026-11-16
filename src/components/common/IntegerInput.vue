@@ -5,6 +5,10 @@
     modelValue: number | null;
     placeholder?: string;
     allowNegative?: boolean;
+    length?: {
+      type: number,
+      default: 3
+    }
   }>();
 
   const emit = defineEmits<{

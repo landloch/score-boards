@@ -112,7 +112,7 @@ function loadMap<Key, Value>(
   return structuredClone(initialState);
 }
 
-export const useNochMalStore = defineStore('score', () => {
+export const useNochMalStore = defineStore('nochMal', () => {
   const colorsState = ref<Map<Colors, boolean>>(
     loadBooleanMap('colorScoring', colorsInitialState));
   const rowsState = ref<Map<RowId, boolean>>(
@@ -184,6 +184,7 @@ export const useNochMalStore = defineStore('score', () => {
   }
 
   function resetColorBoxes() {
+    console.log('resseting?');
     colorsState.value = structuredClone(colorsInitialState);
     sessionStorage.setItem(
       'colorScoring',
@@ -200,6 +201,7 @@ export const useNochMalStore = defineStore('score', () => {
   }
 
   function resetRowsScoreBoxes() {
+    console.log('resseting?');
     rowsState.value = structuredClone(rowsInitialState);
     sessionStorage.setItem(
       'rowScoring',
@@ -216,7 +218,8 @@ export const useNochMalStore = defineStore('score', () => {
   }
 
   function resetJokers() {
-    jokersState.value = jokersInitialState;
+    console.log('resseting?');
+    jokersState.value = structuredClone(jokersInitialState);
     sessionStorage.setItem(
       'jokers',
       JSON.stringify(jokersInitialState)
@@ -291,7 +294,8 @@ export const useNochMalStore = defineStore('score', () => {
   }
 
   function resetMainGrid() {
-    mainGridState.value = mainGridInitialState;
+    console.log('resseting?');
+    mainGridState.value = structuredClone(mainGridInitialState);
     markedColorsMap.value.forEach((_: number, key: Colors) => {
       markedColorsMap.value.set(key, 0);
     });

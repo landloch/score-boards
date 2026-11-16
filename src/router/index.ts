@@ -1,3 +1,4 @@
+import DynamicAdderView from '@/views/DynamicAdderView.vue';
 import HarmoniesView from '@/views/HarmoniesView.vue';
 import HomeView from '@/views/HomeView.vue';
 import NochMalView from '@/views/NochMalView.vue';
@@ -32,7 +33,12 @@ const router = createRouter({
       path: '/password',
       name: 'password',
       component: PasswordView
-    }
+    },
+    {
+      path: '/dynamic-adder',
+      name: 'dynamic-adder',
+      component: DynamicAdderView
+    },
   ],
 })
 

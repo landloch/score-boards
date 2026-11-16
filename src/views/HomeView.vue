@@ -26,12 +26,31 @@
         <RouterLink to="/password" >
           <PasswrodTitle />
         </RouterLink>
+        <RouterLink to="/dynamic-adder" >
+          <div class="title-card">
+            <h1>Dynamic Adder</h1>
+          </div>
+        </RouterLink>
       </div>
     </ScalingContainer>
   </div>
 </template>
 
 <style scoped>
+  .title-card {
+    grid-column: 2;
+    text-align: center;
+    vertical-align: middle;
+    justify-self: center;
+  }
+
+  h1 {
+    font-size: 45px;
+    font-weight: bold;
+    color: white;
+    margin: 0;
+  }
+
   .backdrop {
     background-color: #333;
     width: 100vw;
