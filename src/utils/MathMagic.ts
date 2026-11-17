@@ -5,6 +5,9 @@ class ExpressionParser {
 
   parse(): number {
     if (this.input.length == 0) return 0;
+    this.skipOperatorSequence();
+    if (this.index === this.input.length) return 0;
+
     const result = this.parseExpression();
     this.skipWhitespace();
 
@@ -22,8 +25,18 @@ class ExpressionParser {
       this.skipWhitespace();
 
       if (this.consume("+")) {
+        this.skipOperatorSequence();
+        if (!this.hasOperand()) {
+          this.ignoreTrailingOperators();
+          return result;
+        }
         result = this.checked(result + this.parseTerm());
       } else if (this.consume("-")) {
+        this.skipOperatorSequence();
+        if (!this.hasOperand()) {
+          this.ignoreTrailingOperators();
+          return result;
+        }
         result = this.checked(result - this.parseTerm());
       } else {
         return result;
@@ -38,8 +51,18 @@ class ExpressionParser {
       this.skipWhitespace();
 
       if (this.consume("*")) {
+        this.skipOperatorSequence();
+        if (!this.hasOperand()) {
+          this.ignoreTrailingOperators();
+          return result;
+        }
         result = this.checked(result * this.parseUnary());
       } else if (this.consume("/")) {
+        this.skipOperatorSequence();
+        if (!this.hasOperand()) {
+          this.ignoreTrailingOperators();
+          return result;
+        }
         result = this.checked(result / this.parseUnary());
       } else {
         return result;
@@ -61,6 +84,8 @@ class ExpressionParser {
     this.skipWhitespace();
 
     if (this.consume("%")) {
+      this.skipWhitespace();
+      while (this.consume("%")) this.skipWhitespace();
       return this.checked(value / 100);
     }
 
@@ -72,6 +97,11 @@ class ExpressionParser {
     this.skipWhitespace();
 
     if (this.consume("^")) {
+      this.skipOperatorSequence();
+      if (!this.hasOperand()) {
+        this.ignoreTrailingOperators();
+        return base;
+      }
       return this.checked(base ** this.parseUnary());
     }
 
@@ -113,6 +143,48 @@ class ExpressionParser {
     return true;
   }
 
+  private skipOperatorSequence(): void {
+    this.skipWhitespace();
+    let trailingMinus = -1;
+
+    while (this.isOperator(this.input[this.index])) {
+      if (this.input[this.index] === "-") {
+        trailingMinus = this.index;
+      } else {
+        trailingMinus = -1;
+      }
+      this.index += 1;
+      this.skipWhitespace();
+    }
+
+    if (trailingMinus >= 0 && this.hasOperand()) {
+      this.index = trailingMinus;
+    }
+  }
+
+  private hasOperand(): boolean {
+    this.skipWhitespace();
+    const character = this.input[this.index];
+    if (character === "-") {
+      let nextIndex = this.index + 1;
+      while (/\s/.test(this.input[nextIndex] ?? "")) nextIndex += 1;
+      return this.input[nextIndex] === "(" || /[\d.]/.test(this.input[nextIndex] ?? "");
+    }
+
+    return character === "(" || /[\d.]/.test(character ?? "");
+  }
+
+  private ignoreTrailingOperators(): void {
+    while (this.isOperator(this.input[this.index])) {
+      this.index += 1;
+      this.skipWhitespace();
+    }
+  }
+
+  private isOperator(character: string | undefined): boolean {
+    return character !== undefined && "+-*/^%".includes(character);
+  }
+
   private skipWhitespace(): void {
     while (/\s/.test(this.input[this.index] ?? "")) {
       this.index += 1;
@@ -129,5 +201,21 @@ class ExpressionParser {
 }
 
 export function evaluateExpression(expression: string): number {
-  return new ExpressionParser(expression).parse();
+  const openingParentheses: number[] = [];
+
+  for (let index = 0; index < expression.length; index += 1) {
+    if (expression[index] === "(") {
+      openingParentheses.push(index);
+    } else if (expression[index] === ")") {
+      if (openingParentheses.length === 0) {
+        return new ExpressionParser(expression.slice(0, index)).parse();
+      }
+      openingParentheses.pop();
+    }
+  }
+
+  const firstUnmatchedOpening = openingParentheses[0];
+  const validPrefix =
+    firstUnmatchedOpening === undefined ? expression : expression.slice(0, firstUnmatchedOpening);
+  return new ExpressionParser(validPrefix).parse();
 }
