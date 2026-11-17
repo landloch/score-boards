@@ -18,7 +18,7 @@
     '7', '8', '9', '(', ')',
     '4', '5', '6', '+', '-',
     '1', '2', '3', '*', '/',
-    '0', '^', '%',
+    '0', '.', '%', '^',
   ];
 
   const mobilePointer = window.matchMedia('(pointer: coarse)');
@@ -108,7 +108,7 @@
   function onChangeInput(event: Event) {
     const target = event.target as HTMLInputElement;
     const rawValue = target.value;
-    const sanitized = rawValue.replace(/[^0-9(),+\-/*^%]/g, '');
+    const sanitized = rawValue.replace(/[^0-9.(),+\-/*^%]/g, '');
 
     inputValue.value = sanitized;
     target.value = sanitized;
