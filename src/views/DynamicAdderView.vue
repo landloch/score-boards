@@ -9,6 +9,8 @@
   import AddPlayerIcon from '@/components/icons/dynamicAdder/AddPlayerIcon.vue';
   import AddRowIcon from '@/components/icons/dynamicAdder/AddRowIcon.vue';
   import ScalingContainer from '@/components/common/ScalingContainer.vue';
+  import MathInput from '@/components/dynamic-adder/MathInput.vue';
+  import { evaluateExpression } from '@/utils/MathMagic';
 
   const fontStore = useFontStore();
   const dynamicAdder = useDynamicAdderStore();
@@ -76,7 +78,7 @@
               </td>
               <td v-for="(_, pIndex) in dynamicAdder.players">
                 <div class="cell">
-                  <IntegerInput
+                  <MathInput
                     v-model="dynamicAdder.data[pIndex]![rIndex]!"
                     :name="`p${rIndex}-name`"
                     :class="`font-${fontStore.font}`"

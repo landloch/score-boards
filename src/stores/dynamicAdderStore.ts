@@ -1,14 +1,18 @@
 import { computed, ref} from 'vue';
 import { defineStore } from 'pinia';
+import { evaluateExpression } from '@/utils/MathMagic';
 
 export const useDynamicAdderStore = defineStore('dynamicAdder', () => {
   const players = ref<(string | null)[]>([null,null,null,null]);
   const rows = ref<(string | null)[]>([null]);
-  const data = ref<(number | null)[][]>([[null],[null],[null],[null]]);
+  const data = ref<(string | null)[][]>([[null],[null],[null],[null]]);
   const totals = computed<number[]>(() => {
+    console.log('yo');
     const totals: number[] = [];
     data.value.forEach((playerData) => {
-      totals.push(playerData.reduce((acc, value) => (acc ?? 0) + (value ?? 0), 0) ?? 0);
+      const newTotal = playerData.reduce((acc, value) => (acc ?? 0) + (evaluateExpression(value ?? '0')), 0) ?? 0;
+      console.log('newTotal:', newTotal);
+      totals.push(newTotal);
     });
     return totals;
   });

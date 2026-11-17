@@ -1,15 +1,14 @@
 <script setup lang="ts">
   import { computed } from 'vue';
 
-  const props = defineProps<{
+  const props = withDefaults(defineProps<{
     modelValue: number | null;
     placeholder?: string;
     allowNegative?: boolean;
-    length?: {
-      type: number,
-      default: 3
-    }
-  }>();
+    length?: number;
+  }>(), {
+    length: 3
+  });
 
   const emit = defineEmits<{
     (event: 'update:modelValue', value: number | null): void;
@@ -24,7 +23,8 @@
     const target = event.target as HTMLInputElement;
     const rawValue = target.value;
     const hasNegativeSign = rawValue.startsWith('-');
-    const digitsOnly = rawValue.replace(/-/g, '').replace(/\D/g, '').slice(0, hasNegativeSign ? 2 : 3);
+    const digitsOnly = rawValue.replace(/-/g, '').replace(/\D/g, '')
+      .slice(0, hasNegativeSign ? props.length - 1 : props.length);
     const sanitized = props.allowNegative && hasNegativeSign ? `-${digitsOnly}` : digitsOnly;
     if (sanitized === '-') {
       target.value = sanitized;
