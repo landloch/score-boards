@@ -1,6 +1,6 @@
 <script setup lang="ts">
-  import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
   import { evaluateExpression } from '@/utils/MathMagic';
+  import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 
   const props = defineProps<{
     class?: string;
@@ -168,8 +168,9 @@
     bottom: 0;
     left: 0;
     padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
-    background: #e6e6e6;
-    box-shadow: 0 -2px 12px rgb(0 0 0 / 25%);
+    border-top: 1px solid #383a40;
+    background: #1b1c20;
+    box-shadow: 0 -4px 18px rgb(0 0 0 / 40%);
   }
 
   .keys {
@@ -182,21 +183,39 @@
 
   .keys button {
     min-height: 44px;
-    border: 0;
+    border: 1px solid #3a3d44;
     border-radius: 6px;
-    background: white;
-    color: #222;
+    background: #292b31;
+    color: #f0f0f2;
     font-size: 20px;
     font-family: inherit;
     touch-action: manipulation;
+    transition: background-color 120ms ease, border-color 120ms ease, transform 120ms ease;
+  }
+
+  .keys button:active {
+    transform: translateY(1px);
+    background: #3a3d45;
+  }
+
+  .keys button:focus-visible {
+    outline: 2px solid #a87ad1;
+    outline-offset: 2px;
   }
 
   .keys .utility {
-    background: #d2d2d2;
+    border-color: #494c55;
+    background: #373940;
+    color: #e0e1e5;
   }
 
   .keys .done {
-    background: #444;
-    color: white;
+    border-color: #7942b8;
+    background: #7942b8;
+    color: #fff;
+  }
+
+  .keys .done:active {
+    background: #6938a2;
   }
 </style>
