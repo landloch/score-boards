@@ -1,4 +1,4 @@
-import { computed, reactive, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { defineStore } from 'pinia';
 import {
   type MainGridCheckedState,
@@ -136,6 +136,25 @@ export const useNochMalStore = defineStore('nochMal', () => {
     (index) => allThemBoxes[index]!.rowId,
   ));
 
+  watch(colorsState, (value) => {
+    sessionStorage.setItem('colorScoring', JSON.stringify([...value]));
+  }, { deep: true, flush: 'sync' });
+  watch(rowsState, (value) => {
+    sessionStorage.setItem('rowScoring', JSON.stringify([...value]));
+  }, { deep: true, flush: 'sync' });
+  watch(jokersState, (value) => {
+    sessionStorage.setItem('jokers', JSON.stringify(value));
+  }, { deep: true, flush: 'sync' });
+  watch(mainGridState, (value) => {
+    sessionStorage.setItem('main', JSON.stringify(value));
+  }, { deep: true, flush: 'sync' });
+  watch(markedColorsMap, (value) => {
+    sessionStorage.setItem('marked-color-counts', JSON.stringify([...value]));
+  }, { deep: true, flush: 'sync' });
+  watch(markedRowMap, (value) => {
+    sessionStorage.setItem('marked-letter-counts', JSON.stringify([...value]));
+  }, { deep: true, flush: 'sync' });
+
   const rowScore = computed(() => {
     let rowScore = 0;
     markedRowMap.value.forEach((value, key) => {
@@ -177,53 +196,29 @@ export const useNochMalStore = defineStore('nochMal', () => {
 
   function flipColorBoxMark(index: Colors) {
     colorsState.value.set(index, !colorsState.value.get(index)!);
-    sessionStorage.setItem(
-      'colorScoring',
-      JSON.stringify([...colorsState.value])
-    );
   }
 
   function resetColorBoxes() {
     console.log('resseting?');
     colorsState.value = structuredClone(colorsInitialState);
-    sessionStorage.setItem(
-      'colorScoring',
-      JSON.stringify([...colorsState.value])
-    );
   }
 
   function flipRowScoreBoxMark(index: RowId) {
     rowsState.value.set(index, !rowsState.value.get(index)!);
-    sessionStorage.setItem(
-      'rowScoring',
-      JSON.stringify([...rowsState.value])
-    );
   }
 
   function resetRowsScoreBoxes() {
     console.log('resseting?');
     rowsState.value = structuredClone(rowsInitialState);
-    sessionStorage.setItem(
-      'rowScoring',
-      JSON.stringify([...rowsState.value])
-    );
   }
 
   function flipJokerChecked(index: number) {
     jokersState.value[index] = !jokersState.value[index];
-    sessionStorage.setItem(
-      'jokers',
-      JSON.stringify(jokersState.value)
-    );
   }
 
   function resetJokers() {
     console.log('resseting?');
     jokersState.value = structuredClone(jokersInitialState);
-    sessionStorage.setItem(
-      'jokers',
-      JSON.stringify(jokersInitialState)
-    );
   }
 
   function checkForCheckedNeighbors(i: number) {
@@ -276,21 +271,6 @@ export const useNochMalStore = defineStore('nochMal', () => {
     markedRowMap.value.set(
       rowId, (markedRowMap.value.get(rowId) ?? 0) + (2*Number(checked) - 1)
     );
-
-    // if checked all of a color,
-    // check the state of corresponding color score box, and update them
-    sessionStorage.setItem(
-      'marked-color-counts',
-      JSON.stringify([...markedColorsMap.value])
-    );
-    sessionStorage.setItem(
-      'marked-letter-counts',
-      JSON.stringify([...markedRowMap.value])
-    );
-    sessionStorage.setItem(
-      'main',
-      JSON.stringify(mainGridState.value)
-    );
   }
 
   function resetMainGrid() {
@@ -302,19 +282,6 @@ export const useNochMalStore = defineStore('nochMal', () => {
     markedRowMap.value.forEach((_: number, key: RowId) => {
       markedRowMap.value.set(key, 0);
     });
-
-    sessionStorage.setItem(
-      'marked-color-counts',
-      JSON.stringify([...markedColorsMap.value])
-    );
-    sessionStorage.setItem(
-      'marked-letter-counts',
-      JSON.stringify([...markedRowMap.value])
-    );
-    sessionStorage.setItem(
-      'main',
-      JSON.stringify(mainGridState.value)
-    );
   }
 
   return {

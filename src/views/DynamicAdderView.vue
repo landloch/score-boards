@@ -82,7 +82,6 @@
                     v-model="dynamicAdder.data[pIndex]![rIndex]!"
                     :name="`p${rIndex}-name`"
                     :class="`font-${fontStore.font}`"
-                    :allow-negative="true"
                   />
                 </div>
               </td>
