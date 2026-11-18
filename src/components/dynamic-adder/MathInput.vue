@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { evaluateExpression } from '@/utils/MathMagic';
-  import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
+  import { computed, nextTick, ref, watch } from 'vue';
 
   const props = defineProps<{
     class?: string;
@@ -11,7 +11,6 @@
   const modelValue = defineModel<string | null>({ required: true });
 
   const isFocused = ref(false);
-  const isMobile = ref(false);
   const inputValue = ref(modelValue.value ?? '');
   const inputElement = ref<HTMLInputElement | null>(null);
   const acceptedKeys = [
@@ -20,21 +19,6 @@
     '1', '2', '3', '*', '/',
     '0', '.', '%', '^',
   ];
-
-  const mobilePointer = window.matchMedia('(pointer: coarse)');
-
-  function updateMobileState() {
-    isMobile.value = mobilePointer.matches;
-  }
-
-  onMounted(() => {
-    updateMobileState();
-    mobilePointer.addEventListener('change', updateMobileState);
-  });
-
-  onUnmounted(() => {
-    mobilePointer.removeEventListener('change', updateMobileState);
-  });
 
   watch(
     modelValue,
@@ -54,27 +38,19 @@
 
   function insertCharacter(character: string) {
     const input = inputElement.value;
-    const start = input?.selectionStart ?? inputValue.value.length;
-    const end = input?.selectionEnd ?? start;
-    const value = inputValue.value;
-    inputValue.value = `${value.slice(0, start)}${character}${value.slice(end)}`;
+    inputValue.value = `${inputValue.value}${character}`;
     modelValue.value = inputValue.value;
     nextTick(() => {
       input?.focus();
-      input?.setSelectionRange(start + character.length, start + character.length);
     });
   }
 
   function backspace() {
     const input = inputElement.value;
-    const start = input?.selectionStart ?? inputValue.value.length;
-    const end = input?.selectionEnd ?? start;
-    const deleteStart = start === end ? Math.max(0, start - 1) : start;
-    inputValue.value = `${inputValue.value.slice(0, deleteStart)}${inputValue.value.slice(end)}`;
+    inputValue.value = inputValue.value.slice(0, -1);
     modelValue.value = inputValue.value;
     nextTick(() => {
       input?.focus();
-      input?.setSelectionRange(deleteStart, deleteStart);
     });
   }
 
@@ -83,7 +59,6 @@
     modelValue.value = '';
     nextTick(() => {
       inputElement.value?.focus();
-      inputElement.value?.setSelectionRange(0, 0);
     });
   }
 
@@ -105,14 +80,17 @@
     }
   });
 
-  function onChangeInput(event: Event) {
-    const target = event.target as HTMLInputElement;
-    const rawValue = target.value;
-    const sanitized = rawValue.replace(/[^0-9.(),+\-/*^%]/g, '');
-
-    inputValue.value = sanitized;
-    target.value = sanitized;
-    modelValue.value = sanitized;
+  function onKeydown(event: KeyboardEvent) {
+    if (acceptedKeys.includes(event.key)) {
+      event.preventDefault();
+      insertCharacter(event.key);
+    } else if (event.key === 'Backspace') {
+      event.preventDefault();
+      backspace();
+    } else if (event.key === 'Enter') {
+      event.preventDefault();
+      finishInput();
+    }
   }
 </script>
 
@@ -120,17 +98,26 @@
   <input
     ref="inputElement"
     type="text"
-    :readonly="isMobile"
+    readonly
     :class="props.class"
     :name="props.name"
     :placeholder="placeholder"
-    :value="isFocused ? inputValue : displayValue"
-    @input="onChangeInput"
+    :value="displayValue"
     @focus="onFocus"
     @blur="onBlur"
+    @keydown="onKeydown"
   />
   <Teleport to="body">
-    <div v-if="isMobile && isFocused" class="keypad" role="group" aria-label="Calculator keypad">
+    <div v-if="isFocused" class="keypad" role="group" aria-label="Calculator keypad">
+      <div class="keypad-display" aria-live="polite">
+        <div class="preview">
+          <span class="display-value">{{ displayValue }}</span>
+        </div>
+        <hr class="keypad-divider" />
+        <div class="expression">
+          <span class="display-value">{{ inputValue }}</span>
+        </div>
+      </div>
       <div class="keys">
         <button
           v-for="key in acceptedKeys"
@@ -142,7 +129,7 @@
           {{ key }}
         </button>
         <button type="button" class="utility" aria-label="Backspace" @pointerdown.prevent @click="backspace">⌫</button>
-        <button type="button" class="utility" @pointerdown.prevent @click="clearInput">Clear</button>
+        <button type="button" class="utility clear" @pointerdown.prevent @click="clearInput">Clear</button>
         <button type="button" class="done" @pointerdown.prevent @click="finishInput">Done</button>
       </div>
     </div>
@@ -171,6 +158,44 @@
     border-top: 1px solid #383a40;
     background: #1b1c20;
     box-shadow: 0 -4px 18px rgb(0 0 0 / 40%);
+  }
+
+  .keypad-display {
+    display: grid;
+    gap: 8px;
+    width: min(100%, 420px);
+    margin: 0 auto 8px;
+    color: #f0f0f2;
+  }
+
+  .display-value {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    text-align: right;
+  }
+
+  .preview .display-value {
+    height: 18px;
+    line-height: 20px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .expression .display-value {
+    height: 30px;
+    line-height: 30px;
+    font-size: 24px;
+  }
+
+  .keypad-divider {
+    width: 100%;
+    margin: 0;
+    border: 0;
+    border-top: 1px solid #383a40;
   }
 
   .keys {
@@ -207,6 +232,11 @@
     border-color: #494c55;
     background: #373940;
     color: #e0e1e5;
+  }
+
+  .keys .clear,
+  .keys .done {
+    grid-column: span 2;
   }
 
   .keys .done {
