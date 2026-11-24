@@ -18,7 +18,7 @@
 
 <template>
   <div class="backdrop">
-    <ScalingContainer :height="900" :width="420">
+    <ScalingContainer :height="700" :width="320">
       <div class="base">
         <Header />
         <div class="row">

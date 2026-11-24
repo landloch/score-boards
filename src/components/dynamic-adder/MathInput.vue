@@ -94,6 +94,8 @@
   }
 </script>
 
+// keypad needs to push up the rest of the screen
+
 <template>
   <input
     ref="inputElement"
