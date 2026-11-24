@@ -1,6 +1,8 @@
+import { evaluateExpression } from "@/utils/MathMagic";
+
 export type InputCell = {
   column: string;
-  value: number | null;
+  value: string | null;
 }
 
 export class InputRow {
@@ -13,10 +15,9 @@ export class InputRow {
   }
 
   get total() {
-    let total = 0;
-    this.valueCells.forEach(vc => {
-      total += vc.value ?? 0;
-    });
-    return total;
+    const totals = this.valueCells.reduce(
+      (acc, cell) => (acc ?? 0) + (evaluateExpression(cell.value ?? '0')), 0
+    ) ?? 0;
+    return totals;
   }
 }

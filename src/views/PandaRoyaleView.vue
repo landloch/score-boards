@@ -10,6 +10,7 @@
   import { useFontStore } from '@/stores/fontStore';
   import Modal from '@/components/common/Modal.vue';
   import { useI18n } from 'vue-i18n';
+  import MathInput from '@/components/dynamic-adder/MathInput.vue';
 
   const { t } = useI18n();
 
@@ -25,7 +26,10 @@
       storeState.forEach(row => {
         const valueCells: InputCell[] = [];
         row.valueCells.forEach(cell => {
-          valueCells.push({ column: cell.column, value: cell.value });
+          valueCells.push({
+            column: cell.column,
+            value: cell.value == null ? null : String(cell.value),
+          });
         });
         rows.value.push(new InputRow(row.index, valueCells));
       });
@@ -113,10 +117,9 @@
           <tr v-for="row in rows">
             <td>{{ row.index }}</td>
             <td v-for="(cell, index) in row.valueCells" :class="cell.column">
-              <IntegerInput
+              <MathInput
                 v-model="cell.value"
                 :class="`font-${fontStore.font}`"
-                :allow-negative="cell.column === 'D'"
               />
             </td>
             <td v-if="row.index == 1" colspan="6"></td>
