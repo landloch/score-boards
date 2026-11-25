@@ -13,11 +13,14 @@
   const isFocused = ref(false);
   const inputValue = ref(modelValue.value ?? '');
   const inputElement = ref<HTMLInputElement | null>(null);
+  const keypadElement = ref<HTMLDivElement | null>(null);
   const keypadViewportStyle = ref<Record<string, string>>({
     '--keypad-left': '0px',
     '--keypad-bottom': '0px',
     '--keypad-scale': '1',
   });
+  let contentElement: HTMLElement | null = null;
+  let originalContentStyles: { height: string; overflowY: string; alignItems: string } | null = null;
   const acceptedKeys = [
     '7', '8', '9', '(', ')',
     '4', '5', '6', '+', '-',
@@ -35,30 +38,61 @@
 
   function updateKeypadViewport() {
     const viewport = window.visualViewport;
+    const viewportHeight = viewport?.height ?? window.innerHeight;
+    const keypadHeight = keypadElement.value?.getBoundingClientRect().height ?? 0;
 
-    if (!viewport) {
-      return;
+    if (viewport) {
+      keypadViewportStyle.value = {
+        '--keypad-left': `${viewport.offsetLeft}px`,
+        '--keypad-bottom': `${window.innerHeight - viewport.offsetTop - viewport.height}px`,
+        '--keypad-scale': `${1 / viewport.scale}`,
+      };
     }
 
-    keypadViewportStyle.value = {
-      '--keypad-left': `${viewport.offsetLeft}px`,
-      '--keypad-bottom': `${window.innerHeight - viewport.offsetTop - viewport.height}px`,
-      '--keypad-scale': `${1 / viewport.scale}`,
-    };
+    if (contentElement) {
+      contentElement.style.height = `${Math.max(0, viewportHeight - keypadHeight)}px`;
+    }
+  }
+
+  function restoreContentViewport() {
+    if (contentElement && originalContentStyles) {
+      contentElement.style.height = originalContentStyles.height;
+      contentElement.style.overflowY = originalContentStyles.overflowY;
+      contentElement.style.alignItems = originalContentStyles.alignItems;
+    }
+
+    contentElement = null;
+    originalContentStyles = null;
   }
 
   function removeViewportListeners() {
     window.visualViewport?.removeEventListener('resize', updateKeypadViewport);
     window.visualViewport?.removeEventListener('scroll', updateKeypadViewport);
     window.removeEventListener('resize', updateKeypadViewport);
+    restoreContentViewport();
   }
 
   watch(isFocused, (focused) => {
     if (focused) {
+      contentElement = inputElement.value?.closest<HTMLElement>('.backdrop') ?? null;
+      if (contentElement) {
+        originalContentStyles = {
+          height: contentElement.style.height,
+          overflowY: contentElement.style.overflowY,
+          alignItems: contentElement.style.alignItems,
+        };
+        contentElement.style.overflowY = 'auto';
+        contentElement.style.alignItems = 'flex-start';
+      }
+
       updateKeypadViewport();
       window.visualViewport?.addEventListener('resize', updateKeypadViewport);
       window.visualViewport?.addEventListener('scroll', updateKeypadViewport);
       window.addEventListener('resize', updateKeypadViewport);
+      nextTick(() => {
+        updateKeypadViewport();
+        inputElement.value?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+      });
     } else {
       removeViewportListeners();
     }
@@ -146,7 +180,14 @@
     @keydown="onKeydown"
   />
   <Teleport to="body">
-    <div v-if="isFocused" class="keypad" :style="keypadViewportStyle" role="group" aria-label="Calculator keypad">
+    <div
+      v-if="isFocused"
+      ref="keypadElement"
+      class="keypad"
+      :style="keypadViewportStyle"
+      role="group"
+      aria-label="Calculator keypad"
+    >
       <div class="keypad-display" aria-live="polite">
         <div class="preview">
           <span class="display-value">{{ displayValue }}</span>
