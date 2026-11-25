@@ -19,13 +19,12 @@
 
   function updateScale() {
     const parent = containerElement.value?.parentElement;
-    const zoomScale = parent?.classList.contains('keypad-open')
-      ? window.visualViewport?.scale ?? 1
-      : 1;
-    const availableWidth = (parent?.clientWidth ?? window.innerWidth) * zoomScale;
-    const availableHeight = (parent?.clientHeight ?? window.innerHeight) * zoomScale;
-    const sx = availableWidth / (props.width + containerPadding * 2);
-    const sy = availableHeight / (props.height + containerPadding * 2);
+    if (parent?.classList.contains('keypad-open')) {
+      return;
+    }
+
+    const sx = window.innerWidth / (props.width + containerPadding * 2);
+    const sy = window.innerHeight / (props.height + containerPadding * 2);
     scale.value = Math.min(sx, sy);
   }
 
@@ -51,9 +50,9 @@
     ref="containerElement"
     class="container"
     :style="{
-      transform: `scale(${scale})`,
-      width: width + containerPadding * 2 + 'px',
-      height: height + containerPadding * 2 + 'px',
+      zoom: scale,
+      width: width + 'px',
+      height: height + 'px',
     }"
   >
     <slot></slot>
@@ -62,9 +61,7 @@
 
 <style scoped>
   .container {
-    box-sizing: border-box;
     padding:10px;
-    transform-origin: center center;
     z-index: 1;
     text-align: center;
     vertical-align: middle;

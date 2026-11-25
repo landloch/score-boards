@@ -26,6 +26,7 @@
     left: string;
     width: string;
     height: string;
+    overflowX: string;
     overflowY: string;
     alignItems: string;
     hadKeypadOpenClass: boolean;
@@ -83,6 +84,7 @@
       contentElement.style.left = originalContentStyles.left;
       contentElement.style.width = originalContentStyles.width;
       contentElement.style.height = originalContentStyles.height;
+      contentElement.style.overflowX = originalContentStyles.overflowX;
       contentElement.style.overflowY = originalContentStyles.overflowY;
       contentElement.style.alignItems = originalContentStyles.alignItems;
       if (!originalContentStyles.hadKeypadOpenClass) {
@@ -111,11 +113,13 @@
           left: contentElement.style.left,
           width: contentElement.style.width,
           height: contentElement.style.height,
+          overflowX: contentElement.style.overflowX,
           overflowY: contentElement.style.overflowY,
           alignItems: contentElement.style.alignItems,
           hadKeypadOpenClass: contentElement.classList.contains('keypad-open'),
         };
         contentElement.classList.add('keypad-open');
+        contentElement.style.overflowX = 'hidden';
         contentElement.style.overflowY = 'auto';
         contentElement.style.alignItems = 'flex-start';
       }
@@ -251,10 +255,6 @@
 </template>
 
 <style scoped>
-  :global(.backdrop.keypad-open .container) {
-    transform-origin: top center;
-  }
-
   input {
     width: 100%;
     height: 100%;
