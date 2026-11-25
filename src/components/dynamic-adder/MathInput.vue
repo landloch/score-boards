@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { evaluateExpression } from '@/utils/MathMagic';
-  import { computed, nextTick, ref, watch } from 'vue';
+  import { computed, nextTick, onUnmounted, ref, watch } from 'vue';
 
   const props = defineProps<{
     class?: string;
@@ -13,6 +13,11 @@
   const isFocused = ref(false);
   const inputValue = ref(modelValue.value ?? '');
   const inputElement = ref<HTMLInputElement | null>(null);
+  const keypadViewportStyle = ref<Record<string, string>>({
+    '--keypad-left': '0px',
+    '--keypad-bottom': '0px',
+    '--keypad-scale': '1',
+  });
   const acceptedKeys = [
     '7', '8', '9', '(', ')',
     '4', '5', '6', '+', '-',
@@ -27,6 +32,39 @@
     },
     { immediate: true },
   );
+
+  function updateKeypadViewport() {
+    const viewport = window.visualViewport;
+
+    if (!viewport) {
+      return;
+    }
+
+    keypadViewportStyle.value = {
+      '--keypad-left': `${viewport.offsetLeft}px`,
+      '--keypad-bottom': `${window.innerHeight - viewport.offsetTop - viewport.height}px`,
+      '--keypad-scale': `${1 / viewport.scale}`,
+    };
+  }
+
+  function removeViewportListeners() {
+    window.visualViewport?.removeEventListener('resize', updateKeypadViewport);
+    window.visualViewport?.removeEventListener('scroll', updateKeypadViewport);
+    window.removeEventListener('resize', updateKeypadViewport);
+  }
+
+  watch(isFocused, (focused) => {
+    if (focused) {
+      updateKeypadViewport();
+      window.visualViewport?.addEventListener('resize', updateKeypadViewport);
+      window.visualViewport?.addEventListener('scroll', updateKeypadViewport);
+      window.addEventListener('resize', updateKeypadViewport);
+    } else {
+      removeViewportListeners();
+    }
+  });
+
+  onUnmounted(removeViewportListeners);
 
   function onFocus() {
     isFocused.value = true;
@@ -94,8 +132,6 @@
   }
 </script>
 
-// keypad needs to push up the rest of the screen
-
 <template>
   <input
     ref="inputElement"
@@ -110,7 +146,7 @@
     @keydown="onKeydown"
   />
   <Teleport to="body">
-    <div v-if="isFocused" class="keypad" role="group" aria-label="Calculator keypad">
+    <div v-if="isFocused" class="keypad" :style="keypadViewportStyle" role="group" aria-label="Calculator keypad">
       <div class="keypad-display" aria-live="polite">
         <div class="preview">
           <span class="display-value">{{ displayValue }}</span>
@@ -153,10 +189,13 @@
   .keypad {
     position: fixed;
     z-index: 10000;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    left: var(--keypad-left, 0px);
+    bottom: var(--keypad-bottom, 0px);
+    width: 100vw;
+    box-sizing: border-box;
     padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
+    transform: scale(var(--keypad-scale, 1));
+    transform-origin: bottom left;
     border-top: 1px solid #383a40;
     background: #1b1c20;
     box-shadow: 0 -4px 18px rgb(0 0 0 / 40%);
