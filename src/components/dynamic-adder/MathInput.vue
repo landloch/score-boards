@@ -38,6 +38,10 @@
     '0', '.', '%', '^',
   ];
 
+  function isViewportZoomed() {
+    return (window.visualViewport?.scale ?? 1) > 1;
+  }
+
   watch(
     modelValue,
     (value) => {
@@ -49,6 +53,7 @@
   function updateKeypadViewport() {
     const viewport = window.visualViewport;
     const viewportWidth = viewport?.width ?? window.innerWidth;
+    const viewportZoomed = isViewportZoomed();
 
     keypadViewportStyle.value = {
       '--keypad-left': `${viewport?.offsetLeft ?? 0}px`,
@@ -58,9 +63,13 @@
 
     if (contentElement) {
       contentElement.style.position = 'fixed';
-      contentElement.style.top = `${viewport?.offsetTop ?? 0}px`;
-      contentElement.style.left = `${viewport?.offsetLeft ?? 0}px`;
-      contentElement.style.width = `${viewportWidth}px`;
+      contentElement.style.top = `${viewportZoomed ? 0 : viewport?.offsetTop ?? 0}px`;
+      contentElement.style.left = `${viewportZoomed ? 0 : viewport?.offsetLeft ?? 0}px`;
+      contentElement.style.width = `${viewportZoomed ? window.innerWidth : viewportWidth}px`;
+    }
+
+    if (viewportZoomed) {
+      return;
     }
 
     updateContentHeight();
@@ -68,7 +77,7 @@
   }
 
   function updateContentHeight() {
-    if (!contentElement) {
+    if (!contentElement || isViewportZoomed()) {
       return;
     }
 
