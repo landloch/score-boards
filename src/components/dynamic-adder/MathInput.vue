@@ -20,7 +20,16 @@
     '--keypad-scale': '1',
   });
   let contentElement: HTMLElement | null = null;
-  let originalContentStyles: { height: string; overflowY: string; alignItems: string } | null = null;
+  let originalContentStyles: {
+    position: string;
+    top: string;
+    left: string;
+    width: string;
+    height: string;
+    overflowY: string;
+    alignItems: string;
+    hadKeypadOpenClass: boolean;
+  } | null = null;
   const acceptedKeys = [
     '7', '8', '9', '(', ')',
     '4', '5', '6', '+', '-',
@@ -38,27 +47,47 @@
 
   function updateKeypadViewport() {
     const viewport = window.visualViewport;
-    const viewportHeight = viewport?.height ?? window.innerHeight;
-    const keypadHeight = keypadElement.value?.getBoundingClientRect().height ?? 0;
+    const viewportWidth = viewport?.width ?? window.innerWidth;
 
-    if (viewport) {
-      keypadViewportStyle.value = {
-        '--keypad-left': `${viewport.offsetLeft}px`,
-        '--keypad-bottom': `${window.innerHeight - viewport.offsetTop - viewport.height}px`,
-        '--keypad-scale': `${1 / viewport.scale}`,
-      };
-    }
+    keypadViewportStyle.value = {
+      '--keypad-left': `${viewport?.offsetLeft ?? 0}px`,
+      '--keypad-bottom': `${window.innerHeight - (viewport?.offsetTop ?? 0) - (viewport?.height ?? window.innerHeight)}px`,
+      '--keypad-scale': `${1 / (viewport?.scale ?? 1)}`,
+    };
 
     if (contentElement) {
-      contentElement.style.height = `${Math.max(0, viewportHeight - keypadHeight)}px`;
+      contentElement.style.position = 'fixed';
+      contentElement.style.top = `${viewport?.offsetTop ?? 0}px`;
+      contentElement.style.left = `${viewport?.offsetLeft ?? 0}px`;
+      contentElement.style.width = `${viewportWidth}px`;
     }
+
+    updateContentHeight();
+    nextTick(updateContentHeight);
+  }
+
+  function updateContentHeight() {
+    if (!contentElement) {
+      return;
+    }
+
+    const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
+    const keypadHeight = keypadElement.value?.getBoundingClientRect().height ?? 0;
+    contentElement.style.height = `${Math.max(0, viewportHeight - keypadHeight)}px`;
   }
 
   function restoreContentViewport() {
     if (contentElement && originalContentStyles) {
+      contentElement.style.position = originalContentStyles.position;
+      contentElement.style.top = originalContentStyles.top;
+      contentElement.style.left = originalContentStyles.left;
+      contentElement.style.width = originalContentStyles.width;
       contentElement.style.height = originalContentStyles.height;
       contentElement.style.overflowY = originalContentStyles.overflowY;
       contentElement.style.alignItems = originalContentStyles.alignItems;
+      if (!originalContentStyles.hadKeypadOpenClass) {
+        contentElement.classList.remove('keypad-open');
+      }
     }
 
     contentElement = null;
@@ -77,10 +106,16 @@
       contentElement = inputElement.value?.closest<HTMLElement>('.backdrop') ?? null;
       if (contentElement) {
         originalContentStyles = {
+          position: contentElement.style.position,
+          top: contentElement.style.top,
+          left: contentElement.style.left,
+          width: contentElement.style.width,
           height: contentElement.style.height,
           overflowY: contentElement.style.overflowY,
           alignItems: contentElement.style.alignItems,
+          hadKeypadOpenClass: contentElement.classList.contains('keypad-open'),
         };
+        contentElement.classList.add('keypad-open');
         contentElement.style.overflowY = 'auto';
         contentElement.style.alignItems = 'flex-start';
       }
@@ -216,6 +251,10 @@
 </template>
 
 <style scoped>
+  :global(.backdrop.keypad-open .container) {
+    transform-origin: top center;
+  }
+
   input {
     width: 100%;
     height: 100%;
