@@ -13,27 +13,48 @@
   });
 
   const scale = ref(1);
+  const containerElement = ref<HTMLDivElement | null>(null);
+  let resizeObserver: ResizeObserver | null = null;
+  const containerPadding = 10;
 
   function updateScale() {
-    const sx = window.innerWidth / props.width;
-    const sy = window.innerHeight / props.height;
+    const parent = containerElement.value?.parentElement;
+    const zoomScale = parent?.classList.contains('keypad-open')
+      ? window.visualViewport?.scale ?? 1
+      : 1;
+    const availableWidth = (parent?.clientWidth ?? window.innerWidth) * zoomScale;
+    const availableHeight = (parent?.clientHeight ?? window.innerHeight) * zoomScale;
+    const sx = availableWidth / (props.width + containerPadding * 2);
+    const sy = availableHeight / (props.height + containerPadding * 2);
     scale.value = Math.min(sx, sy);
   }
 
   onMounted(() => {
     updateScale();
     window.addEventListener('resize', updateScale);
+
+    const parent = containerElement.value?.parentElement;
+    if (parent && typeof ResizeObserver !== 'undefined') {
+      resizeObserver = new ResizeObserver(updateScale);
+      resizeObserver.observe(parent);
+    }
   });
 
   onUnmounted(() => {
     window.removeEventListener('resize', updateScale);
+    resizeObserver?.disconnect();
   });
 </script>
 
 <template>
   <div
-    class="container" 
-    :style="{ transform: `scale(${scale})`, width: width + 'px', height: height + 'px'  }"
+    ref="containerElement"
+    class="container"
+    :style="{
+      transform: `scale(${scale})`,
+      width: width + containerPadding * 2 + 'px',
+      height: height + containerPadding * 2 + 'px',
+    }"
   >
     <slot></slot>
   </div>
@@ -41,6 +62,7 @@
 
 <style scoped>
   .container {
+    box-sizing: border-box;
     padding:10px;
     transform-origin: center center;
     z-index: 1;
