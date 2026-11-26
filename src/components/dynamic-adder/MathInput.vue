@@ -1,20 +1,13 @@
 <script setup lang="ts">
   import { evaluateExpression } from '@/utils/MathMagic';
+  import {
+    activateMathInputKeypad,
+    getMathInputContentElement,
+    isMathInputKeypadActive,
+    releaseMathInputKeypad,
+    scheduleMathInputKeypadClose,
+  } from '@/components/dynamic-adder/mathInputViewport';
   import { computed, nextTick, onUnmounted, ref, watch } from 'vue';
-
-  type ContentStyles = {
-    height: string;
-    overflowX: string;
-    overflowY: string;
-    alignItems: string;
-    hadKeypadOpenClass: boolean;
-  };
-
-  let keypadOwner: symbol | null = null;
-  let pendingBlurTimeout: ReturnType<typeof setTimeout> | null = null;
-  let pendingBlurOwner: symbol | null = null;
-  let contentElement: HTMLElement | null = null;
-  let originalContentStyles: ContentStyles | null = null;
 
   const props = defineProps<{
     class?: string;
@@ -27,7 +20,6 @@
   const isFocused = ref(false);
   const inputValue = ref(modelValue.value ?? '');
   const inputElement = ref<HTMLInputElement | null>(null);
-  const keypadElement = ref<HTMLDivElement | null>(null);
   const keypadOwnerId = Symbol();
   const keypadViewportStyle = ref<Record<string, string>>({
     '--keypad-left': '0px',
@@ -68,125 +60,56 @@
     }
 
     updateContentHeight();
-    nextTick(updateContentHeight);
   }
 
   function updateContentHeight() {
+    const contentElement = getMathInputContentElement();
     if (!contentElement || isViewportZoomed()) {
       return;
     }
 
     const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
-    const keypadHeight = keypadElement.value?.getBoundingClientRect().height ?? 0;
+    const keypadHeight = document.querySelector<HTMLElement>('.keypad')?.getBoundingClientRect().height ?? 0;
     contentElement.style.height = `${Math.max(0, viewportHeight - keypadHeight)}px`;
   }
 
-  function restoreContentViewport() {
-    if (contentElement && originalContentStyles) {
-      contentElement.style.height = originalContentStyles.height;
-      contentElement.style.overflowX = originalContentStyles.overflowX;
-      contentElement.style.overflowY = originalContentStyles.overflowY;
-      contentElement.style.alignItems = originalContentStyles.alignItems;
-      if (!originalContentStyles.hadKeypadOpenClass) {
-        contentElement.classList.remove('keypad-open');
-      }
-    }
-
-    contentElement = null;
-    originalContentStyles = null;
-  }
-
-  function removeViewportListeners(restoreViewport = false) {
+  function removeViewportListeners() {
     window.visualViewport?.removeEventListener('resize', updateKeypadViewport);
     window.visualViewport?.removeEventListener('scroll', updateKeypadViewport);
     window.removeEventListener('resize', updateKeypadViewport);
-    if (restoreViewport) {
-      restoreContentViewport();
-    }
   }
 
   watch(
     isFocused,
     (focused) => {
       if (focused) {
-        const nextContentElement = inputElement.value?.closest<HTMLElement>('.backdrop') ?? null;
-        if (contentElement !== nextContentElement) {
-          restoreContentViewport();
-          contentElement = nextContentElement;
-          if (contentElement) {
-            originalContentStyles = {
-              height: contentElement.style.height,
-              overflowX: contentElement.style.overflowX,
-              overflowY: contentElement.style.overflowY,
-              alignItems: contentElement.style.alignItems,
-              hadKeypadOpenClass: contentElement.classList.contains('keypad-open'),
-            };
-          }
-        }
-
-        if (contentElement && originalContentStyles) {
-          contentElement.classList.add('keypad-open');
-          contentElement.style.overflowX = 'hidden';
-          contentElement.style.overflowY = 'auto';
-          contentElement.style.alignItems = 'flex-start';
-        }
-
+        activateMathInputKeypad(keypadOwnerId, inputElement.value);
         updateKeypadViewport();
         window.visualViewport?.addEventListener('resize', updateKeypadViewport);
         window.visualViewport?.addEventListener('scroll', updateKeypadViewport);
         window.addEventListener('resize', updateKeypadViewport);
-        nextTick(() => {
-          if (!isFocused.value) {
-            return;
-          }
-          updateKeypadViewport();
+        if (isMathInputKeypadActive(keypadOwnerId)) {
           inputElement.value?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
-        });
+        }
       } else {
         removeViewportListeners();
       }
     },
-    { flush: 'sync' },
+    { flush: 'post' },
   );
 
   onUnmounted(() => {
-    if (pendingBlurTimeout) {
-      if (pendingBlurOwner === keypadOwnerId) {
-        clearTimeout(pendingBlurTimeout);
-        pendingBlurTimeout = null;
-        pendingBlurOwner = null;
-      }
-    }
-    removeViewportListeners(keypadOwner === keypadOwnerId);
-    if (keypadOwner === keypadOwnerId) {
-      keypadOwner = null;
-    }
+    removeViewportListeners();
+    releaseMathInputKeypad(keypadOwnerId);
   });
 
   function onFocus() {
-    if (pendingBlurTimeout) {
-      clearTimeout(pendingBlurTimeout);
-      pendingBlurTimeout = null;
-      pendingBlurOwner = null;
-    }
-    keypadOwner = keypadOwnerId;
     isFocused.value = true;
   }
 
   function onBlur() {
     isFocused.value = false;
-    if (pendingBlurTimeout) {
-      clearTimeout(pendingBlurTimeout);
-    }
-    pendingBlurOwner = keypadOwnerId;
-    pendingBlurTimeout = setTimeout(() => {
-      pendingBlurTimeout = null;
-      pendingBlurOwner = null;
-      if (keypadOwner === keypadOwnerId) {
-        keypadOwner = null;
-        restoreContentViewport();
-      }
-    }, 0);
+    scheduleMathInputKeypadClose(keypadOwnerId);
   }
 
   function insertCharacter(character: string) {
@@ -263,7 +186,6 @@
   <Teleport to="body">
     <div
       v-if="isFocused"
-      ref="keypadElement"
       class="keypad"
       :style="keypadViewportStyle"
       role="group"
