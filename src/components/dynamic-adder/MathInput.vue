@@ -30,8 +30,6 @@
     overflowY: string;
     alignItems: string;
     hadKeypadOpenClass: boolean;
-    scrollX: number;
-    scrollY: number;
   } | null = null;
   const acceptedKeys = [
     '7', '8', '9', '(', ')',
@@ -54,7 +52,6 @@
 
   function updateKeypadViewport() {
     const viewport = window.visualViewport;
-    const viewportWidth = viewport?.width ?? window.innerWidth;
     const viewportZoomed = isViewportZoomed();
 
     keypadViewportStyle.value = {
@@ -64,10 +61,17 @@
     };
 
     if (contentElement) {
-      contentElement.style.position = 'fixed';
-      contentElement.style.top = `${viewportZoomed ? 0 : (viewport?.offsetTop ?? 0) - (originalContentStyles?.scrollY ?? 0)}px`;
-      contentElement.style.left = `${viewportZoomed ? 0 : (viewport?.offsetLeft ?? 0) - (originalContentStyles?.scrollX ?? 0)}px`;
-      contentElement.style.width = `${viewportZoomed ? window.innerWidth : viewportWidth}px`;
+      if (viewportZoomed) {
+        contentElement.style.position = 'fixed';
+        contentElement.style.top = '0px';
+        contentElement.style.left = '0px';
+        contentElement.style.width = `${window.innerWidth}px`;
+      } else if (originalContentStyles) {
+        contentElement.style.position = originalContentStyles.position;
+        contentElement.style.top = originalContentStyles.top;
+        contentElement.style.left = originalContentStyles.left;
+        contentElement.style.width = originalContentStyles.width;
+      }
     }
 
     if (viewportZoomed) {
@@ -101,7 +105,6 @@
       if (!originalContentStyles.hadKeypadOpenClass) {
         contentElement.classList.remove('keypad-open');
       }
-      window.scrollTo(originalContentStyles.scrollX, originalContentStyles.scrollY);
     }
 
     contentElement = null;
@@ -129,8 +132,6 @@
           overflowY: contentElement.style.overflowY,
           alignItems: contentElement.style.alignItems,
           hadKeypadOpenClass: contentElement.classList.contains('keypad-open'),
-          scrollX: window.scrollX,
-          scrollY: window.scrollY,
         };
         contentElement.classList.add('keypad-open');
         contentElement.style.overflowX = 'hidden';
