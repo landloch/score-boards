@@ -21,14 +21,9 @@
   });
   let contentElement: HTMLElement | null = null;
   let originalContentStyles: {
-    position: string;
-    top: string;
-    left: string;
-    width: string;
     height: string;
     overflowX: string;
     overflowY: string;
-    alignItems: string;
     hadKeypadOpenClass: boolean;
   } | null = null;
   const acceptedKeys = [
@@ -60,20 +55,6 @@
       '--keypad-scale': `${1 / (viewport?.scale ?? 1)}`,
     };
 
-    if (contentElement) {
-      if (viewportZoomed) {
-        contentElement.style.position = 'fixed';
-        contentElement.style.top = '0px';
-        contentElement.style.left = '0px';
-        contentElement.style.width = `${window.innerWidth}px`;
-      } else if (originalContentStyles) {
-        contentElement.style.position = originalContentStyles.position;
-        contentElement.style.top = originalContentStyles.top;
-        contentElement.style.left = originalContentStyles.left;
-        contentElement.style.width = originalContentStyles.width;
-      }
-    }
-
     if (viewportZoomed) {
       return;
     }
@@ -94,14 +75,9 @@
 
   function restoreContentViewport() {
     if (contentElement && originalContentStyles) {
-      contentElement.style.position = originalContentStyles.position;
-      contentElement.style.top = originalContentStyles.top;
-      contentElement.style.left = originalContentStyles.left;
-      contentElement.style.width = originalContentStyles.width;
       contentElement.style.height = originalContentStyles.height;
       contentElement.style.overflowX = originalContentStyles.overflowX;
       contentElement.style.overflowY = originalContentStyles.overflowY;
-      contentElement.style.alignItems = originalContentStyles.alignItems;
       if (!originalContentStyles.hadKeypadOpenClass) {
         contentElement.classList.remove('keypad-open');
       }
@@ -118,39 +94,40 @@
     restoreContentViewport();
   }
 
-  watch(isFocused, (focused) => {
-    if (focused) {
-      contentElement = inputElement.value?.closest<HTMLElement>('.backdrop') ?? null;
-      if (contentElement) {
-        originalContentStyles = {
-          position: contentElement.style.position,
-          top: contentElement.style.top,
-          left: contentElement.style.left,
-          width: contentElement.style.width,
-          height: contentElement.style.height,
-          overflowX: contentElement.style.overflowX,
-          overflowY: contentElement.style.overflowY,
-          alignItems: contentElement.style.alignItems,
-          hadKeypadOpenClass: contentElement.classList.contains('keypad-open'),
-        };
-        contentElement.classList.add('keypad-open');
-        contentElement.style.overflowX = 'hidden';
-        contentElement.style.overflowY = 'auto';
-        contentElement.style.alignItems = 'flex-start';
-      }
+  watch(
+    isFocused,
+    (focused) => {
+      if (focused) {
+        contentElement = inputElement.value?.closest<HTMLElement>('.backdrop') ?? null;
+        if (contentElement) {
+          originalContentStyles = {
+            height: contentElement.style.height,
+            overflowX: contentElement.style.overflowX,
+            overflowY: contentElement.style.overflowY,
+            hadKeypadOpenClass: contentElement.classList.contains('keypad-open'),
+          };
+          contentElement.classList.add('keypad-open');
+          contentElement.style.overflowX = 'hidden';
+          contentElement.style.overflowY = 'auto';
+        }
 
-      updateKeypadViewport();
-      window.visualViewport?.addEventListener('resize', updateKeypadViewport);
-      window.visualViewport?.addEventListener('scroll', updateKeypadViewport);
-      window.addEventListener('resize', updateKeypadViewport);
-      nextTick(() => {
         updateKeypadViewport();
-        inputElement.value?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
-      });
-    } else {
-      removeViewportListeners();
-    }
-  });
+        window.visualViewport?.addEventListener('resize', updateKeypadViewport);
+        window.visualViewport?.addEventListener('scroll', updateKeypadViewport);
+        window.addEventListener('resize', updateKeypadViewport);
+        nextTick(() => {
+          if (!isFocused.value) {
+            return;
+          }
+          updateKeypadViewport();
+          inputElement.value?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+        });
+      } else {
+        removeViewportListeners();
+      }
+    },
+    { flush: 'sync' },
+  );
 
   onUnmounted(removeViewportListeners);
 
