@@ -9,8 +9,11 @@
   import CubeIcon from '@/components/icons/harmonies/CubeIcon.vue';
   import { reactive, ref } from 'vue';
 import type { HarmoniesPlayerState } from '@/types/HarmoniesTypes';
+import MathInput from '@/components/dynamic-adder/MathInput.vue';
 
   const players = ref([0,1,2,3]);
+
+  const temp = ref("");
 
   const state = reactive<HarmoniesPlayerState>({
     name: '',
@@ -59,7 +62,7 @@ import type { HarmoniesPlayerState } from '@/types/HarmoniesTypes';
                       </span>
                     </div>
                     <div class="cell">
-                      <input :name="`p${player}-green`" class="light-green" />
+                      <MathInput :name="`p${player}-green`" class="light-green" v-model="temp" />
                     </div>
                     <div class="cell">
                       <span class="circle gray">
@@ -67,7 +70,7 @@ import type { HarmoniesPlayerState } from '@/types/HarmoniesTypes';
                       </span>
                     </div>
                     <div class="cell">
-                      <input :name="`p${player}-gray`" class="light-gray" />
+                      <MathInput :name="`p${player}-gray`" class="light-gray" v-model="temp" />
                     </div>
                     <div class="cell">
                       <span class="circle yellow">
@@ -75,7 +78,7 @@ import type { HarmoniesPlayerState } from '@/types/HarmoniesTypes';
                       </span>
                     </div>
                     <div class="cell">
-                      <input :name="`p${player}-yellow`" class="light-yellow" />
+                      <MathInput :name="`p${player}-yellow`" class="light-yellow" v-model="temp" />
                     </div>
                     <div class="cell">
                       <span class="circle red">
@@ -83,7 +86,7 @@ import type { HarmoniesPlayerState } from '@/types/HarmoniesTypes';
                       </span>
                     </div>
                     <div class="cell">
-                      <input :name="`p${player}-red`" class="light-red" />
+                      <MathInput :name="`p${player}-red`" class="light-red" v-model="temp" />
                     </div>
                     <div class="cell">
                       <span class="circle blue">
@@ -91,7 +94,7 @@ import type { HarmoniesPlayerState } from '@/types/HarmoniesTypes';
                       </span>
                     </div>
                     <div class="cell">
-                      <input :name="`p${player}-blue`"  class="light-blue" />
+                      <MathInput :name="`p${player}-blue`"  class="light-blue" v-model="temp" />
                     </div>
                   </div>
                 </td>
@@ -101,14 +104,14 @@ import type { HarmoniesPlayerState } from '@/types/HarmoniesTypes';
                       <span class="cubes clear"><CubeIcon :size="12" /></span>
                       <span class="cubes orange"><CubeIcon :size="12" /></span>
                     </span>
-                    <input :name="`p${player}-cubes0`" />
-                    <input :name="`p${player}-cubes1`" />
-                    <input :name="`p${player}-cubes2`" />
-                    <input :name="`p${player}-cubes3`" />
-                    <input :name="`p${player}-cubes4`" />
-                    <input :name="`p${player}-cubes5`" />
-                    <input :name="`p${player}-cubes6`" />
-                    <input :name="`p${player}-cubes7`" />
+                    <MathInput :name="`p${player}-cubes0`" v-model="temp" />
+                    <MathInput :name="`p${player}-cubes1`" v-model="temp" />
+                    <MathInput :name="`p${player}-cubes2`" v-model="temp" />
+                    <MathInput :name="`p${player}-cubes3`" v-model="temp" />
+                    <MathInput :name="`p${player}-cubes4`" v-model="temp" />
+                    <MathInput :name="`p${player}-cubes5`" v-model="temp" />
+                    <MathInput :name="`p${player}-cubes6`" v-model="temp" />
+                    <MathInput :name="`p${player}-cubes7`" v-model="temp" />
                   </div>
                 </td>
               </template>
