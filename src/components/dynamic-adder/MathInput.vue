@@ -2,6 +2,20 @@
   import { evaluateExpression } from '@/utils/MathMagic';
   import { computed, nextTick, onUnmounted, ref, watch } from 'vue';
 
+  type ContentStyles = {
+    height: string;
+    overflowX: string;
+    overflowY: string;
+    alignItems: string;
+    hadKeypadOpenClass: boolean;
+  };
+
+  let keypadOwner: symbol | null = null;
+  let pendingBlurTimeout: ReturnType<typeof setTimeout> | null = null;
+  let pendingBlurOwner: symbol | null = null;
+  let contentElement: HTMLElement | null = null;
+  let originalContentStyles: ContentStyles | null = null;
+
   const props = defineProps<{
     class?: string;
     name?: string;
@@ -14,18 +28,12 @@
   const inputValue = ref(modelValue.value ?? '');
   const inputElement = ref<HTMLInputElement | null>(null);
   const keypadElement = ref<HTMLDivElement | null>(null);
+  const keypadOwnerId = Symbol();
   const keypadViewportStyle = ref<Record<string, string>>({
     '--keypad-left': '0px',
     '--keypad-bottom': '0px',
     '--keypad-scale': '1',
   });
-  let contentElement: HTMLElement | null = null;
-  let originalContentStyles: {
-    height: string;
-    overflowX: string;
-    overflowY: string;
-    hadKeypadOpenClass: boolean;
-  } | null = null;
   const acceptedKeys = [
     '7', '8', '9', '(', ')',
     '4', '5', '6', '+', '-',
@@ -78,6 +86,7 @@
       contentElement.style.height = originalContentStyles.height;
       contentElement.style.overflowX = originalContentStyles.overflowX;
       contentElement.style.overflowY = originalContentStyles.overflowY;
+      contentElement.style.alignItems = originalContentStyles.alignItems;
       if (!originalContentStyles.hadKeypadOpenClass) {
         contentElement.classList.remove('keypad-open');
       }
@@ -87,28 +96,39 @@
     originalContentStyles = null;
   }
 
-  function removeViewportListeners() {
+  function removeViewportListeners(restoreViewport = false) {
     window.visualViewport?.removeEventListener('resize', updateKeypadViewport);
     window.visualViewport?.removeEventListener('scroll', updateKeypadViewport);
     window.removeEventListener('resize', updateKeypadViewport);
-    restoreContentViewport();
+    if (restoreViewport) {
+      restoreContentViewport();
+    }
   }
 
   watch(
     isFocused,
     (focused) => {
       if (focused) {
-        contentElement = inputElement.value?.closest<HTMLElement>('.backdrop') ?? null;
-        if (contentElement) {
-          originalContentStyles = {
-            height: contentElement.style.height,
-            overflowX: contentElement.style.overflowX,
-            overflowY: contentElement.style.overflowY,
-            hadKeypadOpenClass: contentElement.classList.contains('keypad-open'),
-          };
+        const nextContentElement = inputElement.value?.closest<HTMLElement>('.backdrop') ?? null;
+        if (contentElement !== nextContentElement) {
+          restoreContentViewport();
+          contentElement = nextContentElement;
+          if (contentElement) {
+            originalContentStyles = {
+              height: contentElement.style.height,
+              overflowX: contentElement.style.overflowX,
+              overflowY: contentElement.style.overflowY,
+              alignItems: contentElement.style.alignItems,
+              hadKeypadOpenClass: contentElement.classList.contains('keypad-open'),
+            };
+          }
+        }
+
+        if (contentElement && originalContentStyles) {
           contentElement.classList.add('keypad-open');
           contentElement.style.overflowX = 'hidden';
           contentElement.style.overflowY = 'auto';
+          contentElement.style.alignItems = 'flex-start';
         }
 
         updateKeypadViewport();
@@ -129,14 +149,44 @@
     { flush: 'sync' },
   );
 
-  onUnmounted(removeViewportListeners);
+  onUnmounted(() => {
+    if (pendingBlurTimeout) {
+      if (pendingBlurOwner === keypadOwnerId) {
+        clearTimeout(pendingBlurTimeout);
+        pendingBlurTimeout = null;
+        pendingBlurOwner = null;
+      }
+    }
+    removeViewportListeners(keypadOwner === keypadOwnerId);
+    if (keypadOwner === keypadOwnerId) {
+      keypadOwner = null;
+    }
+  });
 
   function onFocus() {
+    if (pendingBlurTimeout) {
+      clearTimeout(pendingBlurTimeout);
+      pendingBlurTimeout = null;
+      pendingBlurOwner = null;
+    }
+    keypadOwner = keypadOwnerId;
     isFocused.value = true;
   }
 
   function onBlur() {
     isFocused.value = false;
+    if (pendingBlurTimeout) {
+      clearTimeout(pendingBlurTimeout);
+    }
+    pendingBlurOwner = keypadOwnerId;
+    pendingBlurTimeout = setTimeout(() => {
+      pendingBlurTimeout = null;
+      pendingBlurOwner = null;
+      if (keypadOwner === keypadOwnerId) {
+        keypadOwner = null;
+        restoreContentViewport();
+      }
+    }, 0);
   }
 
   function insertCharacter(character: string) {

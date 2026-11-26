@@ -18,11 +18,6 @@
   const containerPadding = 10;
 
   function updateScale() {
-    const parent = containerElement.value?.parentElement;
-    if (parent?.classList.contains('keypad-open')) {
-      return;
-    }
-
     const sx = window.innerWidth / (props.width + containerPadding * 2);
     const sy = window.innerHeight / (props.height + containerPadding * 2);
     scale.value = Math.min(sx, sy);
