@@ -16,6 +16,16 @@
       "title": "Idioma"
     }
   },
+  "keypad": {
+    "clear": "Apagar",
+    "done": "Pronto",
+    "decimal-separator": ","
+  },
+  "generic-score-sheet": {
+    "title": "Folha de Pontos Genérica",
+    "player-placeholder": "J",
+    "row-placeholder": "L"
+  },
   "panda-royale": {
     "table-header": {
       "round": "Rodada",

@@ -2,7 +2,7 @@
   "app": {
     "title": "BG Score Sheets"
   },
-   "modal": {
+  "modal": {
     "yes": "Yes",
     "no": "No",
     "close": "Close",
@@ -15,6 +15,16 @@
     "language": {
       "title": "Language"
     }
+  },
+  "keypad": {
+    "clear": "Clear",
+    "done": "Done",
+    "decimal-separator": "."
+  },
+  "generic-score-sheet": {
+    "title": "Generic Score Sheet",
+    "player-placeholder": "P",
+    "row-placeholder": "R"
   },
   "panda-royale": {
     "table-header": {

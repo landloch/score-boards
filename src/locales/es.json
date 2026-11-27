@@ -16,6 +16,16 @@
       "title": "Idioma"
     }
   },
+  "keypad": {
+    "clear": "Borrar",
+    "done": "Listo",
+    "decimal-separator": "."
+  },
+  "generic-score-sheet": {
+    "title": "Generic Score Sheet",
+    "player-placeholder": "P",
+    "row-placeholder": "R"
+  },
   "panda-royale": {
     "table-header": {
       "round": "Ronda",

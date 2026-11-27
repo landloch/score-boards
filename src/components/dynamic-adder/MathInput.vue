@@ -8,6 +8,9 @@
     scheduleMathInputKeypadClose,
   } from '@/components/dynamic-adder/mathInputViewport';
   import { computed, nextTick, onUnmounted, ref, watch } from 'vue';
+  import { useI18n } from 'vue-i18n';
+
+  const { t } = useI18n();
 
   const props = defineProps<{
     class?: string;
@@ -168,6 +171,20 @@
       finishInput();
     }
   }
+
+  function focusNextInput() {
+    const focusableElements = Array.from(
+      document.querySelectorAll<HTMLElement>(
+        'input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      )
+    ).filter(el => !el.hasAttribute('disabled') && el.offsetParent !== null);
+
+    const currentIndex = focusableElements.indexOf(
+      document.activeElement as HTMLElement
+    );
+
+    focusableElements[currentIndex + 1]?.focus();
+  }
 </script>
 
 <template>
@@ -211,8 +228,9 @@
           {{ key }}
         </button>
         <button type="button" class="utility" aria-label="Backspace" @pointerdown.prevent @click="backspace">⌫</button>
-        <button type="button" class="utility clear" @pointerdown.prevent @click="clearInput">Clear</button>
-        <button type="button" class="done" @pointerdown.prevent @click="finishInput">Done</button>
+        <button type="button" class="utility clear" @pointerdown.prevent @click="clearInput">{{ t('keypad.clear') }}</button>
+        <button type="button" class="utility" aria-label="next" @pointerdown.prevent @click="focusNextInput">⇥</button>
+        <button type="button" class="done" @pointerdown.prevent @click="finishInput">{{ t('keypad.done') }}</button>
       </div>
     </div>
   </Teleport>

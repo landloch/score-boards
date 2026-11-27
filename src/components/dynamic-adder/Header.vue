@@ -7,7 +7,7 @@
   <div class="header">
     <ReturnButton />
     <div class="title-card">
-      <h1>Dynamic Adder</h1>
+      <h1>{{ $t('generic-score-sheet.title') }}</h1>
     </div>
     <span class="right-element">
       <Settings />

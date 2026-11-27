@@ -35,8 +35,8 @@ const router = createRouter({
       component: PasswordView
     },
     {
-      path: '/dynamic-adder',
-      name: 'dynamic-adder',
+      path: '/generic',
+      name: 'generic',
       component: DynamicAdderView
     },
   ],

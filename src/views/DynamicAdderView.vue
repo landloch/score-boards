@@ -60,7 +60,7 @@
                     v-model="dynamicAdder.players[pIndex]"
                     :name="`p${pIndex}-name`"
                     :class="`font-${fontStore.font}`"
-                    :placeholder="`P ${pIndex + 1}`"
+                    :placeholder="`${$t('generic-score-sheet.player-placeholder')} ${pIndex + 1}`"
                   />
                 </div>
               </td>
@@ -72,7 +72,7 @@
                     v-model="dynamicAdder.rows[rIndex]"
                     :name="`p${rIndex}-name`"
                     :class="`font-${fontStore.font}`"
-                    :placeholder="`R ${rIndex + 1}`"
+                    :placeholder="`${$t('generic-score-sheet.row-placeholder')} ${rIndex + 1}`"
                   />
                 </div>
               </td>

@@ -26,9 +26,9 @@
         <RouterLink to="/password" >
           <PasswrodTitle />
         </RouterLink>
-        <RouterLink to="/dynamic-adder" >
+        <RouterLink to="/generic" >
           <div class="title-card">
-            <h1>Dynamic Adder</h1>
+            <h1>{{ $t('generic-score-sheet.title') }}</h1>
           </div>
         </RouterLink>
       </div>
